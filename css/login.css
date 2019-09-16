@@ -1,7 +1,7 @@
 *{
     font-family:"Noto Sans TC", "微軟正黑體", "新細明體", arial, sans-serif;
 }
-.container{
+.loginContainer{
     margin: 0 auto;
     width:60%;
     background: white;
@@ -12,8 +12,6 @@
     height: auto;
 }
 .login{
-    display: flex;
-    justify-content: space-around;
     margin: auto;
 }
 p{
@@ -28,8 +26,10 @@ p{
 .loginZone,.signup{
     display: flex;
     flex-direction: column;
-    flex-basis: 40%;
+    width:50%;
     margin: 50px auto;
+    background-color: white;
+    padding:50px;
 }
 .text2{
     text-align: left;
@@ -43,23 +43,26 @@ p{
 input{
     width:100%;
 }
-button{
+.loginButton{
     width: 50%;
-    margin: 20px auto;
-    padding: 5px 0;
+    margin: 0 ;
+    padding: 10px 0;
+}
+.signButton{
+    margin-top:30px;
 }
 @media(max-width:1200px){
-    .container{
+    .loginContainer{
         width: 80%;
     }
 }
 @media(max-width:800px){
-    .container{
+    .loginContainer{
         width:100%;
     }
 }
 @media(max-width:480px){
-    .container{
+    .loginContainer{
         margin: 10px auto;
     }
     .login{
@@ -78,7 +81,7 @@ button{
         width:80%;
         margin: 20px auto;
     }
-    button{
+    .loginButton{
         margin: 15px auto;
     }
 }

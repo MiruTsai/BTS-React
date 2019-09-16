@@ -6,6 +6,7 @@ import Login from './components/login';
 import Index from './components/index';
 import Addquiz from './components/addquiz';
 import '../css/common.css'
+import '../css/hover-min.css'
 const root = document.querySelector('.root');
 
 

@@ -1,0 +1,22 @@
+[debug] [2019-09-16T10:56:03.122Z] ----------------------------------------------------------------------
+[debug] [2019-09-16T10:56:03.125Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\ZCT39\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js serve --only hosting
+[debug] [2019-09-16T10:56:03.125Z] CLI Version:   7.3.2
+[debug] [2019-09-16T10:56:03.125Z] Platform:      win32
+[debug] [2019-09-16T10:56:03.125Z] Node Version:  v10.16.0
+[debug] [2019-09-16T10:56:03.126Z] Time:          Mon Sep 16 2019 18:56:03 GMT+0800 (Taipei Standard Time)
+[debug] [2019-09-16T10:56:03.126Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-09-16T10:56:03.132Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-09-16T10:56:03.133Z] > authorizing via signed-in user
+[debug] [2019-09-16T10:56:03.133Z] [iam] checking project btstmi for permissions ["firebase.projects.get"]
+[debug] [2019-09-16T10:56:03.134Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/btstmi:testIamPermissions  
+
+[debug] [2019-09-16T10:56:04.084Z] <<< HTTP RESPONSE 200
+[debug] [2019-09-16T10:56:04.086Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/btstmi  
+ 
+[debug] [2019-09-16T10:56:04.705Z] <<< HTTP RESPONSE 200
+[debug] [2019-09-16T10:56:04.707Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/btstmi/webApps/-/config  
+ 
+[debug] [2019-09-16T10:56:05.703Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: public
+[info] +  hosting: Local server: http://localhost:5000

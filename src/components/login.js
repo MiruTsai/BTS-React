@@ -42,7 +42,7 @@ class Login extends React.Component {
                     <input type="text" id="signInEmail" placeholder="請輸入您的 E-mail" value={this.state.email} />
                     <div className="text2">密碼</div>
                     <input type="password" id="signInPW" value={this.state.password} />
-                    <button onClick={this.login}>登入</button>
+                    <button onClick={this.login} className="signButton">登入</button>
                 </div>
             </div>
         } else {
@@ -55,14 +55,14 @@ class Login extends React.Component {
                 <input type="text" id="signUpEmail" placeholder="請輸入您的 E-mail" />
                 <div className="text2">密碼</div>
                 <input type="password" id="signUpPW" placeholder="您的密碼長度建議6位數以上" />
-                <button onClick="">送出</button>
+                <button className="signButton">送出</button>
             </div >
         }
         return (
             <div className="loginContainer">
             <div className="sign">
-                <button onClick={this.signIn}>Sign In</button>
-                <button onClick={this.signUp}>Sign Up</button>
+                <button className="loginButton" onClick={this.signIn}>Sign In</button>
+                <button className="loginButton" onClick={this.signUp}>Sign Up</button>
                 </div>
                 {loginZone}
             </div>
