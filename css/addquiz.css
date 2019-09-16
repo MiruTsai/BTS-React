@@ -1,0 +1,218 @@
+*{
+    font-family:"Noto Sans TC", "微軟正黑體", "新細明體", arial, sans-serif;
+}
+body{
+    background-image: url("../img/bg.jpg");
+    margin:0 auto;
+}
+
+.right,.preview{
+    display: flex;
+    flex-direction: column;
+    background-color:white;
+    justify-content: center;
+    flex-basis: 60%;
+}
+
+form{
+    margin: 30px 0;
+}
+.quizSelect{
+    margin-left: 50px;
+}
+.choice{
+    display: flex;
+    flex-direction: column; 
+    margin: 20px 50px;
+}
+.answerZone{
+    margin: 20px;
+}
+.quizButton{
+    margin: 20px auto;
+}
+input{
+    width: 100%;
+    margin:5px 0;
+}
+.container{
+    position: relative;
+    display: flex;
+    margin: auto;
+    width:70%;
+    align-content: flex-start;
+    background: white;
+    padding:20px 0;
+}
+.pic{
+    text-align: center;
+    margin-top: 35px;
+}
+ul{
+    margin: 30px 0;
+}
+li{
+    margin:10px 0;
+    letter-spacing: 1px;
+}
+.description{
+    flex-basis: 40%;
+    margin: 80px 0;
+}
+.info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.info p{
+    margin:10px;
+    text-align: center;
+}
+.sample{
+    display: flex;
+}
+.samplePic{
+    flex-basis: 30%;
+    margin:10px;
+    text-align: center;
+}
+.picSource{
+    width:30%;
+}
+.mask{
+    display: none;
+    background-color:black;
+    opacity: 0.8;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 10;
+}
+.textZone{
+    color:white;
+    position: absolute;
+    z-index:10000;
+    top:30vh;
+    left:25vw;
+    margin: 0 auto;
+    display: none;
+    width:90%;
+}
+button{
+    padding: 5px 20px;
+}
+.buttonBlock{
+    display: flex;
+}
+/* preview */
+.preview{
+    display: none;
+    margin-left: 30px; 
+}
+.quiz,.pic_title{
+    font-size: 2em;
+    font-weight: 800;
+}
+.options{
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin: 30px auto;
+}
+.option{
+    flex-basis: 50%;
+    margin: 20px 0;
+}
+.previewButton{
+    display: none;
+    position: absolute;
+    top:0;
+    right:0;
+}
+.picOption{
+    flex-basis: 40%;
+    max-height:200px; 
+    margin: 20px;
+    object-fit:cover;
+    border-radius: 8px;
+}
+.picSource{
+    width: 100%;
+    height: 100%;
+    object-fit:cover;
+    border-radius: 8px;
+}
+.pic_quiz_img{
+    width:70%;
+    margin:0 auto;
+}
+@keyframes scaleDraw {  /*定义关键帧、scaleDrew是需要绑定到选择器的关键帧名称*/
+    0%{
+        transform: scale(1);  /*开始为原始大小*/
+        
+    }
+    30%{
+        transform: scale(2.5);
+    }  
+    80%{
+        transform: scale(2.5);
+        
+    }
+    100%{
+        transform: scale(1);        
+    }
+}
+.picSource:hover{
+    -webkit-animation-name: scaleDraw; /*关键帧名称*/
+    -webkit-animation-timing-function: ease-in-out; /*动画的速度曲线*/
+    /*-webkit-animation-iteration-count: infinite;  /*动画播放的次数*/
+    -webkit-animation-duration: 3s; /*动画所花费的时间*/    
+    object-fit: contain;
+}
+@media (max-width:1200px){
+    .container{
+        width:90%;
+    }
+    .textZone{
+        left:2vw;
+    }
+}
+@media (max-width:800px){
+     
+    .logo{
+        display: none;
+    }
+    body{
+        background-image: none;
+    }
+    .container{
+        width:100%;
+        flex-direction: column;        
+        margin-top:10px;
+        justify-content: center;
+    }
+    .description{
+        margin: 20px 0;
+    }
+    .pic{
+        text-align: center;   
+        margin-top: 0px;
+    }
+    
+}
+@media (max-width:640px){
+    .group-pic{
+        width:80%;
+        margin-right:10px;
+    }
+    .choice{
+        margin: 20px 10px;
+    }
+    .quiz{
+        margin-left: 10px;
+    }
+    .quizSelect{
+        margin-left: 10px;
+    }
+    
+}

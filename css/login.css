@@ -1,0 +1,84 @@
+*{
+    font-family:"Noto Sans TC", "微軟正黑體", "新細明體", arial, sans-serif;
+}
+.container{
+    margin: 0 auto;
+    width:60%;
+    background: white;
+}
+.banner{
+    margin:0 auto;
+    width: 100%;
+    height: auto;
+}
+.login{
+    display: flex;
+    justify-content: space-around;
+    margin: auto;
+}
+p{
+    margin: 10px 0 30px;
+    font-size: 13px;
+}
+.text{
+    font-size: 20px;
+    font-weight: bold;
+    text-align: left;
+}
+.loginZone,.signup{
+    display: flex;
+    flex-direction: column;
+    flex-basis: 40%;
+    margin: 50px auto;
+}
+.text2{
+    text-align: left;
+    margin: 5px 0;
+}
+.seperate{
+    border-right:1px solid #979797;
+    height: 300px;
+    margin: auto;
+}
+input{
+    width:100%;
+}
+button{
+    width: 50%;
+    margin: 20px auto;
+    padding: 5px 0;
+}
+@media(max-width:1200px){
+    .container{
+        width: 80%;
+    }
+}
+@media(max-width:800px){
+    .container{
+        width:100%;
+    }
+}
+@media(max-width:480px){
+    .container{
+        margin: 10px auto;
+    }
+    .login{
+        flex-direction: column;
+    }
+    .seperate{
+        border-top:1px solid #979797;
+        border-right:0;
+        height: 0;
+        width: 80%;
+        margin: 5px auto;
+    }
+    .loginZone,.signup{
+        display: flex;
+        flex-direction: column;
+        width:80%;
+        margin: 20px auto;
+    }
+    button{
+        margin: 15px auto;
+    }
+}

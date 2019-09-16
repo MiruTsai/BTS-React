@@ -1,0 +1,47 @@
+*{
+    box-sizing: border-box;  
+    text-decoration: none;
+    margin: 0;
+}
+.container{
+    box-shadow:2px 2px 2px rgba(20%,20%,40%,0.6),4px 4px 6px rgba(20%,20%,40%,0.4),6px 6px 12px rgba(20%,20%,40%,0.4);
+}
+@font-face {
+    font-family: Metropolis;
+    src: local("Metropolis black"),
+      url("../source/Metropolis-Black.otf");
+  } 
+body{
+    background-image: url("../img/bg.jpg")
+}
+.logo{
+    margin:10px ;
+    width:70px;
+}
+button{
+    margin: 0;
+    padding: 0;
+    border: 1px solid transparent;
+    outline: none; 
+}
+input{
+    border-radius: 8px;
+    background:none;  
+    outline:none;  
+    border:1px solid #979797;
+    padding:8px;
+}
+a:link{
+    color:black;
+}
+a:visited{
+    color:black;
+}
+a:hover{
+    color:darkorange;
+}
+@media(max-width:800px){
+    .logo{
+        width:60px;
+    }
+}

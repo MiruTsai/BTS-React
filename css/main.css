@@ -1,0 +1,146 @@
+.container{
+    height: 550px; 
+    display: flex;
+    margin: 100px auto;
+    width:70%;
+    align-content: flex-start;
+    background: white;
+}
+.title{
+    font-weight: bold;
+    font-size: 50px;
+    font-family:Metropolis;
+}
+h3,h5{
+    font-family:"Noto Sans TC", "微軟正黑體", "新細明體", arial, sans-serif;
+    letter-spacing: 2px;
+}
+h3,h5,.title{
+    color:#415159;
+}
+.icon{
+    width:30px;
+    margin-right: 20px;
+    color:#415159;
+}
+.userIcon{
+    width: 30px;
+    margin-top:20px;
+    color:#415159;
+}
+.user{
+    flex-basis: 10%;
+    vertical-align:top;
+    text-align: center;
+}
+.indexIcon{
+    display: flex;
+    align-items: center;
+    margin: 20px 30px;
+    font-family:"Noto Sans TC", "微軟正黑體", "新細明體", arial, sans-serif;
+    color:#415159;
+}
+.iconZone{
+    display: flex;
+}
+.pic{    
+    width: 100%;
+    height: auto;
+}
+.btspic{
+    max-height: 100%;
+}
+.mobile_user{
+    display: none;
+}
+.leftSide{
+    flex-basis: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-left: 40px;
+}
+/* profile.html */
+.profile{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    flex-wrap: wrap;
+}
+.profileZone{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    font-family:"Noto Sans TC", "微軟正黑體", "新細明體", arial, sans-serif;
+    margin: auto 50px; 
+    padding-top:30px;
+}
+.text,.count{
+    margin: 10px 0;
+}
+.profile span{
+    font-weight: bold;
+    font-size: 20px;
+}
+.profile button{
+    padding:10px 0;
+    margin: 20px 0;
+}
+#chart_div{
+    flex-basis: 50%;
+}
+@media (max-width:1200px){
+    .container{
+        width: 90%;
+        height: 100%;
+    }
+}
+@media (max-width:800px){
+    .btspic{
+        flex-basis: 25%;
+    }
+    .leftSide{
+        margin-left:20px;
+    }
+    .container{
+        margin: 30px auto;
+    }
+    .title{
+        font-size: 40px;
+    }
+}
+@media(max-width:640px){
+    body{
+        background-image: none;
+    }
+    .logo,.user,h3{
+        display: none;
+    }
+    .container{
+        width:100%;
+        display: block;
+        margin:0 auto;
+    }
+    h3,h5{
+        letter-spacing: 1px;
+    }
+    .mobile_user{
+        display: block;
+        text-align: right;
+        margin-right:10px;
+    }
+    .userIcon{
+        width: 28px;
+        margin-top: 15px;
+    }
+    .iconZone{
+        margin:20px 0;
+    }
+    .btspic{
+        width: 100%;
+        margin: 0 auto;
+    }
+    
+}
+

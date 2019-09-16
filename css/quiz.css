@@ -1,0 +1,235 @@
+*{
+    font-family:"Noto Sans TC", "微軟正黑體", "新細明體", arial, sans-serif;
+}
+
+.container{
+    margin: 30px auto;
+    width:70%;
+    background: white;
+    padding:30px;
+    display: none;
+    align-items: center;
+}
+.fake{
+    display: none;
+}
+.logo{
+    display: none;
+}
+
+.top{
+    flex-basis: 75%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.conunter{
+    flex-basis: 25%;
+    margin-top:50px;
+}
+.all,.right,.wrong{
+    margin: 50px;
+    font-size: 20px;
+    font-weight: bold;
+}
+.right{
+    color:#53C46D
+}
+.wrong{
+    color:#FF6B82
+}
+
+.quiz,.pic_quiz_title{
+    font-size: 2em;
+    font-weight: 800;
+    margin:20px 0;
+}
+.options{
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin: 30px auto;
+}
+.option{
+    flex-basis: 50%;
+    margin: 20px 0;
+}
+.picOption{
+    flex-basis: 40%;
+    /* width:400px;*/
+    max-height:200px; 
+    margin: 20px;
+    object-fit:cover;
+    border-radius: 8px;
+}
+.picSource{
+    width: 100%;
+    height: 100%;
+    object-fit:cover;
+    border-radius: 8px;
+}
+.pic_quiz_img{
+    width:70%;
+   
+    margin:0 auto;
+}
+/* anime */
+.anime{
+    background-image: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%);
+    width: 100%;
+    height:100%;
+    margin: -50px auto;
+}
+
+.cls-1 {
+    width: 95%;
+    fill:none;
+    fill-rule: evenodd;
+    stroke:lightskyblue;
+    stroke-dasharray: 80;
+    animation: dash 5s linear;
+    stroke-width: 5;
+    stroke-opacity: .5
+  }
+  .cls-2 {
+      fill:none;
+      fill-rule: evenodd;
+      opacity: 1;
+      stroke:white;
+      stroke-dasharray: 85;
+      animation: dash 5s linear;
+      stroke-width: 5;
+    }
+    .cls-3 {
+        fill:none;
+        fill-rule: evenodd;
+        opacity: 1;
+        stroke:white;
+        stroke-dasharray: 90;
+        animation: dash 5s linear;
+        stroke-width: 5;
+      }
+
+    @keyframes dash {
+      to {
+        stroke-dashoffset: 1200;
+      }
+    }
+@keyframes scaleDraw {  /*定义关键帧、scaleDrew是需要绑定到选择器的关键帧名称*/
+    0%{
+        transform: scale(1);  /*开始为原始大小*/
+        
+    }
+    30%{
+        transform: scale(2.5);
+    }  
+    80%{
+        transform: scale(2.5);
+        
+    }
+    100%{
+        transform: scale(1);        
+    }
+}
+.picSource:hover{
+    -webkit-animation-name: scaleDraw; /*关键帧名称*/
+    -webkit-animation-timing-function: ease-in-out; /*动画的速度曲线*/
+    /*-webkit-animation-iteration-count: infinite;  /*动画播放的次数*/
+    -webkit-animation-duration: 3s; /*动画所花费的时间*/    
+    object-fit: contain;
+}
+
+span{
+    font-size: 10px;
+}
+button{
+    width:100px;
+    background-color: #ffe65d;
+    padding:5px 20px;
+}
+input{
+    margin:20px 0;
+}
+.mask{
+    background-color: black;
+    display: none;
+}
+.fake{
+    width:100%;
+    height:100vh;
+    background-color: white;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.fakeText{
+    font-size: 20px;
+    margin: 20px 0;
+}
+.board{
+    text-align: center;
+    vertical-align: center;
+}
+
+@media(max-width:800px){
+    .pic_quiz_img{
+        width:70%;
+    }
+    .container{
+        width:80%;
+        flex-wrap: wrap;
+    }
+    .counter{
+        display: flex;
+        margin:30px 0;
+    }
+    .all,.right,.wrong{
+        margin: 10px;
+    }
+    .top{
+        flex-basis: 100%;
+        
+        justify-content: flex-start;
+    }
+
+}
+
+@media(max-width:640px){
+    .top{
+        flex-wrap: wrap;
+    }
+    .quiz,.pic_quiz_title{
+        font-size: 1.5em;
+    }
+    .container{
+        width: 100%;
+        padding: 15px 30px;
+        margin:0 auto;
+    }
+    .options{
+        margin:30px auto; 
+    }
+    .option{
+        font-size: 14px;
+    }
+    .all,.right,.wrong{
+        font-size: 16px;
+    }
+    .anime{
+        margin: 0 auto;
+        width: 100vw;
+        height:100vh;
+    }
+    svg{
+        position: absolute;
+        top:30%;
+    }
+    .picOption{
+        flex-basis: 100%;
+        max-height:200px; 
+        margin: 20px;
+        object-fit:cover;
+        border-radius: 8px;
+    }
+}
