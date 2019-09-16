@@ -1,4 +1,4 @@
-.container{
+.indexContainer{
     height: 550px; 
     display: flex;
     margin: 100px auto;
@@ -43,7 +43,7 @@ h3,h5,.title{
 .iconZone{
     display: flex;
 }
-.pic{    
+.indexPic{    
     width: 100%;
     height: auto;
 }
@@ -91,7 +91,7 @@ h3,h5,.title{
     flex-basis: 50%;
 }
 @media (max-width:1200px){
-    .container{
+    .indexContainer{
         width: 90%;
         height: 100%;
     }
@@ -103,7 +103,7 @@ h3,h5,.title{
     .leftSide{
         margin-left:20px;
     }
-    .container{
+    .indexContainer{
         margin: 30px auto;
     }
     .title{
@@ -117,7 +117,7 @@ h3,h5,.title{
     .logo,.user,h3{
         display: none;
     }
-    .container{
+    .indexContainer{
         width:100%;
         display: block;
         margin:0 auto;
