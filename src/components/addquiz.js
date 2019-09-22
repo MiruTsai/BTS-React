@@ -1,5 +1,6 @@
 import '../../css/addquiz.css';
 import React from 'react';
+import fire from '../fire'
 
 const Description = (props) => {
     return (<div className="description">
@@ -13,62 +14,108 @@ const Description = (props) => {
     </div>)
 }
 
-class NewQuiz extends React.Component{
+class NewQuiz extends React.Component {
     state = {
         ANSWER: "",
         QUIZ: "",
         OPTIONS: "",
+        QUIZPIC:"",
         TAG: "",
-        author: "",
         rightCounter: 0,
         wrongCounter: 0,
     }
-    sendQuiz = () => {
+    updateInput = (e) => {
         this.setState({
-            ANSWER: this.ANSWER,
-            QUIZ: this.QUIZ,
-            OPTIONS: [this.opt1, this.opt2, this.opt3, this.opt4],
-            TAG: this.TAG,
-            author: "",
+            [e.target.name]: e.target.value
+        });
+    }
+    
+    handleChange = (e) => {        
+        this.setState({ TAG: e.target.value });
+    }
+    sendQuiz = () => {
+        if(this.state.TAG === "picture2"){
+            fire.firestore().collection('QUIZS').doc().set({
+                ANSWER: this.state.ANSWER,
+                QUIZ: this.state.QUIZ,
+                QUIZPIC:this.state.QUIZPIC,
+                OPTIONS: [this.state.opt1, this.state.opt2, this.state.opt3, this.state.opt4],
+                TAG: this.state.TAG,
+                rightCounter: 0,
+                wrongCounter: 0,
+            })
+                .then(function () {
+                    console.log("Document successfully written!");
+                })
+                .catch(function (error) {
+                    console.error("Error writing document: ", error);
+                });
+    }else{
+        fire.firestore().collection('QUIZS').doc().set({
+            ANSWER: this.state.ANSWER,
+            QUIZ: this.state.QUIZ,
+            OPTIONS: [this.state.opt1, this.state.opt2, this.state.opt3, this.state.opt4],
+            TAG: this.state.TAG,
             rightCounter: 0,
             wrongCounter: 0,
         })
-    }
-    render(){
-    return (
-        <form>
-            <div className="quizSelect">
-                <div className="text">題型</div>
-                <select id="quizType" value={this.TAG}>
-                    <option value="text">文字型</option>
-                    <option value="picture">圖片型-1</option>
-                    <option value="picture2">圖片型-2</option>
-                </select>
-            </div>
+            .then(function () {
+                console.log("Document successfully written!");
+            })
+            .catch(function (error) {
+                console.error("Error writing document: ", error);
+            });
+    }}
+    render() {
+        let quizTitle;
+        if (this.state.TAG === "picture2") {
+            quizTitle =
             <div className="choice">
                 <div className="text">題目</div>
-                <input type="text" name="quiz" id="quizTitle" value={this.QUIZ} />
-            </div>
-            <div className="choice">
-                <div className="text">選擇 1</div>
-                <input type="text" name="quiz" id="opt1" value={this.opt1} placeholder="請填入選項，如為圖片型-1請填入網址 ( 建議尺寸 200 x 200 以上 ) " />
-                <div className="text">選擇 2</div>
-                <input type="text" name="quiz" id="opt2" value={this.opt2} placeholder="請填入選項，如為圖片型-1請填入網址 ( 建議尺寸 200 x 200 以上 ) " />
-                <div className="text">選擇 3</div>
-                <input type="text" name="quiz" id="opt3" value={this.opt3} placeholder="請填入選項，如為圖片型-1請填入網址 ( 建議尺寸 200 x 200 以上 ) " />
-                <div className="text">選擇 4</div>
-                <input type="text" name="quiz" id="opt4" value={this.opt4} placeholder="請填入選項，如為圖片型-1請填入網址 ( 建議尺寸 200 x 200 以上 ) " />
-            </div>
-            <div className="choice answer_zone">
-                <div className="text">答案</div>
-                <input type="text" name="quiz" id="answer" value={this.ANSWER} placeholder="請輸入半形數字，勿輸入中文、英文或其他特殊字" />
-                <div className="buttonBlock">
-                    <button type="button" className="quizButton hvr-grow">提交</button>
-                    <button type="button" className="quizButton hvr-grow">預覽</button>
+                <input type="text" name="QUIZ" id="quizTitle" value={this.state.QUIZ} onChange={this.updateInput} />   
+                <div className="text">圖片網址</div>
+                <input type="text" name="QUIZPIC" id="quizTitle" value={this.state.QUIZPIC} onChange={this.updateInput} />   
                 </div>
-            </div>
-        </form>
-    )}
+        }else{
+            quizTitle =
+            <div className="choice">
+                <div className="text">題目</div>
+                <input type="text" name="QUIZ" id="quizTitle" value={this.state.QUIZ} onChange={this.updateInput} />    
+                </div>
+        }
+    
+        return (
+            <form>
+                <div className="quizSelect">
+                    <div className="text">題型</div>
+                    <select id="quizType" name="TAG" value={this.state.TAG} onChange={this.handleChange}>
+                        <option value="text">文字型</option>
+                        <option value="picture">圖片型-1</option>
+                        <option value="picture2">圖片型-2</option>
+                    </select>
+                </div>
+                {quizTitle}
+                <div className="choice">
+                    <div className="text">選擇 1</div>
+                    <input type="text" name="opt1" id="opt1" value={this.state.OPTIONS.opt1} placeholder="請填入選項，如為圖片型-1請填入網址 ( 建議尺寸 200 x 200 以上 ) " onChange={this.updateInput} />
+                    <div className="text">選擇 2</div>
+                    <input type="text" name="opt2" id="opt2" value={this.state.OPTIONS.opt2} placeholder="請填入選項，如為圖片型-1請填入網址 ( 建議尺寸 200 x 200 以上 ) " onChange={this.updateInput} />
+                    <div className="text">選擇 3</div>
+                    <input type="text" name="opt3" id="opt3" value={this.state.OPTIONS.opt3} placeholder="請填入選項，如為圖片型-1請填入網址 ( 建議尺寸 200 x 200 以上 ) " onChange={this.updateInput} />
+                    <div className="text">選擇 4</div>
+                    <input type="text" name="opt4" id="opt4" value={this.state.OPTIONS.opt4} placeholder="請填入選項，如為圖片型-1請填入網址 ( 建議尺寸 200 x 200 以上 ) " onChange={this.updateInput} />
+                </div>
+                <div className="choice answer_zone">
+                    <div className="text">答案</div>
+                    <input type="text" name="ANSWER" id="answer" value={this.state.ANSWER} placeholder="請輸入半形數字，勿輸入中文、英文或其他特殊字" onChange={this.updateInput} />
+                    <div className="buttonBlock">
+                        <button type="button" className="quizButton hvr-grow" onClick={this.sendQuiz}>提交</button>
+                        <button type="button" className="quizButton hvr-grow">預覽</button>
+                    </div>
+                </div>
+            </form>
+        )
+    }
 }
 
 class Addquiz extends React.Component {
@@ -115,39 +162,7 @@ class Addquiz extends React.Component {
                 </div>
                 <Description showGuide={this.showGuide} />
                 <div className="right">
-                <NewQuiz />
-                    {/* <form>
-                        <div className="quizSelect">
-                            <div className="text">題型</div>
-                            <select id="quizType" value={this.TAG}>
-                                <option value="text">文字型</option>
-                                <option value="picture">圖片型-1</option>
-                                <option value="picture2">圖片型-2</option>
-                            </select>
-                        </div>
-                        <div className="choice">
-                            <div className="text">題目</div>
-                            <input type="text" name="quiz" id="quizTitle" value={this.QUIZ}/>
-                        </div>
-                        <div className="choice">
-                            <div className="text">選擇 1</div>
-                            <input type="text" name="quiz" id="opt1" value={this.opt1} placeholder="請填入選項，如為圖片型-1請填入網址 ( 建議尺寸 200 x 200 以上 ) " />
-                            <div className="text">選擇 2</div>
-                            <input type="text" name="quiz" id="opt2" value={this.opt2} placeholder="請填入選項，如為圖片型-1請填入網址 ( 建議尺寸 200 x 200 以上 ) " />
-                            <div className="text">選擇 3</div>
-                            <input type="text" name="quiz" id="opt3" value={this.opt3} placeholder="請填入選項，如為圖片型-1請填入網址 ( 建議尺寸 200 x 200 以上 ) " />
-                            <div className="text">選擇 4</div>
-                            <input type="text" name="quiz" id="opt4" value={this.opt4} placeholder="請填入選項，如為圖片型-1請填入網址 ( 建議尺寸 200 x 200 以上 ) " />
-                        </div>
-                        <div className="choice answer_zone">
-                            <div className="text">答案</div>
-                            <input type="text" name="quiz" id="answer" value={this.ANSWER} placeholder="請輸入半形數字，勿輸入中文、英文或其他特殊字" />
-                            <div className="buttonBlock">
-                                <button type="button" className="quizButton hvr-grow">提交</button>
-                                <button type="button" className="quizButton hvr-grow">預覽</button>
-                            </div>
-                        </div>
-                    </form> */}
+                    <NewQuiz />
                 </div>
             </div>
         )

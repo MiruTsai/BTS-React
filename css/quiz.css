@@ -13,9 +13,9 @@
 .fake{
     display: none;
 }
-.logo{
+/* .logo{
     display: none;
-}
+} */
 
 .top{
     flex-basis: 75%;

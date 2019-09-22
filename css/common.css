@@ -25,11 +25,12 @@ button{
     outline: none; 
 }
 input{
-    border-radius: 8px;
+    border:0;
     background:none;  
     outline:none;  
-    border:1px solid #979797;
+    border-bottom:1px solid #979797;
     padding:8px;
+    margin:15px 0;
 }
 a:link{
     color:black;

@@ -7,9 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
     "watch": "webpack --mode development --watch",
-    "start": "webpack --mode development",
+    "start": "webpack-dev-server --open",
     "deploy": "webpack --mode production",
-    "dev": "webpack-dev-server --devtool eval --progress --colors --content-base build"
+    "dev": "webpack-dev-server --devtool eval --progress --colors --content-base build  --open"
   },
   "repository": {
     "type": "git",
@@ -24,6 +24,8 @@
   "dependencies": {
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
+    "firebase": "^6.6.1",
+    "firebaseui": "^4.2.0",
     "lodash": "^4.17.15",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
