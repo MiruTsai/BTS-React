@@ -7,9 +7,9 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         filename: 'main.js'
     },
-    devServer: {
-        contentBase: "./dist",
-      },
+    // devServer: {
+    //     contentBase: "./dist",
+    //   },
     module: {
         rules: [
             { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
