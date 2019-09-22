@@ -1,13 +1,7 @@
 import React, { Component } from 'react';
 import '../../css/main.css';
-import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
-import fire from '../fire';
-import Login from './login';
-import Profile from './profile';
+import { Route, Link, Redirect } from 'react-router-dom';
 import QuizBoard from './quizboard';
-import { UserContext } from './userContext';
-
-
 
 
 const IndexPic = () => {

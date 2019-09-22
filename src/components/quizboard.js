@@ -5,18 +5,17 @@ import CurrentQuiz from './quiz';
 let currentQuiz;
 let index;
 let answer;
+let num = 1;
 class QuizBoard extends React.Component {
     state = {
         wrongQuizs: [],
         rightQuizs: [],
         rightCounter: 0,
-        wrongCounter: 0,
+        wrongCounter: 0
     }
 
-    
 
-    handleChange = (e) => {        
-        answer = e.target.value
+    handleChange = (e) => {
         e.preventDefault()
     }
 
@@ -24,32 +23,31 @@ class QuizBoard extends React.Component {
         console.log(this)
         if (answer === this.props.quizs[index].ANSWER) {
             this.setState({
-                rightCounter:this.state.rightCounter+1,
+                rightCounter: this.state.rightCounter + 1,
             })
         } else {
-            this.setState({wrongCounter:this.state.wrongCounter+1})
+            this.setState({ wrongCounter: this.state.wrongCounter + 1 })
         }
     }
     render() {
         const { quizs } = this.props
         index = Math.floor(Math.random() * quizs.length)
-        const options = quizs[index].OPTIONS.map(option => {
-            let i = 1;
-            i+1;
+        console.log(quizs[index])
+        const options = quizs[index].OPTIONS.map((option, num) => {
             return (
-                <div className="option"> ( {i} ){option} </div>
-            )}
+                <div className="option" key={Math.random()}> ( {num + 1} ) {option} </div>
+            )
+        }
         )
 
-        const picOption = quizs[index].OPTIONS.map(option => {
-            let i = 1;
-                i+1
+        const picOption = quizs[index].OPTIONS.map((option, num) => {
+
             return (
-                
-                <div className="picOption"> ( {i} )
+                <div className="picOption" key={Math.random()}> ( {num + 1} )
                 <img className="picSource" src={option} />
                 </div>
-            )}
+            )
+        }
         )
 
         if (quizs[index].TAG === "text") {
@@ -87,7 +85,7 @@ class QuizBoard extends React.Component {
                     </div>
                     <div className="answerBlock">
                         <div className="note">請在下方答案框輸入答案<br /> * 僅限半形數字，請勿填寫中文</div>
-                        <input type="text" className="answer" value={this.state.answer} onChange={this.handleChange}/>
+                        <input type="text" className="answer" value={this.state.answer} onChange={this.handleChange} />
                     </div>
                     <button type="submit" onClick={this.checkAnswer}>送出</button>
                 </div>
