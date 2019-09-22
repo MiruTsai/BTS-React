@@ -13,7 +13,7 @@ import { UserContext } from './userContext';
 const IndexPic = () => {
     return (
         <div className="btspic">
-            <img src="/../img/group.jpg" className="indexPic" />
+            <img src="BTS-React/img/group.jpg" className="indexPic" />
         </div>
     )
 }
@@ -68,13 +68,13 @@ class Index extends Component {
                     <div className="indexIcon hvr-float-shadow" id="test" 
                     // onClick={()=>this.props.quizEntry(this)}
                     >
-                        <img src="/../img/edit.svg" className="icon" />
+                        <img src="BTS-React/img/edit.svg" className="icon" />
                         <div className="text">測驗模式</div>
                     </div>
                     </Link>
                 
                     <div className="indexIcon hvr-float-shadow" id="preTest">
-                        <img src="/../img/clock.svg" className="icon" />
+                        <img src="BTS-React/img/clock.svg" className="icon" />
                         <div className="text">模擬搶票</div>
                     </div>
                 
@@ -85,7 +85,7 @@ class Index extends Component {
              
 
                 <div className="user member hvr-float-shadow" onClick={()=>this.props.auth(this)}>
-            <img src="/../img/user.svg" className="userIcon" />
+            <img src="BTS-React/img/user.svg" className="userIcon" />
         </div>
             </div>
         )

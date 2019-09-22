@@ -9,10 +9,10 @@
 @font-face {
     font-family: Metropolis;
     src: local("Metropolis black"),
-      url("/source/Metropolis-Black.otf");
+      url("../source/Metropolis-Black.otf");
   } 
 body{
-    background-image: url("/img/bg.jpg")
+    background-image: url("../img/bg.jpg")
 }
 .logo{
     margin:10px ;
