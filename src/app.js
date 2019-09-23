@@ -88,15 +88,15 @@ class App extends Component {
         }
     }
 
-    // quizEntry = (e) => {
-    //     let user = this.state.userUid
-    //     if(user===''){
-    //         alert('請登入會員');
-    //         e.props.history.push('/login');
-    //     }else{
-    //         e.props.history.push('/quizboard');
-    //     }
-    // }
+    quizEntry = (e) => {
+        let user = this.state.userUid
+        if(user===''){
+            alert('請登入會員');
+            e.props.history.push('/login');
+        }else{
+            e.props.history.push('/quizboard');
+        }
+    }
     render() {
         console.log(this)
         return (

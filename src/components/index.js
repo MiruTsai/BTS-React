@@ -58,14 +58,14 @@ class Index extends Component {
                             for who I was, and for who I hope to become.</h5>
                     </div>
                     <div className="iconZone">
-                        <Link to='/quizboard'>
+                        {/* <Link to='/quizboard'> */}
                             <div className="indexIcon hvr-float-shadow" id="test"
-                            // onClick={()=>this.props.quizEntry(this)}
+                            onClick={()=>this.props.quizEntry(this)}
                             >
                                 <img src="BTS-React/img/edit.svg" className="icon" />
                                 <div className="text">測驗模式</div>
                             </div>
-                        </Link>
+                        {/* </Link> */}
 
                         <div className="indexIcon hvr-float-shadow" id="preTest">
                             <img src="BTS-React/img/clock.svg" className="icon" />
