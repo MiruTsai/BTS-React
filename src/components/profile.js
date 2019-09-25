@@ -64,8 +64,16 @@ class Profile extends Component {
                     easing: 'out',
                     startup: true
                 },
+                enableInteractivity: false,
   }}
-  
+  chartEvents={[
+    {
+      eventName: 'animationfinish',
+      callback: () => {
+        console.log('Animation Finished')
+      },
+    },
+  ]}
   rootProps={{ 'data-testid': '2' }}
 />
                 </div>

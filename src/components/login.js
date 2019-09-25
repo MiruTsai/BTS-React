@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
 import '../../css/login.css';
-import fire from '../fire';
-import UserContextProvider from './userContext';
-import ToogleLogin from './toogleLogin';
 import {Redirect} from 'react-router-dom';
 
 class Login extends Component {
@@ -12,11 +9,13 @@ class Login extends Component {
         password: '',
         status: 'signIn',
     }
+
     signUpSide = () => {
         this.setState({
             status: 'signUp'
         })
     }
+
     signInSide = () => {
         this.setState({
             status: 'signIn'
@@ -56,7 +55,7 @@ class Login extends Component {
                 <input type="text" id="signUpEmail" name="email" placeholder="請輸入您的 E-mail" onChange={this.updateInput} />
                 <div className="text2">密碼</div>
                 <input type="password" id="signUpPW" name="password" placeholder="您的密碼長度建議6位數以上" onChange={this.updateInput} />
-                <button onClick={this.signUP} className="signButton">送出</button>
+                <button onClick={()=>this.props.signUP(this)} className="signButton">送出</button>
             </div >
         }
         return (

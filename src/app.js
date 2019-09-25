@@ -11,40 +11,44 @@ import fire from './fire'
 import '../css/common.css';
 import '../css/hover-min.css';
 let newquizs = [];
-let uid = localStorage.getItem('uid');
-
-
+let userRightCounter;
+let userWrongCounter;
 const root = document.querySelector('.root');
+
+
 class App extends Component {
     state = {
-        userUid: '',
+        userUid: '',   
     }
-    signUP = () => {
-        if (this.state.email.length < 4) {
+    signUP = (e) => {
+        if (e.state.email.length < 4) {
             alert('Please enter an email address.');
             return;
         }
-        if (this.state.password.length < 6) {
+        if (e.state.password.length < 6) {
             alert('Please enter a password.');
             return;
         }
-        fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then(() => {
+        fire.auth().createUserWithEmailAndPassword(e.state.email, e.state.password).then(() => {
             fire.firestore().collection('MemberShip').doc().set({
-                ID: this.state.email,
-                NAME: this.state.userName,
+                ID: e.state.email,
+                NAME: e.state.userName,
                 rightCounter: 0,
                 wrongCounter: 0
             })
-            this.setState({
-                userUid: fire.auth().currentUser.uid
-            })
+            localStorage.setItem('uid', fire.auth().currentUser.uid);  
         }).catch((error) => {
             console.log(error);
         })
+        this.setState({
+            userUid: fire.auth().currentUser.uid,
+            userRightCounter: 0,
+            userWrongCounter: 0,
+        }) 
+        setTimeout(function () { e.props.history.push('/') }, 5000)
     }
     
     login = (childrendata) => {
-        console.log(childrendata);
         if (childrendata.state.email.length < 4) {
             alert('Please enter an email address.');
             return;
@@ -55,8 +59,17 @@ class App extends Component {
         }
         fire.auth().signInWithEmailAndPassword(childrendata.state.email, childrendata.state.password).then(() => {
             localStorage.setItem('uid', fire.auth().currentUser.uid);
-            this.setState({
-                userUid: fire.auth().currentUser.uid,
+            fire.firestore().collection('MemberShip').doc(fire.auth().currentUser.uid).get().then((doc) => {
+                if (doc.exists) {
+                    let userInfo = doc.data()
+                    userRightCounter = userInfo.rightCounter;
+                    userWrongCounter = userInfo.wrongCounter;
+                }
+                this.setState({
+                    userUid: fire.auth().currentUser.uid,
+                    userRightCounter: userRightCounter,
+                    userWrongCounter: userWrongCounter,
+                })
             })
         }).catch((error) => {
             console.log(error);
@@ -98,16 +111,15 @@ class App extends Component {
     }
 
     render() {
-        console.log(this)
         return (
             <React.Fragment>
                 <BrowserRouter>
                     <Logo />
                     <Route exact path="/" render={(props) => <Index {...props} auth={this.authListener} quizEntry={this.quizEntry} />} />
-                    <Route path="/login" render={(props) => <Login {...props} login={this.login} userUid={this.state.userUid} />} />
-                    <Route path="/profile" render={(props) => <Profile {...props} userUid={this.state.userUid}/>} />
+                    <Route path="/login" render={(props) => <Login {...props} login={this.login} signUP={this.signUP} userUid={this.state.userUid} />} />
+                    <Route path="/profile" render={(props) => <Profile {...props} userUid={this.state.userUid} />} />
                     <Route path="/Addquiz" component={Addquiz} />
-                    <Route path="/quizboard" render={(props) => <QuizBoard {...props} quizs={this.state.Quizs} userUid={this.state.userUid} />} />
+                    <Route path="/quizboard" render={(props) => <QuizBoard {...props} quizs={this.state.Quizs} userUid={this.state.userUid} userRightCounter={this.state.userRightCounter} userWrongCounter={this.state.userWrongCounter}/>} />
                 </BrowserRouter>
             </React.Fragment>
         )
