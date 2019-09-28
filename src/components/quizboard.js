@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import '../../css/quiz.css';
 import fire from '../fire';
-
-
+import Logo from './logo';
+import QuizAnime from './quizanime';
+import Scalper from './scalper';
 let currentQuiz;
 let index;
 let answer;
 let num = 1;
 let wrongSound;
-let rightSound
-
+let rightSound;
+let errorSound;
 
 class QuizBoard extends React.Component {
     state = {
@@ -19,21 +20,31 @@ class QuizBoard extends React.Component {
         wrongCounter: 0,
         quizs: this.props.quizs,
         userRightCounter: this.props.userRightCounter,
-        userWrongCounter: this.props.userWrongCounter
+        userWrongCounter: this.props.userWrongCounter,
+        resBoardClass: 'hideResBoard',
+        containerClass: 'hideContainer',
+        animeClass: 'anime',
+        blurLayer: 'hideBlurLayer',
+        res: '',
+        scalper: 'hideScalper',
+        rightResponse: ["group_right_1.gif", "group_right_2.gif", "group_right_3.gif", "group_right_7.gif", "jhope_right_1.gif", "jin_right_1.gif", "jin_right_2.gif", "jimin_right_1.gif", "jk_right_1.gif", "jk_right_2.gif", "rm_right_1.gif", "v_right_1.gif"],
+        wrongResponse: ["group_wrong_1.gif", "jhope_wrong_1.gif", "jhope_wrong_2.gif", "jhope_wrong_3.gif", "jin_wrong_1.gif", "jin_wrong_2.gif", "jin_wrong_3.gif", "jk_wrong_1.gif", "suga_wrong_1.gif", "v_wrong_1.gif", "jimin_wrong_1.gif"],
     }
-
     componentDidMount = () => {
-        let anime = document.querySelector('.anime')
         wrongSound = new Audio();
         wrongSound.src = '../../source/wrong.mp3';
         rightSound = new Audio();
         rightSound.src = '../../source/right.mp3';
-        window.setTimeout(function loadingAnime() {
-            anime.style.display = "none";
-            document.querySelector('.logo').style.display = "block";
-            document.querySelector('.container').style.display = "flex";
-          }, 2000)
-       
+        errorSound = new Audio();
+        errorSound.src = '../../source/error.mp3';
+        this.setState
+        window.setTimeout(() => {
+            this.setState({
+                animeClass: 'hideQuizAnime',
+                containerClass:'quizContainer'
+            })
+        }
+            , 2000)
     }
     handleChange = (e) => {
         e.preventDefault()
@@ -42,12 +53,19 @@ class QuizBoard extends React.Component {
     checkAnswer = () => {
         let quizRightCounter = this.state.quizs[index].rightCounter;
         let quizWrongCounter = this.state.quizs[index].wrongCounter;
+        let rightResIndex = Math.floor(Math.random() * this.state.rightResponse.length);
+        let wrongResIndex = Math.floor(Math.random() * this.state.wrongResponse.length);
         if (answer === this.state.quizs[index].ANSWER) {
             this.setState({
                 rightCounter: this.state.rightCounter + 1,
                 userRightCounter: this.state.userRightCounter + 1,
                 rightQuizs: [...this.state.rightQuizs, this.state.quizs[index]],
-                quizs: this.state.quizs.filter(p => p.QUIZ !== this.state.quizs[index].QUIZ)
+                quizs: this.state.quizs.filter(p => p.QUIZ !== this.state.quizs[index].QUIZ),
+                containerClass: 'hideContainer',
+                res: '答對了！',
+                resBoardClass: 'resBoard',
+                blurLayer: 'blurLayer',
+                resPic: '../../img/right/' + this.state.rightResponse[rightResIndex]
             })
             fire.firestore().collection('MemberShip').doc(this.props.userUid).update({
                 rightCounter: this.state.userRightCounter,
@@ -55,14 +73,22 @@ class QuizBoard extends React.Component {
             fire.firestore().collection('QUIZS').doc(this.props.quizs[index].id).update({
                 rightCounter: quizRightCounter + 1,
             })
-            // return<Sound />
-            rightSound.play()
+            rightSound.play();
         } else {
+            this.setState({
+                wrongCounter: this.state.wrongCounter + 1,
+            })
+            if (this.state.wrongCounter >= 5) { }
             this.setState({
                 wrongCounter: this.state.wrongCounter + 1,
                 userWrongCounter: this.state.userWrongCounter + 1,
                 wrongQuizs: [...this.state.wrongQuizs, this.state.quizs[index]],
-                quizs: this.state.quizs.filter(p => p.QUIZ !== this.state.quizs[index].QUIZ)
+                quizs: this.state.quizs.filter(p => p.QUIZ !== this.state.quizs[index].QUIZ),
+                res: '錯了！答案是' + this.state.quizs[index].ANSWER,
+                resBoardClass: 'resBoard',
+                containerClass: 'hideContainer',
+                blurLayer: 'blurLayer',
+                resPic: '../../img/wrong/' + this.state.wrongResponse[wrongResIndex]
             })
             fire.firestore().collection('MemberShip').doc(this.props.userUid).update({
                 wrongCounter: this.state.userWrongCounter,
@@ -73,8 +99,22 @@ class QuizBoard extends React.Component {
             wrongSound.play();
         }
     }
+    closeRes = () => {
+        this.setState({
+            resBoardClass: 'hideResBoard',
+            containerClass: 'quizContainer',
+            blurLayer: 'hideBlurLayer'
+        })
+        if (this.state.wrongQuizs.length === 5) {
+            this.setState({
+                scalper: 'scalper',
+                containerClass: 'hideContainer'
+            })
+            errorSound.play();
+            setTimeout(() => { this.props.history.push('/') }, 6000)
+        }
+    }
     render() {
-        console.log(this)
         const { quizs } = this.state
         if (!quizs.length) {
             this.props.history.push('/profile')
@@ -120,32 +160,36 @@ class QuizBoard extends React.Component {
             }
         }
         return (
-            <div className="container" >
-                <div className="anime">
-                    <svg id="BTSLOGO" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
-                        <path id="BTS" className="cls-1" d="M308.672,789.636h0c52.9,0,94.773-39.63,94.773-92.47,0-51.74-41.876-90.269-94.773-90.269H170.92c-7.714,0-14.326,5.5-14.326,12.109s6.612,12.109,14.326,12.109H308.672c37.468,0,68.325,27.521,68.325,66.051s-30.857,66.05-68.325,66.05H263.489c-6.612,0-12.122,6.605-12.122,13.21s5.51,13.21,12.122,13.21h45.183ZM170.92,316.276H308.672C346.14,316.276,377,343.8,377,382.327s-30.857,66.05-68.325,66.05H263.489c-6.612,0-12.122,5.5-12.122,13.21A12.223,12.223,0,0,0,263.489,473.7h45.183c52.9,0,94.773-39.63,94.773-91.369s-41.876-91.37-94.773-91.37H170.92c-8.816,0-14.326,5.5-14.326,12.109S162.1,316.276,170.92,316.276ZM25.454,933.845h0V157.756H323c123.426,0,220.4,101.277,220.4,224.571,0,55.041-18.734,107.881-55.1,149.713a11.963,11.963,0,0,0,0,16.513c36.367,41.832,55.1,93.571,55.1,148.613,0,122.192-96.977,224.57-220.4,224.57H170.92c-7.714,0-13.224,5.5-13.224,12.109,0,8.807,5.51,14.311,13.224,14.311H323c137.752,0,246.852-113.386,246.852-250.99,0-57.244-19.837-112.286-55.1-157.42a253.344,253.344,0,0,0,55.1-157.419c0-137.6-109.1-250.991-246.852-250.991H11.127c-6.612,0-12.122,6.6-12.122,14.311v788.2c0,8.807,5.51,14.311,12.122,14.311C18.842,948.156,25.454,942.652,25.454,933.845ZM1261.9,292.058H1064.64a12.225,12.225,0,0,0-12.13,12.109V933.845a12.125,12.125,0,0,0,24.25,0V318.478H1261.9c6.61,0,12.12-6.605,12.12-14.311A12.223,12.223,0,0,0,1261.9,292.058Zm-551.012-132.1h549.9c7.72,0,13.23-5.5,13.23-12.11s-5.51-12.109-13.23-12.109h-549.9A12.11,12.11,0,1,0,710.888,159.958Zm0,158.52H894.925V933.845c0,6.605,5.51,12.11,13.224,12.11a12.224,12.224,0,0,0,12.122-12.11V304.167a12.223,12.223,0,0,0-12.122-12.109H710.888a12.223,12.223,0,0,0-12.122,12.109C698.766,311.873,704.276,318.478,710.888,318.478ZM1418.37,893.114h0c44.08,22.017,85.95,36.328,125.63,45.135,200.56,47.336,377.99-38.53,377.99-237.781s-241.34-239.982-290.93-277.411c-15.43-12.109-24.25-29.722-24.25-46.235-1.1-37.428,28.65-57.243,61.72-61.646,51.79-5.5,119.01,15.411,157.58,30.823,15.43,6.6,25.35-16.513,9.92-23.118-63.92-26.42-113.51-36.327-166.4-33.025-50.7,2.2-90.37,39.63-88.16,90.269,6.61,100.176,143.26,79.26,251.26,180.537,93.67,85.865,77.14,223.47,2.2,299.427-98.08,97.975-276.61,77.059-403.34,11.009C1416.16,863.392,1404.04,885.409,1418.37,893.114Zm437.5-728.753h0c-51.8-17.613-91.47-26.42-122.33-30.823-177.42-24.219-310.76,78.159-310.76,248.789,0,204.755,241.34,233.377,293.13,276.309,25.35,23.118,29.76,62.748,3.31,86.966-55.1,50.639-197.26,9.908-266.69-38.529-13.22-8.807-28.65,11.009-14.33,20.916,70.53,51.739,159.8,69.353,229.22,64.949,51.8-3.3,98.08-39.63,94.78-91.369-6.62-101.277-141.06-82.563-249.06-176.134-94.77-84.764-77.14-224.57-6.61-300.528,87.06-94.672,222.61-78.159,340.52-37.428C1862.48,194.084,1871.3,169.865,1855.87,164.361Z" />
-                        <path id="BTS" className="cls-2" d="M308.672,789.636h0c52.9,0,94.773-39.63,94.773-92.47,0-51.74-41.876-90.269-94.773-90.269H170.92c-7.714,0-14.326,5.5-14.326,12.109s6.612,12.109,14.326,12.109H308.672c37.468,0,68.325,27.521,68.325,66.051s-30.857,66.05-68.325,66.05H263.489c-6.612,0-12.122,6.605-12.122,13.21s5.51,13.21,12.122,13.21h45.183ZM170.92,316.276H308.672C346.14,316.276,377,343.8,377,382.327s-30.857,66.05-68.325,66.05H263.489c-6.612,0-12.122,5.5-12.122,13.21A12.223,12.223,0,0,0,263.489,473.7h45.183c52.9,0,94.773-39.63,94.773-91.369s-41.876-91.37-94.773-91.37H170.92c-8.816,0-14.326,5.5-14.326,12.109S162.1,316.276,170.92,316.276ZM25.454,933.845h0V157.756H323c123.426,0,220.4,101.277,220.4,224.571,0,55.041-18.734,107.881-55.1,149.713a11.963,11.963,0,0,0,0,16.513c36.367,41.832,55.1,93.571,55.1,148.613,0,122.192-96.977,224.57-220.4,224.57H170.92c-7.714,0-13.224,5.5-13.224,12.109,0,8.807,5.51,14.311,13.224,14.311H323c137.752,0,246.852-113.386,246.852-250.99,0-57.244-19.837-112.286-55.1-157.42a253.344,253.344,0,0,0,55.1-157.419c0-137.6-109.1-250.991-246.852-250.991H11.127c-6.612,0-12.122,6.6-12.122,14.311v788.2c0,8.807,5.51,14.311,12.122,14.311C18.842,948.156,25.454,942.652,25.454,933.845ZM1261.9,292.058H1064.64a12.225,12.225,0,0,0-12.13,12.109V933.845a12.125,12.125,0,0,0,24.25,0V318.478H1261.9c6.61,0,12.12-6.605,12.12-14.311A12.223,12.223,0,0,0,1261.9,292.058Zm-551.012-132.1h549.9c7.72,0,13.23-5.5,13.23-12.11s-5.51-12.109-13.23-12.109h-549.9A12.11,12.11,0,1,0,710.888,159.958Zm0,158.52H894.925V933.845c0,6.605,5.51,12.11,13.224,12.11a12.224,12.224,0,0,0,12.122-12.11V304.167a12.223,12.223,0,0,0-12.122-12.109H710.888a12.223,12.223,0,0,0-12.122,12.109C698.766,311.873,704.276,318.478,710.888,318.478ZM1418.37,893.114h0c44.08,22.017,85.95,36.328,125.63,45.135,200.56,47.336,377.99-38.53,377.99-237.781s-241.34-239.982-290.93-277.411c-15.43-12.109-24.25-29.722-24.25-46.235-1.1-37.428,28.65-57.243,61.72-61.646,51.79-5.5,119.01,15.411,157.58,30.823,15.43,6.6,25.35-16.513,9.92-23.118-63.92-26.42-113.51-36.327-166.4-33.025-50.7,2.2-90.37,39.63-88.16,90.269,6.61,100.176,143.26,79.26,251.26,180.537,93.67,85.865,77.14,223.47,2.2,299.427-98.08,97.975-276.61,77.059-403.34,11.009C1416.16,863.392,1404.04,885.409,1418.37,893.114Zm437.5-728.753h0c-51.8-17.613-91.47-26.42-122.33-30.823-177.42-24.219-310.76,78.159-310.76,248.789,0,204.755,241.34,233.377,293.13,276.309,25.35,23.118,29.76,62.748,3.31,86.966-55.1,50.639-197.26,9.908-266.69-38.529-13.22-8.807-28.65,11.009-14.33,20.916,70.53,51.739,159.8,69.353,229.22,64.949,51.8-3.3,98.08-39.63,94.78-91.369-6.62-101.277-141.06-82.563-249.06-176.134-94.77-84.764-77.14-224.57-6.61-300.528,87.06-94.672,222.61-78.159,340.52-37.428C1862.48,194.084,1871.3,169.865,1855.87,164.361Z" />
-                        <path id="BTS" className="cls-3" d="M308.672,789.636h0c52.9,0,94.773-39.63,94.773-92.47,0-51.74-41.876-90.269-94.773-90.269H170.92c-7.714,0-14.326,5.5-14.326,12.109s6.612,12.109,14.326,12.109H308.672c37.468,0,68.325,27.521,68.325,66.051s-30.857,66.05-68.325,66.05H263.489c-6.612,0-12.122,6.605-12.122,13.21s5.51,13.21,12.122,13.21h45.183ZM170.92,316.276H308.672C346.14,316.276,377,343.8,377,382.327s-30.857,66.05-68.325,66.05H263.489c-6.612,0-12.122,5.5-12.122,13.21A12.223,12.223,0,0,0,263.489,473.7h45.183c52.9,0,94.773-39.63,94.773-91.369s-41.876-91.37-94.773-91.37H170.92c-8.816,0-14.326,5.5-14.326,12.109S162.1,316.276,170.92,316.276ZM25.454,933.845h0V157.756H323c123.426,0,220.4,101.277,220.4,224.571,0,55.041-18.734,107.881-55.1,149.713a11.963,11.963,0,0,0,0,16.513c36.367,41.832,55.1,93.571,55.1,148.613,0,122.192-96.977,224.57-220.4,224.57H170.92c-7.714,0-13.224,5.5-13.224,12.109,0,8.807,5.51,14.311,13.224,14.311H323c137.752,0,246.852-113.386,246.852-250.99,0-57.244-19.837-112.286-55.1-157.42a253.344,253.344,0,0,0,55.1-157.419c0-137.6-109.1-250.991-246.852-250.991H11.127c-6.612,0-12.122,6.6-12.122,14.311v788.2c0,8.807,5.51,14.311,12.122,14.311C18.842,948.156,25.454,942.652,25.454,933.845ZM1261.9,292.058H1064.64a12.225,12.225,0,0,0-12.13,12.109V933.845a12.125,12.125,0,0,0,24.25,0V318.478H1261.9c6.61,0,12.12-6.605,12.12-14.311A12.223,12.223,0,0,0,1261.9,292.058Zm-551.012-132.1h549.9c7.72,0,13.23-5.5,13.23-12.11s-5.51-12.109-13.23-12.109h-549.9A12.11,12.11,0,1,0,710.888,159.958Zm0,158.52H894.925V933.845c0,6.605,5.51,12.11,13.224,12.11a12.224,12.224,0,0,0,12.122-12.11V304.167a12.223,12.223,0,0,0-12.122-12.109H710.888a12.223,12.223,0,0,0-12.122,12.109C698.766,311.873,704.276,318.478,710.888,318.478ZM1418.37,893.114h0c44.08,22.017,85.95,36.328,125.63,45.135,200.56,47.336,377.99-38.53,377.99-237.781s-241.34-239.982-290.93-277.411c-15.43-12.109-24.25-29.722-24.25-46.235-1.1-37.428,28.65-57.243,61.72-61.646,51.79-5.5,119.01,15.411,157.58,30.823,15.43,6.6,25.35-16.513,9.92-23.118-63.92-26.42-113.51-36.327-166.4-33.025-50.7,2.2-90.37,39.63-88.16,90.269,6.61,100.176,143.26,79.26,251.26,180.537,93.67,85.865,77.14,223.47,2.2,299.427-98.08,97.975-276.61,77.059-403.34,11.009C1416.16,863.392,1404.04,885.409,1418.37,893.114Zm437.5-728.753h0c-51.8-17.613-91.47-26.42-122.33-30.823-177.42-24.219-310.76,78.159-310.76,248.789,0,204.755,241.34,233.377,293.13,276.309,25.35,23.118,29.76,62.748,3.31,86.966-55.1,50.639-197.26,9.908-266.69-38.529-13.22-8.807-28.65,11.009-14.33,20.916,70.53,51.739,159.8,69.353,229.22,64.949,51.8-3.3,98.08-39.63,94.78-91.369-6.62-101.277-141.06-82.563-249.06-176.134-94.77-84.764-77.14-224.57-6.61-300.528,87.06-94.672,222.61-78.159,340.52-37.428C1862.48,194.084,1871.3,169.865,1855.87,164.361Z" />
-                    </svg>
+            <React.Fragment>
+                <div className={this.state.resBoardClass}>
+                    <img src={this.state.resPic} />
+                    <div className="res">{this.state.res}</div>
+                    <button type="button" className="res-button" onClick={this.closeRes}>知道了</button>
                 </div>
-                <div className="top">
-                    <div className="quizBlock">
-                        {currentQuiz}
+                <div className={this.state.blurLayer}>
+                </div>
+                <Scalper fake={this.state.scalper} />
+                <Logo />
+                <QuizAnime animeClass={this.state.animeClass} />
+                <div className={this.state.containerClass} >
+                    <div className="top">
+                        <div className="quizBlock">
+                            {currentQuiz}
+                        </div>
+                        <div className="answerBlock">
+                            <div className="note">請在下方答案框輸入答案<br /> * 僅限半形數字，請勿填寫中文</div>
+                            <input type="text" className="quiz-answer" value={this.state.answer} onChange={this.handleChange} />
+                        </div>
+                        <button type="button" className="quiz-button" onClick={this.checkAnswer}>確定</button>
                     </div>
-                    <div className="answerBlock">
-                        <div className="note">請在下方答案框輸入答案<br /> * 僅限半形數字，請勿填寫中文</div>
-                        <input type="text" className="answer" value={this.state.answer} onChange={this.handleChange} />
+                    <div className="counter">
+                        <div className="all">還有：{this.state.quizs.length}</div>
+                        <div className="right">答對：{this.state.rightQuizs.length}</div>
+                        <div className="wrong">答錯：{this.state.wrongQuizs.length}</div>
                     </div>
-                    <button type="button" onClick={this.checkAnswer}>送出</button>
                 </div>
-                <div className="counter">
-                    <div className="all">還有：{this.state.quizs.length}</div>
-                    <div className="right">答對：{this.state.rightQuizs.length}</div>
-                    <div className="wrong">答錯：{this.state.wrongQuizs.length}</div>
-                </div>
-            </div>
+            </React.Fragment>
         )
     }
 }
-
 export default QuizBoard;
