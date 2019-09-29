@@ -26,7 +26,7 @@ p{
     margin: 10px 0 30px;
     font-size: 13px;
 }
-.text{
+.loginText{
     font-size: 20px;
     font-weight: bold;
     text-align: left;
@@ -132,10 +132,6 @@ input{
             opacity: 0;
         }
 } 
-/* @-moz-keyframes fadein {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-} */
 
 @keyframes draw {
         100% {
@@ -157,10 +153,7 @@ input{
     }
 }
 @media(max-width:480px){
-    .loginContainer{
-        width:100%;
-        margin: 10px auto;
-    }
+    
     .login{
         flex-direction: column;
     }
@@ -174,11 +167,7 @@ input{
     .loginZone,.signup{
         display: flex;
         flex-direction: column;
-        width:80%;
+        width:100%;
         margin: 20px auto;
     }
-    .loginButton{
-        margin: 15px auto;
-    }
-    
 }

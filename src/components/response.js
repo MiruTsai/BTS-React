@@ -1,21 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-const Response=()=> {
-    const [ newClass , setClass] =useState('resBG');
-    changeClass(()=>{
-        setClass('resOFF'
-        )
-    })
+const Response = (props) => {
     return (
         <React.Fragment>
-        <div className = {newClass}>
-            <div className={newClass}>
-            </div>
-            <div className='resBoard'>
-                <p></p>
-            </div>
-            <button></button>
-            </div>
+        <div className={props.alertBlock}>
+        <div className="boardTitle">BTS-TMI</div>
+                <div className="alertBoard">
+            <div className="alertText">{props.alertMessage}</div>
+            <button type="button" className="res-button" onClick={()=>props.closeAlert(this)}>OK</button>
+        </div>
+        
+        </div>
+        <div className={props.blurLayer}></div>
         </React.Fragment>
     )
 }

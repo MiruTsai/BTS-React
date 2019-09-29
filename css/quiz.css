@@ -14,7 +14,6 @@
 .blurLayer{
     filter: blur(10px);
     -webkit-filter:blur(10px);
-    /* background-image: url("/img/bg.jpg"); */
     width: 100%;
     height: 100vh;
     position:fixed;
@@ -27,7 +26,6 @@
 .fake{
     display: none;
 }
-
 .top{
     flex-basis: 75%;
     display: flex;
@@ -180,12 +178,12 @@
     display: none;
 }
 .anime{
-    width: 100%;
-    height:100%;
+    width: 100vw;
+    height:100vh;
     position: fixed;
     top:0;
     left:0;
-    z-index: 1000;
+    z-index: 10000;
 }
 .cls-1 {
     width: 95%;
@@ -288,7 +286,7 @@ span{
     .pic_quiz_img{
         width:70%;
     }
-    .container,.hideContainer{
+    .quizContainer,.hideContainer{
         width:80%;
         flex-wrap: wrap;
     }
@@ -312,7 +310,7 @@ span{
     .quiz,.pic_quiz_title{
         font-size: 1.5em;
     }
-    .container,.hideContainer{
+    .quizContainer,.hideContainer{
         width: 100%;
         padding: 15px 30px;
         margin:0 auto;

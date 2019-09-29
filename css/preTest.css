@@ -1,15 +1,21 @@
 *{
     font-family:"Noto Sans TC", "微軟正黑體", "新細明體", arial, sans-serif;
 }
-
-.container{
+.hideContainer{
     display: none;
+}
+
+.hideLogo{
+    display: none;
+}
+.preContainer{
     margin: 30px auto;
     width:70%;
     background: white;
     padding:30px;
     align-items: center;
 }
+
 .top{
     flex-basis: 75%;
     display: flex;
@@ -48,28 +54,19 @@
     width:70%;   
     margin:0 auto;
 }
-.countDown{
-    display: none;
-    position: fixed;
-    bottom:100px;
-    right: 100px;
-    background-color: #ffe65d;
-    border-radius: 50%;
-    width:100px;
-    height: 100px;
-    font-family: Arial, Helvetica, sans-serif;
-    line-height:100px;
-    text-align: center;
-    font-size: 2rem;
-}
-.failpic{
-    position: absolute;
-    display: none;
+.resPic{
+    position: fixed; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
     z-index: 1000;
-    top:50%;
     width: 100%;
     height: 100vh;
-    text-align: center;
+    vertical-align: center;
+    background-color: black;
+}
+.hideResPic{
+    display: none;
 }
 @keyframes scaleDraw {  /*定义关键帧、scaleDrew是需要绑定到选择器的关键帧名称*/
     0%{
@@ -97,51 +94,76 @@
 span{
     font-size: 10px;
 }
-button{
+.sendAnswer,.openAgain{
     width:100px;
     background-color: #ffe65d;
     padding:5px 20px;
 }
-input{
+.hideSendAnswer{
+    display: none;
+}
+.quiz-answer{
     margin:20px 0;
 }
-.loading{
-    position: absolute;
-    display: none;
+.preloading{
+    background-color: black;
+    position: fixed;
     z-index: 1000;
-    top:50%;
+    top:0;
+    left:0;
     width: 100%;
     height: 100vh;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-.mask{
+.hideLoading{
+    display: none;
+    position: fixed;
+    z-index: 1000;
+}
+.preTestMask{
     background-color: black;
     position: fixed;
-    display: block;
+    display: flex;
     width: 100vw;
     height: 100vh;
-    text-align: center;
-    display: none;
+    justify-content: center;
+    align-items: center;
     background-size:cover;
     background-repeat: no-repeat; 
 }
-.getPic{
+.hideMask{
     display: none;
-    width:100%;
-    margin: auto;
+    position: fixed;
+    z-index: 1000;
+}
+
+.hideget{
+    display: none;
 }
 .timer{
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
     position: fixed;
+    z-index: 1000;
+    display: flex;
     width:100%;
     height: 100vh;
     font-size: 200px;
     color:white;
-    margin:0 auto;
-    text-align: center;
-    display: block;
+    align-items: center;
+    justify-content: center;
     background-color: black;
+}
+.response{
+    position: absolute;
+    background: white;
+    z-index: 1000;
+}
+.hideTimer{
+    display: none;
 }
 .board{
     text-align: center;
@@ -150,11 +172,27 @@ input{
 .again{
     display: none;
 }
+.openAgain{
+    display: block;
+}
+
+/* explain */
+.explainPage{
+    background-color:rgba(0, 0, 0, 0.5);
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+
 @media(max-width:800px){
     .pic_quiz_img{
         width:70%;
     }
-    .container{
+    .preContainer{
         width:80%;
         flex-wrap: wrap;
     }
@@ -171,7 +209,7 @@ input{
     .quiz,.pic_quiz_title{
         font-size: 1.5em;
     }
-    .container{
+    .preContainer{
         width: 100%;
         padding: 15px 30px;
         margin:0 auto;

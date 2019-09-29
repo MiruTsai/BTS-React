@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import '../../css/login.css';
-import Logo from './logo';
 import SignInAnime from './signInAnime';
+import Response from './response';
+import { Link } from 'react-router-dom';
 
 class Login extends Component {
     state = {
@@ -33,7 +34,7 @@ class Login extends Component {
         if (this.state.status === "signIn") {
             loginZone = <div className="login">
                 <div className="loginZone">
-                    <div className="text">會員登入</div>
+                    <div className="loginText">會員登入</div>
                     <p>請輸入您的會員帳號</p>
                     <div className="text2">帳號</div>
                     <input type="text" id="signInEmail" name="email" placeholder="請輸入您的 E-mail" value={this.state.email} onChange={this.updateInput} />
@@ -46,7 +47,7 @@ class Login extends Component {
             </div>
         } else {
             loginZone = < div className="signup" >
-                <div className="text">會員申請</div>
+                <div className="loginText">會員申請</div>
                 <p>加入會員享受更多方便功能</p>
                 <div className="text2">姓名</div>
                 <input type="text" id="signUpName" name="userName" placeholder="請輸入您的姓名" onChange={this.updateInput} />
@@ -59,8 +60,11 @@ class Login extends Component {
         }
         return (
             <React.Fragment>
-				<SignInAnime animeClass={this.props.animeClass}/>
-                <Logo />
+                <Response alertMessage={this.props.alertMessage} alertBlock={this.props.alertBlock} blurLayer={this.props.blurLayer} closeAlert={() => this.props.closeAlert(this)} />
+                <SignInAnime animeClass={this.props.animeClass} />
+                <Link to="/">
+                    <img src="/../img/LOGO.png" className="loginLogo" />
+                </Link>
                 <div className={this.props.loginContainerClass}>
                     <div className="sign">
                         <button className="loginButton" onClick={this.signInSide}>會員登入</button>

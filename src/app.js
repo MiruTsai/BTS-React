@@ -20,51 +20,82 @@ const root = document.querySelector('.root');
 class App extends Component {
     state = {
         userUid: '',
-        animeClass:'hideAnime',
-        loginContainerClass:'loginContainer'
+        animeClass: 'hideAnime',
+        loginContainerClass: 'loginContainer',
+        alertMessage: '',
+        alertBlock: 'hideAlertBlock',
+        blurLayer: 'hideblurLayer'
     }
 
     signUP = (e) => {
         if (e.state.email.length < 4) {
-            alert('請輸入正確 E-mail 地址');
+            this.setState({
+                alertMessage: '請輸入正確 E-mail 地址',
+                alertBlock: 'alertBlock',
+                blurLayer: 'alertBlurlayer'
+            });
             return;
         }
         if (e.state.password.length < 6) {
-            alert('請輸入大於六位數密碼');
+            this.setState({
+                alertMessage: '請輸入大於六位數密碼',
+                alertBlock: 'alertBlock',
+                blurLayer: 'alertBlurlayer'
+            });
             return;
         }
         fire.auth().createUserWithEmailAndPassword(e.state.email, e.state.password).then(() => {
-             user = fire.auth().currentUser.uid
+            localStorage.setItem('uid', fire.auth().currentUser.uid);
             fire.firestore().collection('MemberShip').doc(user).set({
                 ID: e.state.email,
                 NAME: e.state.userName,
                 rightCounter: 0,
                 wrongCounter: 0
             })
-            localStorage.setItem('uid', user);
-            this.setState({
-                userUid: user,
-                userRightCounter: 0,
-                userWrongCounter: 0,
-                animeClass:'anime fadeAnime',
-                loginContainerClass:'hideLoginContainer'
-            })
+
         }).catch((error) => {
             console.log(error);
+        })
+        fire.firestore().collection("QUIZS").get().then(function (querySnapshot) {
+            querySnapshot.forEach(function (doc) {
+                let x = doc.id;
+                let y = doc.data();
+                y.id = x;
+                newquizs.push(y);
+            });
+        }).catch(function (error) {
+            console.log("Error getting documents: ", error);
+        });
+        let currentUser = localStorage.getItem('uid');
+        this.setState({
+            userUid: currentUser,
+            Quizs: newquizs,
+            userRightCounter: 0,
+            userWrongCounter: 0,
+            animeClass: 'anime fadeAnime',
+            loginContainerClass: 'hideLoginContainer'
         })
         setTimeout(function () { e.props.history.push('/') }, 3700)
     }
 
-    login = (childrendata) => {
-        if (childrendata.state.email.length < 4) {
-            alert('請輸入正確E-mail地址');
+    login = (a) => {
+        if (a.state.email.length < 4) {
+            this.setState({
+                alertMessage: '請輸入正確E-mail地址',
+                alertBlock: 'alertBlock',
+                blurLayer: 'alertBlurlayer'
+            })
             return;
         }
-        if (childrendata.state.password.length < 6) {
-            alert('請輸入正確密碼');
+        if (a.state.password.length < 6) {
+            this.setState({
+                alertMessage: '請輸入正確密碼',
+                alertBlock: 'alertBlock',
+                blurLayer: 'alertBlurlayer'
+            })
             return;
         }
-        fire.auth().signInWithEmailAndPassword(childrendata.state.email, childrendata.state.password).then(() => {
+        fire.auth().signInWithEmailAndPassword(a.state.email, a.state.password).then(() => {
             user = fire.auth().currentUser.uid
             localStorage.setItem('uid', user);
             fire.firestore().collection('MemberShip').doc(user).get().then((doc) => {
@@ -94,57 +125,89 @@ class App extends Component {
         }).catch(function (error) {
             console.log("Error getting documents: ", error);
         });
-        this.setState({ 
-            Quizs: newquizs, 
+        this.setState({
+            Quizs: newquizs,
             userUid: user,
             userRightCounter: userRightCounter,
             userWrongCounter: userWrongCounter,
-            animeClass:'anime fadeAnime',
-            loginContainerClass:'hideLoginContainer'
+            animeClass: 'anime fadeAnime',
+            loginContainerClass: 'hideLoginContainer'
         })
-        setTimeout(function () { childrendata.props.history.push('/') }, 3700)
+        setTimeout(function () { a.props.history.push('/') }, 3700)
     }
-
-
+    logOut = (e) => {
+        fire.auth().signOut().then(function () {
+            localStorage.clear();
+            this.setState({
+                userUid: ''
+            })
+            e.props.history.push('/')
+        }).catch(function (error) {
+            alert('Oh no! 哪裡出錯了！')
+        });
+    }
     authListener = (e) => {
         let user = this.state.userUid
         if (user === '') {
-            e.props.history.push('/profile')
+            e.props.history.push('/login')
         } else {
             e.props.history.push('/profile')
         }
     }
 
     quizEntry = (e) => {
-        let user = this.state.userUid
-        if (user === '') {
-            alert('請登入會員');
-            e.props.history.push('/login');
+        if (this.state.userUid === '') {
+            this.setState({
+                alertMessage: '請登入會員',
+                alertBlock: 'alertBlock',
+                blurLayer: 'alertBlurlayer'
+            })
         } else {
             e.props.history.push('/quizboard');
         }
     }
     preTestEntry = (e) => {
-        let user = this.state.userUid
-        console.log(e)
-        if (user === '') {
-            alert('請登入會員');
-            e.props.history.push('/login');
+        if (this.state.userUid === '') {
+            this.setState({
+                alertMessage: '請登入會員',
+                alertBlock: 'alertBlock',
+                blurLayer: 'alertBlurlayer'
+            })
         } else {
-        e.props.history.push('/preTest');
-        }    
+            e.props.history.push('/preTest');
+        }
     }
+
+    closeAlert = (e) => {
+        if (this.state.userUid === '') {
+            e.props.history.push('/login');
+            this.setState({
+                alertMessage: '',
+                alertBlock: 'hideAlertBlock',
+                blurLayer: 'hideBlurLayer'
+            })
+        } else {
+            this.setState({
+                alertMessage: '',
+                alertBlock: 'hideAlertBlock',
+                blurLayer: 'hideBlurLayer'
+            })
+        }
+    }
+
     render() {
-        console.log('indextest')
         return (
-                <BrowserRouter>
-                    <Route exact path="/" render={(props) => <Index {...props} auth={this.authListener} quizEntry={this.quizEntry} preTestEntry={this.preTestEntry} />} />
-                    <Route path="/login" render={(props) => <Login {...props} login={this.login} signUP={this.signUP} userUid={this.state.userUid} animeClass={this.state.animeClass} loginContainerClass={this.state.loginContainerClass}/>} />
-                    <Route path="/profile" render={(props) => <Profile {...props} userUid={this.state.userUid} />} />
-                    <Route path="/quizboard" render={(props) => <QuizBoard {...props} quizs={this.state.Quizs} userUid={this.state.userUid} userRightCounter={this.state.userRightCounter} userWrongCounter={this.state.userWrongCounter} />} />
-                    <Route path="/Addquiz" component={Addquiz} />
-                    <Route path="/preTest" render={(props) => <PreTest {...props} quizs={this.state.Quizs} />} />
-                </BrowserRouter>
+            <BrowserRouter>
+                <Route exact path="/" render={(props) => <Index {...props} auth={this.authListener} quizEntry={this.quizEntry} preTestEntry={this.preTestEntry}
+                    alertMessage={this.state.alertMessage} alertBlock={this.state.alertBlock} blurLayer={this.state.blurLayer} closeAlert={this.closeAlert} />} />
+                <Route path="/login" render={(props) => <Login {...props}
+                    alertMessage={this.state.alertMessage} alertBlock={this.state.alertBlock} blurLayer={this.state.blurLayer} closeAlert={this.closeAlert}
+                    login={this.login} signUP={this.signUP} userUid={this.state.userUid} animeClass={this.state.animeClass} loginContainerClass={this.state.loginContainerClass} />} />
+                <Route path="/profile" render={(props) => <Profile {...props} userUid={this.state.userUid} logOut={this.logOut}/>} />
+                <Route path="/quizboard" render={(props) => <QuizBoard {...props} quizs={this.state.Quizs} userUid={this.state.userUid} userRightCounter={this.state.userRightCounter} userWrongCounter={this.state.userWrongCounter} />} />
+                <Route path="/Addquiz" component={Addquiz} />
+                <Route path="/preTest" render={(props) => <PreTest {...props} quizs={this.state.Quizs} />} />
+            </BrowserRouter>
         )
     }
 }

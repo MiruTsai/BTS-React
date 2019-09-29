@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import '../../css/quiz.css';
 import fire from '../fire';
-import Logo from './logo';
 import QuizAnime from './quizanime';
 import Scalper from './scalper';
+import { Link } from 'react-router-dom';
 let currentQuiz;
 let index;
 let answer;
@@ -27,8 +27,8 @@ class QuizBoard extends React.Component {
         blurLayer: 'hideBlurLayer',
         res: '',
         scalper: 'hideScalper',
-        rightResponse: ["group_right_1.gif", "group_right_2.gif", "group_right_3.gif", "group_right_7.gif", "jhope_right_1.gif", "jin_right_1.gif", "jin_right_2.gif", "jimin_right_1.gif", "jk_right_1.gif", "jk_right_2.gif", "rm_right_1.gif", "v_right_1.gif"],
-        wrongResponse: ["group_wrong_1.gif", "jhope_wrong_1.gif", "jhope_wrong_2.gif", "jhope_wrong_3.gif", "jin_wrong_1.gif", "jin_wrong_2.gif", "jin_wrong_3.gif", "jk_wrong_1.gif", "suga_wrong_1.gif", "v_wrong_1.gif", "jimin_wrong_1.gif"],
+        rightResponse: ["group_right_1.gif", "group_right_2.gif", "group_right_3.gif", "jhope_right_1.gif","jimin_right_1.gif", "jin_right_1.gif", "jin_right_2.gif", "jk_right_1.gif", "jk_right_2.gif", "rm_right_1.gif", "rm_right_2.gif","suga_right_1.gif","suga_right_1.gif","v_right_1.gif","v_right_2.gif"],
+        wrongResponse: ["group_wrong_1.gif", "group_wrong_2.gif","jhope_wrong_1.gif", "jhope_wrong_3.gif", "jhope_wrong_4.gif", "jimin_wrong_1.gif", "jimin_wrong_2.gif","jin_wrong_1.gif", "jin_wrong_2.gif", "jin_wrong_3.gif", "jk_wrong_1.gif", "suga_wrong_1.gif","suga_wrong_2.gif", "rm_wrong_1.gif"],
     }
     componentDidMount = () => {
         wrongSound = new Audio();
@@ -45,6 +45,7 @@ class QuizBoard extends React.Component {
             })
         }
             , 2000)
+            fire.storage
     }
     handleChange = (e) => {
         e.preventDefault()
@@ -61,11 +62,11 @@ class QuizBoard extends React.Component {
                 userRightCounter: this.state.userRightCounter + 1,
                 rightQuizs: [...this.state.rightQuizs, this.state.quizs[index]],
                 quizs: this.state.quizs.filter(p => p.QUIZ !== this.state.quizs[index].QUIZ),
-                containerClass: 'hideContainer',
                 res: '答對了！',
                 resBoardClass: 'resBoard',
-                blurLayer: 'blurLayer',
-                resPic: '../../img/right/' + this.state.rightResponse[rightResIndex]
+                resPic: '../../img/right/' + this.state.rightResponse[rightResIndex],
+                containerClass: 'hideContainer',
+                blurLayer: 'blurLayer'
             })
             fire.firestore().collection('MemberShip').doc(this.props.userUid).update({
                 rightCounter: this.state.userRightCounter,
@@ -86,9 +87,9 @@ class QuizBoard extends React.Component {
                 quizs: this.state.quizs.filter(p => p.QUIZ !== this.state.quizs[index].QUIZ),
                 res: '錯了！答案是' + this.state.quizs[index].ANSWER,
                 resBoardClass: 'resBoard',
+                resPic: '../../img/wrong/' + this.state.wrongResponse[wrongResIndex],
                 containerClass: 'hideContainer',
-                blurLayer: 'blurLayer',
-                resPic: '../../img/wrong/' + this.state.wrongResponse[wrongResIndex]
+                blurLayer: 'blurLayer'
             })
             fire.firestore().collection('MemberShip').doc(this.props.userUid).update({
                 wrongCounter: this.state.userWrongCounter,
@@ -103,7 +104,8 @@ class QuizBoard extends React.Component {
         this.setState({
             resBoardClass: 'hideResBoard',
             containerClass: 'quizContainer',
-            blurLayer: 'hideBlurLayer'
+            blurLayer: 'hideBlurLayer',
+            resPic:''
         })
         if (this.state.wrongQuizs.length === 5) {
             this.setState({
@@ -169,7 +171,9 @@ class QuizBoard extends React.Component {
                 <div className={this.state.blurLayer}>
                 </div>
                 <Scalper fake={this.state.scalper} />
-                <Logo />
+                <Link to="/">
+                    <img src="/../img/LOGO.png" className="quizLogo" />
+                </Link>
                 <QuizAnime animeClass={this.state.animeClass} />
                 <div className={this.state.containerClass} >
                     <div className="top">
