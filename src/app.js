@@ -12,9 +12,8 @@ import fire from './fire';
 import '../css/common.css';
 import '../css/hover-min.css';
 let newquizs = [];
-let userRightCounter;
-let userWrongCounter;
-let user
+let newUserQuizs = [];
+let user;
 const root = document.querySelector('.root');
 
 class App extends Component {
@@ -46,13 +45,15 @@ class App extends Component {
         }
         fire.auth().createUserWithEmailAndPassword(e.state.email, e.state.password).then(() => {
             localStorage.setItem('uid', fire.auth().currentUser.uid);
-            fire.firestore().collection('MemberShip').doc(user).set({
+            fire.auth().currentUser.sendEmailVerification().then(function() {
+               console.log('success');
+            })
+            fire.firestore().collection('MemberShip').doc(fire.auth().currentUser.uid).set({
                 ID: e.state.email,
                 NAME: e.state.userName,
                 rightCounter: 0,
                 wrongCounter: 0
             })
-
         }).catch((error) => {
             console.log(error);
         })
@@ -61,27 +62,29 @@ class App extends Component {
                 let x = doc.id;
                 let y = doc.data();
                 y.id = x;
-                newquizs.push(y);
+                newUserQuizs.push(y);
             });
         }).catch(function (error) {
             console.log("Error getting documents: ", error);
         });
-        let currentUser = localStorage.getItem('uid');
+        console.log('test', newUserQuizs)
+        let currentUser = fire.auth().currentUser.uid;
+        localStorage.setItem('uid', currentUser);
         this.setState({
             userUid: currentUser,
-            Quizs: newquizs,
             userRightCounter: 0,
             userWrongCounter: 0,
             animeClass: 'anime fadeAnime',
-            loginContainerClass: 'hideLoginContainer'
+            loginContainerClass: 'hideLoginContainer',
+            Quizs: newUserQuizs
         })
-        setTimeout(function () { e.props.history.push('/') }, 3700)
+        setTimeout(function () { e.props.history.push('/') }, 5700)
     }
 
     login = (a) => {
         if (a.state.email.length < 4) {
             this.setState({
-                alertMessage: '請輸入正確E-mail地址',
+                alertMessage: '請輸入正確 E-mail 地址',
                 alertBlock: 'alertBlock',
                 blurLayer: 'alertBlurlayer'
             })
@@ -98,17 +101,8 @@ class App extends Component {
         fire.auth().signInWithEmailAndPassword(a.state.email, a.state.password).then(() => {
             user = fire.auth().currentUser.uid
             localStorage.setItem('uid', user);
-            fire.firestore().collection('MemberShip').doc(user).get().then((doc) => {
-                if (doc.exists) {
-                    let userInfo = doc.data()
-                    userRightCounter = userInfo.rightCounter;
-                    userWrongCounter = userInfo.wrongCounter;
-                }
-                this.setState({
-                    userUid: user,
-                    userRightCounter: userRightCounter,
-                    userWrongCounter: userWrongCounter,
-                })
+            this.setState({
+                userUid: user,
             })
         }).catch((error) => {
             console.log(error);
@@ -128,23 +122,10 @@ class App extends Component {
         this.setState({
             Quizs: newquizs,
             userUid: user,
-            userRightCounter: userRightCounter,
-            userWrongCounter: userWrongCounter,
             animeClass: 'anime fadeAnime',
             loginContainerClass: 'hideLoginContainer'
         })
-        setTimeout(function () { a.props.history.push('/') }, 3700)
-    }
-    logOut = (e) => {
-        fire.auth().signOut().then(function () {
-            localStorage.clear();
-            this.setState({
-                userUid: ''
-            })
-            e.props.history.push('/')
-        }).catch(function (error) {
-            alert('Oh no! 哪裡出錯了！')
-        });
+        setTimeout(function () { a.props.history.push('/') }, 5700)
     }
     authListener = (e) => {
         let user = this.state.userUid
@@ -199,14 +180,16 @@ class App extends Component {
         return (
             <BrowserRouter>
                 <Route exact path="/" render={(props) => <Index {...props} auth={this.authListener} quizEntry={this.quizEntry} preTestEntry={this.preTestEntry}
-                    alertMessage={this.state.alertMessage} alertBlock={this.state.alertBlock} blurLayer={this.state.blurLayer} closeAlert={this.closeAlert} />} />
+                    alertMessage={this.state.alertMessage} alertBlock={this.state.alertBlock} blurLayer={this.state.blurLayer} closeAlert={this.closeAlert} />}
+                    userUid={this.state.userUid}
+                />
                 <Route path="/login" render={(props) => <Login {...props}
                     alertMessage={this.state.alertMessage} alertBlock={this.state.alertBlock} blurLayer={this.state.blurLayer} closeAlert={this.closeAlert}
                     login={this.login} signUP={this.signUP} userUid={this.state.userUid} animeClass={this.state.animeClass} loginContainerClass={this.state.loginContainerClass} />} />
-                <Route path="/profile" render={(props) => <Profile {...props} userUid={this.state.userUid} logOut={this.logOut}/>} />
-                <Route path="/quizboard" render={(props) => <QuizBoard {...props} quizs={this.state.Quizs} userUid={this.state.userUid} userRightCounter={this.state.userRightCounter} userWrongCounter={this.state.userWrongCounter} />} />
-                <Route path="/Addquiz" component={Addquiz} />
-                <Route path="/preTest" render={(props) => <PreTest {...props} quizs={this.state.Quizs} />} />
+                <Route path="/profile" render={(props) => <Profile {...props} userUid={this.state.userUid} logOut={this.logOut} />} />
+                <Route path="/quizboard" render={(props) => <QuizBoard {...props} quizs={this.state.Quizs} userUid={this.state.userUid} />} />
+                <Route path="/Addquiz" component={Addquiz} closeAlert={this.closeAlert} />
+                <Route path="/preTest" render={(props) => <PreTest {...props} quizs={this.state.Quizs} closeAlert={this.closeAlert} />} />
             </BrowserRouter>
         )
     }
@@ -215,6 +198,5 @@ class App extends Component {
 ReactDOM.render(
     <App />
     , root);
-
 
 export default withRouter(App)

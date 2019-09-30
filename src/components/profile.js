@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import '../../css/common.css';
 import '../../css/main.css';
 import fire from '../fire';
-import Logo from './logo';
+
 let userName;
 let userID;
 let userRightCounter;
@@ -39,7 +39,9 @@ class Profile extends Component {
 
     return (
       <React.Fragment>
-        <Logo />
+        <Link to="/">
+                    <img src="/../img/LOGO.png" className="profileLogo" />
+                </Link>
         <div className="proContainer">
           <div className="profile">
             <div className="profileZone">
@@ -58,7 +60,6 @@ class Profile extends Component {
               <Link to='/addquiz'>
                 <button type="button" className="profile-btn hvr-push">我要出題</button>
               </Link>
-              <button type="button" onClick={()=>{this.props.logOut()}} className="profile-btn hvr-push">登出會員</button>
             </div>
 
             <Chart

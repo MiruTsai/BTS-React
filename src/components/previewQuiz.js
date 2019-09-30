@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 let num=1;
-
+let preview;
 const PreviewQuiz = (props) => {
     const { OPTIONS, QUIZ, QUIZPIC, TAG } = props
-    let preview;
-    const options = OPTIONS.map((option, num) => {
+    const previewOptions = OPTIONS.map((option, num) => {
         return (
-            <div className="option" key={Math.random()}> ( {num + 1} ) {option} </div>
+            <div className="option" key={Math.random()}> ( {num + 1} ) <span className="answerValue"> {option} </span></div>
         )
     })
     const picOption = OPTIONS.map((option, num) => {
@@ -20,8 +19,8 @@ const PreviewQuiz = (props) => {
         preview =
             <React.Fragment>
                 <div className="quiz">{QUIZ}</div>
-                <div className="options">
-                    {options}
+                <div className="pre-options">
+                    {previewOptions}
                 </div>
             </React.Fragment>
     } else if (TAG === "picture") {
@@ -37,16 +36,15 @@ const PreviewQuiz = (props) => {
             <React.Fragment>
                 <div className="pic_quiz_title">{QUIZ}</div>
                 <img src={QUIZPIC} className='pic_quiz_img hvr-grow' />
-                <div className="options">
-                    {options}
+                <div className="pre-options">
+                    {previewOptions}
                 </div>
             </React.Fragment>
     }
     return (
         <React.Fragment>
-        <button type="button" className="backQuiz-button" onClick={props.backStatus} >返回出題頁</button>
+        <button type="button" className="backQuiz-button" onClick={props.backStatus} >返回</button>
         {preview}
-        
         </React.Fragment>
 )}
 export default PreviewQuiz

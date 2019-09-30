@@ -5,6 +5,7 @@
 .loginContainer{
     margin: 0 auto;
     width:50%;
+    height:580px;
     background: white;
     position: absolute;
     top:50%;
@@ -19,11 +20,16 @@
     width: 100%;
     height: auto;
 }
+.loginLogo{
+    margin:10px;
+    width: 70px;
+}
 .login{
     margin: auto;
 }
-p{
-    margin: 10px 0 30px;
+.subtext
+{
+    margin: 10px 0 40px;
     font-size: 13px;
 }
 .loginText{
@@ -90,16 +96,16 @@ input{
 
 /* animation */
 .anime{
-    width: 100%;
-    height:100%;
+    width: 100vh;
+    height:100vw;
     position: fixed;
     top:0;
     left:0;
     z-index: 1000;
 }
 .fadeAnime{
-    -moz-animation: fadein 4s linear;
-    animation: fadein 4s linear;
+    -moz-animation: fadein 6s linear;
+    animation: fadein 6s linear;
 }
 
 .hideAnime{
@@ -111,10 +117,10 @@ input{
       fill-rule: evenodd;
       opacity: 1;
       stroke:white;
-      stroke-dashoffset:1940;
-      stroke-dasharray:1940;
+      stroke-dashoffset:2540;
+      stroke-dasharray:2540;
       animation-delay: 1.2s;
-      animation: draw 4s linear;
+      animation: draw 6s linear;
       stroke-width: 5;
     }
     
@@ -147,9 +153,13 @@ input{
 @media(max-width:800px){
     .loginContainer{
         width:90%;
+        margin-top:50px;
     }
     .signButton{
         width: 50%;
+    }
+    .loginLogo{
+        width:60px;
     }
 }
 @media(max-width:480px){

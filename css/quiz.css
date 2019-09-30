@@ -47,7 +47,10 @@
 .wrong{
     color:#FF6B82
 }
-
+.quizLogo{
+    margin:10px;
+    width: 70px;
+}
 .quiz,.pic_quiz_title{
     font-size: 2em;
     font-weight: 800;
@@ -73,22 +76,37 @@
     color: white;
     font-size:1em; 
 }
+
+.layer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    border:2px solid #415159;
+}
+.board-Title{
+    color:white;
+    font-family: Metropolis;
+    font-size: 40px;
+}
 .res{
     font-size: 20px;
-    margin:20px 0;
-}
+    margin:20px;
+    color:#415159;
 
-.res-button{
+}
+.qres-button{
     width:100px;
-    background-color:#a6c1ee;
+    background: #ffe65d;
     padding:5px 20px;
+    margin-bottom:20px;
     border: 1px solid rgba(0,0,0,0.21);
     border-bottom: 4px solid rgba(0,0,0,0.1);
-    border-radius: 4px;
     text-shadow: 0 1px 0 rgba(0,0,0,0.15);
 }
-.res-button:active{
-    background: #9af1ee;   
+.qres-button:active{
+    background: #DBC05B;
 } 
 @keyframes popUp {  /*定义关键帧、scaleDrew是需要绑定到选择器的关键帧名称*/
     from { transform: scale(0) }
@@ -109,6 +127,14 @@
 .option{
     flex-basis: 50%;
     margin: 20px 0;
+    display: flex;
+    align-items: center;
+
+}
+.answerValue{
+    font-weight: bold;
+    font-size: 22px;
+    padding-left:20px;
 }
 .picOption{
     flex-basis: 40%;
@@ -125,8 +151,7 @@
     border-radius: 8px;
 }
 .pic_quiz_img{
-    width:70%;
-    margin:0 auto;
+    max-height: 400px;
 }
 /*scalper*/
 .hideScalper{
@@ -248,6 +273,7 @@ span{
     width:100px;
     background-color: #ffe65d;
     padding:5px 20px;
+    margin-top: 10px;
     border: 1px solid rgba(0,0,0,0.21);
     border-bottom: 4px solid rgba(0,0,0,0.1);
     border-radius: 4px;
@@ -283,8 +309,11 @@ span{
 }
 
 @media(max-width:800px){
+    .quizLogo{
+        width: 60px;
+    }
     .pic_quiz_img{
-        width:70%;
+        max-height: 400px;
     }
     .quizContainer,.hideContainer{
         width:80%;

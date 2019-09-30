@@ -94,11 +94,12 @@ input{
 }
 
 .preAddContainer{
-    display: block;
-    position: relative;
-    margin: auto;
     width:70%;
     background: white;
+    padding:30px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
 }
 .addpic{
     text-align: center;
@@ -180,7 +181,11 @@ button{
     flex-basis: 50%;
     margin: 20px 0;
 }
-
+.pre-options{
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;     
+}
 .previewButton{
     display: none;
     position: absolute;
@@ -201,7 +206,7 @@ button{
     border-radius: 8px;
 }
 .pic_quiz_img{
-    width:70%;
+    max-height: 400px;
     margin:0 auto;
 }
 @keyframes scaleDraw {  

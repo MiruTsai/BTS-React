@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import '../../css/preTest.css'
+import { Link } from 'react-router-dom';
 let answer;
 let index;
 let currentQuiz;
@@ -7,6 +8,7 @@ let seconds = 0;
 let randomTime;
 let getSound;
 let failSound;
+let countDown;
 
 class PreTest extends Component {
     state = {
@@ -17,10 +19,9 @@ class PreTest extends Component {
         logoClass: 'hideLogo',
         containerClass: 'hideContainer',
         sendButtonClass: 'sendAnswer',
-        againButtonClass: 'again',
-        resBoardClass:'hideResBoard',
-        resPic:'resPic',
-        response:''
+        resBoardClass: 'hideResBoard',
+        resPic: 'resPic',
+        alertBlockClass: 'hideAlertBlock'
     }
     componentDidMount = () => {
         getSound = new Audio();
@@ -39,85 +40,102 @@ class PreTest extends Component {
     handleChange = (e) => {
         answer = e.target.value
     }
-    checkAnswer = (props) => {
+    checkAnswer = () => {
+        console.log(this)
         this.setState({ loadingClass: 'preloading' });
         randomTime = Math.floor(Math.random() * 10000)
-        console.log('random', randomTime)
-
-        if (answer === this.state.quizs[index].ANSWER) {       
+        if (answer === this.state.quizs[index].ANSWER) {
             if (seconds < 8) {
                 setTimeout(() => {
                     this.setState({
+                        logoClass: 'hideLogo',
                         loadingClass: 'hideLoading',
                         maskClass: 'preTestMask',
                         sendButtonClass: 'hideSendAnswer',
                         containerClass: 'hideContainer',
-                        resPic:'../../img/concert2S.jpg',
-                        res:''
+                        resPic: '../../img/concert2S.jpg',
+                        response: ''
                     })
-                    getSound.play()
+                    getSound.play();
+                    setTimeout(() => {
+                        this.props.history.push('/')
+                    }, 7000)
+                    clearInterval(countDown);
                 }, randomTime)
-                setTimeout(() => {
-                props.history.push('/')
-                },7000)
+
             } else {
                 setTimeout(() => {
                     this.setState({
+                        logoClass: 'hideLogo',
                         loadingClass: 'hideLoading',
                         maskClass: 'preTestMask',
                         sendButtonClass: 'hideSendAnswer',
                         containerClass: 'hideContainer',
-                        resPicClass:'preTestMask',
-                        resPic:'../../img/fail.gif',
-                        res:'手腳太慢了被搶走了'
+                        resPicClass: 'preTestMask',
+                        resPic: '../../img/fail.gif',
+                        response: '手腳太慢了被搶走了'
                     })
                     failSound.play();
+                    setTimeout(() => {
+                        this.setState({
+                            alertBlockClass: 'alertBlock',
+
+                        })
+                    }, 7000)
+                    clearInterval(countDown);
+
                 }, randomTime)
-                setTimeout(() =>{
-                    props.history.push('/quizboard')
-                    },7000)
             }
         } else {
             setTimeout(() => {
                 this.setState({
+                    logoClass: 'hideLogo',
                     loadingClass: 'hideLoading',
                     maskClass: 'preTestMask',
-                    againButtonClass: 'openAgain',
                     sendButtonClass: 'hideSendAnswer',
                     containerClass: 'hideContainer',
-                    resPic:'../../img/fail.gif',
-                    resPicClass:'preTestMask',
-                    response:'票券已完售'
+                    resPic: '../../img/fail.gif',
+                    resPicClass: 'preTestMask',
+                    response: '票券已完售'
                 })
                 failSound.play();
+                setTimeout(() => {
+                    this.setState({
+                        alertBlockClass: 'alertBlock',
+                    })
+                }, 7000)
+                clearInterval(countDown);
             }, randomTime)
-            setTimeout(() => {
-                props.history.push('/quizboard')
-                },7000)
+
+            seconds = 0;
         }
-        seconds=0;
     }
-    again = () => {
+    oneMoreTime = () => {
         this.setState({
+            alertBlockClass: 'hideAlertBlock',
             timerClass: 'timer',
             containerClass: 'hideContainer',
-            logoClass: 'hideLogo',
-            sendButtonClass: 'sendAnswer',
-            againButtonClass: 'again'
+            sendButtonClass: 'sendAnswer'
         })
         setTimeout(() => {
             this.setState({
                 containerClass: 'preContainer',
-                logoClass: 'logo',
+                maskClass: 'hideMask',
+                logoClass: 'preTestlogo',
                 timerClass: 'hideTimer',
-                resPic:'hideResPic',
+                resPicClass: 'hidemask',
+                resPic: 'hideResPic',
             })
         }, 5000);
+        clearInterval(countDown);
     }
-
+    backToIndex = () => {
+        clearInterval(countDown);
+        this.props.history.push('/')
+    }
     render() {
         seconds = 0
-        setInterval(() => {
+        countDown = setInterval(() => {
             seconds++
             console.log(seconds)
         }, 1000);
@@ -163,6 +181,16 @@ class PreTest extends Component {
         }
         return (
             <React.Fragment>
+                <Link to="/">
+                    <img src="/../img/LOGO.png" className={this.state.logoClass} />
+                </Link>
+                <div className={this.state.alertBlockClass}>
+                    <div className="boardTitle">BTS-TMI</div>
+                    <div className="pre-alertBoard">
+                        <button type="button" className="preRes-button" onClick={() => this.oneMoreTime()}>再玩一次</button>
+                        <button type="button" className="preRes-button" onClick={() => this.backToIndex()}>回首頁</button>
+                    </div>
+                </div>
                 <div className={this.state.loadingClass}>
                     <img src="../../img/loading.gif" />
                 </div>
@@ -181,7 +209,6 @@ class PreTest extends Component {
                             <input type="text" className="quiz-answer" value={this.state.answer} onChange={this.handleChange} />
                         </div>
                         <button type="button" onClick={this.checkAnswer} className={this.state.sendButtonClass}>送出</button>
-                        <button type="button" onClick={this.again} className={this.state.againButtonClass}>再搶一次</button>
                     </div>
                 </div>
             </React.Fragment>

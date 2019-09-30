@@ -37,6 +37,11 @@
     flex-basis: 50%;
     margin: 20px 0;
 }
+.answerValue{
+    font-weight: bold;
+    font-size: 22px;
+    padding-left:20px;
+}
 .picOption{
     flex-basis: 40%;
     max-height:200px; 
@@ -51,8 +56,7 @@
     border-radius: 8px;
 }
 .pic_quiz_img{
-    width:70%;   
-    margin:0 auto;
+    max-height: 400px;
 }
 .resPic{
     position: fixed; 
@@ -94,7 +98,7 @@
 span{
     font-size: 10px;
 }
-.sendAnswer,.openAgain{
+.sendAnswer,.again{
     width:100px;
     background-color: #ffe65d;
     padding:5px 20px;
@@ -127,6 +131,7 @@ span{
     background-color: black;
     position: fixed;
     display: flex;
+    flex-direction: column;
     width: 100vw;
     height: 100vh;
     justify-content: center;
@@ -158,9 +163,9 @@ span{
     background-color: black;
 }
 .response{
-    position: absolute;
     background: white;
     z-index: 1000;
+    padding:5px 80px;
 }
 .hideTimer{
     display: none;
@@ -169,13 +174,30 @@ span{
     text-align: center;
     vertical-align: center;
 }
-.again{
+.hideAgain{
     display: none;
 }
-.openAgain{
+.again{
     display: block;
 }
-
+.pre-alertBoard{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid navy;
+    width: 500px;
+    height: 200px;
+    background: white;
+}
+.preRes-button{
+    background: #ffe65d;
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid rgba(0,0,0,0.21);
+    border-bottom: 4px solid rgba(0,0,0,0.1);
+    border-radius: 4px;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.15);
+}
 /* explain */
 .explainPage{
     background-color:rgba(0, 0, 0, 0.5);
@@ -189,9 +211,6 @@ span{
 
 
 @media(max-width:800px){
-    .pic_quiz_img{
-        width:70%;
-    }
     .preContainer{
         width:80%;
         flex-wrap: wrap;

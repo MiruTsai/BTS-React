@@ -3,6 +3,7 @@ import React from 'react';
 import fire from '../fire'
 import PreviewQuiz from './previewQuiz';
 import Logo from './logo';
+import Response from './response'
 
 const Description = (props) => {
     return (<div className="description">
@@ -17,6 +18,7 @@ const Description = (props) => {
 }
 
 class NewQuiz extends React.Component {
+
     render() {
         let quizTitle;
         if (this.props.TAG === "picture2") {
@@ -47,22 +49,22 @@ class NewQuiz extends React.Component {
                 {quizTitle}
                 <div className="choice">
                     <div className="text">選擇 1</div>
-                    <input type="text" name="OPT1" id="OPT1" value={this.props.OPTIONS[0]} placeholder="請填入選項，如為圖片型-1請填入網址 ( 建議尺寸 200 x 200 以上 ) " onChange={this.props.updateInput} />
+                    <input type="text" name="OPT1" id="OPT1" value={this.props.OPT1} placeholder="請填入選項，如為圖片型-1請填入網址 ( 建議尺寸 200 x 200 以上 ) " onChange={this.props.updateInput} />
                     <div className="text">選擇 2</div>
-                    <input type="text" name="OPT2" id="OPT2" value={this.props.OPTIONS[1]} placeholder="請填入選項，如為圖片型-1請填入網址 ( 建議尺寸 200 x 200 以上 ) " onChange={this.props.updateInput} />
+                    <input type="text" name="OPT2" id="OPT2" value={this.props.OPT2} placeholder="請填入選項，如為圖片型-1請填入網址 ( 建議尺寸 200 x 200 以上 ) " onChange={this.props.updateInput} />
                     <div className="text">選擇 3</div>
-                    <input type="text" name="OPT3" id="OPT3" value={this.props.OPTIONS[2]} placeholder="請填入選項，如為圖片型-1請填入網址 ( 建議尺寸 200 x 200 以上 ) " onChange={this.props.updateInput} />
+                    <input type="text" name="OPT3" id="OPT3" value={this.props.OPT3} placeholder="請填入選項，如為圖片型-1請填入網址 ( 建議尺寸 200 x 200 以上 ) " onChange={this.props.updateInput} />
                     <div className="text">選擇 4</div>
-                    <input type="text" name="OPT4" id="OPT4" value={this.props.OPTIONS[3]} placeholder="請填入選項，如為圖片型-1請填入網址 ( 建議尺寸 200 x 200 以上 ) " onChange={this.props.updateInput} />
+                    <input type="text" name="OPT4" id="OPT4" value={this.props.OPT4} placeholder="請填入選項，如為圖片型-1請填入網址 ( 建議尺寸 200 x 200 以上 ) " onChange={this.props.updateInput} />
                 </div>
                 <div className="choice answer_zone">
                     <div className="text">答案</div>
-                    <input type="text" name="ANSWER" id="answer" value={this.props.ANSWER} placeholder="請輸入半形數字，勿輸入中文、英文或其他特殊字" onChange={this.props.updateInput} />       
+                    <input type="text" name="ANSWER" id="answer" value={this.props.ANSWER} placeholder="請輸入半形數字，勿輸入中文、英文或其他特殊字" onChange={this.props.updateInput} />
                 </div>
                 <div className="buttonBlock">
-                        <button type="button" className="addquiz-button" onClick={this.props.sendQuiz}>提交</button>
-                        <button type="button" className="preview-button" onClick={this.props.statusChange}>預覽</button>
-                    </div>
+                    <button type="button" className="addquiz-button" onClick={this.props.sendQuiz}>提交</button>
+                    <button type="button" className="preview-button" onClick={this.props.statusChange}>預覽</button>
+                </div>
             </form>
         )
     }
@@ -83,7 +85,10 @@ class Addquiz extends React.Component {
         TAG: 'text',
         rightCounter: 0,
         wrongCounter: 0,
-        review: false
+        review: false,
+        alertMessage: '',
+        alertBlock: 'hideAlertBlock',
+        blurLayer: 'hideblurLayer'
     }
     showGuide = () => {
         this.setState({
@@ -110,7 +115,7 @@ class Addquiz extends React.Component {
             containerClass: 'preAddContainer'
         })
     }
-    backStatus = () =>{
+    backStatus = () => {
         this.setState({
             review: !this.state.review,
             containerClass: 'addContainer'
@@ -118,7 +123,11 @@ class Addquiz extends React.Component {
     }
     sendQuiz = () => {
         if (this.state.ANSWER === '' || this.state.QUIZ === '' || this.state.OPT1 === '' || this.state.OPT2 === '' || this.state.OPT3 === '' || this.state.OPT4 === '') {
-            alert('請填入完整題目訊息')
+            this.setState({
+                alertMessage: '請填入完整題目訊息',
+                alertBlock: 'alertBlock',
+                blurLayer: 'alertBlurlayer'
+            });
             return;
         }
         if (this.state.TAG === "picture2") {
@@ -133,10 +142,23 @@ class Addquiz extends React.Component {
             })
                 .then(function () {
                     console.log("Document successfully written!");
+
                 })
                 .catch(function (error) {
                     console.error("Error writing document: ", error);
                 });
+            this.setState({
+                alertMessage: '感謝您的提供，祝您搶票順利，人品大爆發！',
+                alertBlock: 'alertBlock',
+                blurLayer: 'alertBlurlayer',
+                ANSWER: "",
+                QUIZ: "",
+                OPTIONS: [],
+                OPT1: "",
+                OPT2: "",
+                OPT3: "",
+                OPT4: "",
+            });
         } else {
             fire.firestore().collection('QUIZS').doc().set({
                 ANSWER: this.state.ANSWER,
@@ -148,11 +170,31 @@ class Addquiz extends React.Component {
             })
                 .then(function () {
                     console.log("Document successfully written!");
+
                 })
                 .catch(function (error) {
                     console.error("Error writing document: ", error);
                 });
+            this.setState({
+                alertMessage: '感謝您的提供，祝您搶票順利，人品大爆發！',
+                alertBlock: 'alertBlock',
+                blurLayer: 'alertBlurlayer',
+                ANSWER: "",
+                QUIZ: "",
+                OPTIONS: [],
+                OPT1: "",
+                OPT2: "",
+                OPT3: "",
+                OPT4: "",
+            });
         }
+    }
+    closeBoard = () => {
+        this.setState({
+            alertMessage: '',
+            alertBlock: 'hideAlertBlock',
+            blurLayer: 'hideBlurLayer'
+        })
     }
     render() {
         let board;
@@ -170,7 +212,7 @@ class Addquiz extends React.Component {
                     <Description showGuide={this.showGuide} />
                     <div className="add-rightSide">
                         <NewQuiz handleChange={this.handleChange} updateInput={this.updateInput} sendQuiz={this.sendQuiz} statusChange={this.statusChange} ANSWER={this.state.ANSWER} QUIZ={this.state.QUIZ}
-                            OPTIONS={this.state.OPTIONS} QUIZPIC={this.state.QUIZPIC} TAG={this.state.TAG} />
+                            OPTIONS={this.state.OPTIONS} QUIZPIC={this.state.QUIZPIC} TAG={this.state.TAG} OPT1={this.state.OPT1} OPT2={this.state.OPT2} OPT3={this.state.OPT3} OPT4={this.state.OPT4} />
                     </div>
                 </React.Fragment>
         } else {
@@ -178,6 +220,7 @@ class Addquiz extends React.Component {
         }
         return (
             <React.Fragment>
+                <Response alertMessage={this.state.alertMessage} alertBlock={this.state.alertBlock} blurLayer={this.state.blurLayer} closeAlert={this.closeBoard} />
                 <Logo />
                 <div className={this.state.containerClass}>
                     {board}
