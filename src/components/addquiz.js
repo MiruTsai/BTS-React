@@ -1,9 +1,9 @@
-import '../../css/addquiz.css';
-import React from 'react';
-import fire from '../fire'
-import PreviewQuiz from './previewQuiz';
-import Logo from './logo';
-import Response from './response'
+import "../../css/addquiz.css";
+import React from "react";
+import fire from "../fire"
+import PreviewQuiz from "./previewQuiz";
+import Logo from "./logo";
+import Response from "./response"
 
 const Description = (props) => {
     return (<div className="description">
@@ -82,13 +82,13 @@ class Addquiz extends React.Component {
         OPT3: "",
         OPT4: "",
         QUIZPIC: "",
-        TAG: 'text',
+        TAG: "text",
         rightCounter: 0,
         wrongCounter: 0,
         review: false,
-        alertMessage: '',
-        alertBlock: 'hideAlertBlock',
-        blurLayer: 'hideblurLayer'
+        alertMessage: "",
+        alertBlock: "hideAlertBlock",
+        blurLayer: "hideblurLayer"
     }
     showGuide = () => {
         this.setState({
@@ -112,26 +112,26 @@ class Addquiz extends React.Component {
         this.setState({
             OPTIONS: [this.state.OPT1, this.state.OPT2, this.state.OPT3, this.state.OPT4],
             review: !this.state.review,
-            containerClass: 'preAddContainer'
+            containerClass: "preAddContainer"
         })
     }
     backStatus = () => {
         this.setState({
             review: !this.state.review,
-            containerClass: 'addContainer'
+            containerClass: "addContainer"
         })
     }
     sendQuiz = () => {
-        if (this.state.ANSWER === '' || this.state.QUIZ === '' || this.state.OPT1 === '' || this.state.OPT2 === '' || this.state.OPT3 === '' || this.state.OPT4 === '') {
+        if (this.state.ANSWER === "" || this.state.QUIZ === "" || this.state.OPT1 === "" || this.state.OPT2 === "" || this.state.OPT3 === "" || this.state.OPT4 === "") {
             this.setState({
-                alertMessage: '請填入完整題目訊息',
-                alertBlock: 'alertBlock',
-                blurLayer: 'alertBlurlayer'
+                alertMessage: "請填入完整題目訊息",
+                alertBlock: "alertBlock",
+                blurLayer: "alertBlurlayer"
             });
             return;
         }
         if (this.state.TAG === "picture2") {
-            fire.firestore().collection('QUIZS').doc().set({
+            fire.firestore().collection("QUIZS").doc().set({
                 ANSWER: this.state.ANSWER,
                 QUIZ: this.state.QUIZ,
                 QUIZPIC: this.state.QUIZPIC,
@@ -148,9 +148,9 @@ class Addquiz extends React.Component {
                     console.error("Error writing document: ", error);
                 });
             this.setState({
-                alertMessage: '感謝您的提供，祝您搶票順利，人品大爆發！',
-                alertBlock: 'alertBlock',
-                blurLayer: 'alertBlurlayer',
+                alertMessage: "感謝您的提供，祝您搶票順利，人品大爆發！",
+                alertBlock: "alertBlock",
+                blurLayer: "alertBlurlayer",
                 ANSWER: "",
                 QUIZ: "",
                 OPTIONS: [],
@@ -160,7 +160,7 @@ class Addquiz extends React.Component {
                 OPT4: "",
             });
         } else {
-            fire.firestore().collection('QUIZS').doc().set({
+            fire.firestore().collection("QUIZS").doc().set({
                 ANSWER: this.state.ANSWER,
                 QUIZ: this.state.QUIZ,
                 OPTIONS: [this.state.OPT1, this.state.OPT2, this.state.OPT3, this.state.OPT4],
@@ -176,9 +176,9 @@ class Addquiz extends React.Component {
                     console.error("Error writing document: ", error);
                 });
             this.setState({
-                alertMessage: '感謝您的提供，祝您搶票順利，人品大爆發！',
-                alertBlock: 'alertBlock',
-                blurLayer: 'alertBlurlayer',
+                alertMessage: "感謝您的提供，祝您搶票順利，人品大爆發！",
+                alertBlock: "alertBlock",
+                blurLayer: "alertBlurlayer",
                 ANSWER: "",
                 QUIZ: "",
                 OPTIONS: [],
@@ -191,9 +191,9 @@ class Addquiz extends React.Component {
     }
     closeBoard = () => {
         this.setState({
-            alertMessage: '',
-            alertBlock: 'hideAlertBlock',
-            blurLayer: 'hideBlurLayer'
+            alertMessage: "",
+            alertBlock: "hideAlertBlock",
+            blurLayer: "hideBlurLayer"
         })
     }
     render() {

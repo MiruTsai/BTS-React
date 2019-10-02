@@ -1,5 +1,5 @@
 /* installation: npm install firebase --save */
-import firebase from 'firebase'
+import firebase from "firebase"
 
 /* replace config by your project config in firebase */
 var config = {

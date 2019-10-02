@@ -15,6 +15,7 @@
     font-family: Metropolis;
     src: local("Metropolis black"),
       url("/source/Metropolis-Black.otf");
+      font-display:block;
   } 
 body{
     background: linear-gradient(135deg ,#fbc2eb, #a6c1ee );

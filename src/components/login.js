@@ -1,26 +1,26 @@
-import React, { Component } from 'react';
-import '../../css/login.css';
-import SignInAnime from './signInAnime';
-import Response from './response';
-import { Link } from 'react-router-dom';
+import React, { Component } from "react";
+import SignInAnime from "./signInAnime";
+import Response from "./response";
+import { Link } from "react-router-dom";
+import "../../css/login.css";
 
 class Login extends Component {
     state = {
-        userName: '',
-        email: '',
-        password: '',
-        status: 'signIn',
+        userName: "",
+        email: "",
+        password: "",
+        status: "signIn",
     }
 
     signUpSide = () => {
         this.setState({
-            status: 'signUp'
+            status: "signUp"
         })
     }
 
     signInSide = () => {
         this.setState({
-            status: 'signIn'
+            status: "signIn"
         })
     }
 
@@ -40,9 +40,7 @@ class Login extends Component {
                     <input type="text" id="signInEmail" name="email" placeholder="請輸入您的 E-mail" value={this.state.email} onChange={this.updateInput} />
                     <div className="text2">密碼</div>
                     <input type="password" id="signInPW" name="password" value={this.state.password} onChange={this.updateInput} />
-                    <button
-                        onClick={() => this.props.login(this)}
-                        className="signButton">登入</button>
+                    <button onClick={() => this.props.login(this)} className="signButton">登入</button>
                 </div>
             </div>
         } else {

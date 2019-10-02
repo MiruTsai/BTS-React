@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import '../../css/preTest.css'
-import { Link } from 'react-router-dom';
+import React, { Component } from "react";
+import "../../css/preTest.css"
+import { Link } from "react-router-dom";
 let answer;
 let index;
 let currentQuiz;
@@ -13,26 +13,26 @@ let countDown;
 class PreTest extends Component {
     state = {
         quizs: this.props.quizs,
-        loadingClass: 'hideLoading',
-        timerClass: 'timer',
-        maskClass: 'hideMask',
-        logoClass: 'hideLogo',
-        containerClass: 'hideContainer',
-        sendButtonClass: 'sendAnswer',
-        resBoardClass: 'hideResBoard',
-        resPic: 'resPic',
-        alertBlockClass: 'hideAlertBlock'
+        loadingClass: "hideLoading",
+        timerClass: "timer",
+        maskClass: "hideMask",
+        logoClass: "hideLogo",
+        containerClass: "hideContainer",
+        sendButtonClass: "sendAnswer",
+        resBoardClass: "hideResBoard",
+        resPic: "resPic",
+        alertBlockClass: "hideAlertBlock"
     }
     componentDidMount = () => {
         getSound = new Audio();
-        getSound.src = '../../source/get.mp3';
+        getSound.src = "../../source/get.mp3";
         failSound = new Audio();
-        failSound.src = '../../source/fail.mp3';
+        failSound.src = "../../source/fail.mp3";
         setTimeout(() => {
             this.setState({
-                containerClass: 'preContainer',
-                logoClass: 'logo',
-                timerClass: 'hideTimer'
+                containerClass: "preContainer",
+                logoClass: "logo",
+                timerClass: "hideTimer"
             })
         }, 5000);
         seconds = 0
@@ -42,23 +42,23 @@ class PreTest extends Component {
     }
     checkAnswer = () => {
         console.log(this)
-        this.setState({ loadingClass: 'preloading' });
+        this.setState({ loadingClass: "preloading" });
         randomTime = Math.floor(Math.random() * 10000)
         if (answer === this.state.quizs[index].ANSWER) {
             if (seconds < 8) {
                 setTimeout(() => {
                     this.setState({
-                        logoClass: 'hideLogo',
-                        loadingClass: 'hideLoading',
-                        maskClass: 'preTestMask',
-                        sendButtonClass: 'hideSendAnswer',
-                        containerClass: 'hideContainer',
-                        resPic: '../../img/concert2S.jpg',
-                        response: ''
+                        logoClass: "hideLogo",
+                        loadingClass: "hideLoading",
+                        maskClass: "preTestMask",
+                        sendButtonClass: "hideSendAnswer",
+                        containerClass: "hideContainer",
+                        resPic: "../../img/concert2S.jpg",
+                        response: ""
                     })
                     getSound.play();
                     setTimeout(() => {
-                        this.props.history.push('/')
+                        this.props.history.push("/")
                     }, 7000)
                     clearInterval(countDown);
                 }, randomTime)
@@ -66,20 +66,19 @@ class PreTest extends Component {
             } else {
                 setTimeout(() => {
                     this.setState({
-                        logoClass: 'hideLogo',
-                        loadingClass: 'hideLoading',
-                        maskClass: 'preTestMask',
-                        sendButtonClass: 'hideSendAnswer',
-                        containerClass: 'hideContainer',
-                        resPicClass: 'preTestMask',
-                        resPic: '../../img/fail.gif',
-                        response: '手腳太慢了被搶走了'
+                        logoClass: "hideLogo",
+                        loadingClass: "hideLoading",
+                        maskClass: "preTestMask",
+                        sendButtonClass: "hideSendAnswer",
+                        containerClass: "hideContainer",
+                        resPicClass: "preTestMask",
+                        resPic: "../../img/fail.gif",
+                        response: "手腳太慢了被搶走了"
                     })
                     failSound.play();
                     setTimeout(() => {
                         this.setState({
-                            alertBlockClass: 'alertBlock',
-
+                            alertBlockClass: "alertBlock",
                         })
                     }, 7000)
                     clearInterval(countDown);
@@ -89,19 +88,19 @@ class PreTest extends Component {
         } else {
             setTimeout(() => {
                 this.setState({
-                    logoClass: 'hideLogo',
-                    loadingClass: 'hideLoading',
-                    maskClass: 'preTestMask',
-                    sendButtonClass: 'hideSendAnswer',
-                    containerClass: 'hideContainer',
-                    resPic: '../../img/fail.gif',
-                    resPicClass: 'preTestMask',
-                    response: '票券已完售'
+                    logoClass: "hideLogo",
+                    loadingClass: "hideLoading",
+                    maskClass: "preTestMask",
+                    sendButtonClass: "hideSendAnswer",
+                    containerClass: "hideContainer",
+                    resPic: "../../img/fail.gif",
+                    resPicClass: "preTestMask",
+                    response: "票券已完售"
                 })
                 failSound.play();
                 setTimeout(() => {
                     this.setState({
-                        alertBlockClass: 'alertBlock',
+                        alertBlockClass: "alertBlock",
                     })
                 }, 7000)
                 clearInterval(countDown);
@@ -112,26 +111,26 @@ class PreTest extends Component {
     }
     oneMoreTime = () => {
         this.setState({
-            alertBlockClass: 'hideAlertBlock',
-            timerClass: 'timer',
-            containerClass: 'hideContainer',
-            sendButtonClass: 'sendAnswer'
+            alertBlockClass: "hideAlertBlock",
+            timerClass: "timer",
+            containerClass: "hideContainer",
+            sendButtonClass: "sendAnswer"
         })
         setTimeout(() => {
             this.setState({
-                containerClass: 'preContainer',
-                maskClass: 'hideMask',
-                logoClass: 'preTestlogo',
-                timerClass: 'hideTimer',
-                resPicClass: 'hidemask',
-                resPic: 'hideResPic',
+                containerClass: "preContainer",
+                maskClass: "hideMask",
+                logoClass: "preTestlogo",
+                timerClass: "hideTimer",
+                resPicClass: "hidemask",
+                resPic: "hideResPic",
             })
         }, 5000);
         clearInterval(countDown);
     }
     backToIndex = () => {
         clearInterval(countDown);
-        this.props.history.push('/')
+        this.props.history.push("/")
     }
     render() {
         seconds = 0
@@ -140,7 +139,7 @@ class PreTest extends Component {
             console.log(seconds)
         }, 1000);
         index = Math.floor(Math.random() * this.state.quizs.length)
-        console.log('pre', index)
+        console.log("pre", index)
         const options = this.state.quizs[index].OPTIONS.map((option, num) => {
             return (
                 <div className="option" key={Math.random()}> ( {num + 1} ) {option} </div>
@@ -173,7 +172,7 @@ class PreTest extends Component {
             currentQuiz =
                 <React.Fragment>
                     <div className="pic_quiz_title">{this.state.quizs[index].QUIZ}</div>
-                    <img src={this.state.quizs[index].QUIZPIC} className='pic_quiz_img hvr-grow' />
+                    <img src={this.state.quizs[index].QUIZPIC} className="pic_quiz_img hvr-grow" />
                     <div className="options">
                         {options}
                     </div>
@@ -196,7 +195,7 @@ class PreTest extends Component {
                 </div>
                 <div className={this.state.maskClass}>
                     <img src={this.state.resPic} className={this.resPicClass} />
-                    <div className='response'>{this.state.response}</div>
+                    <div className="response">{this.state.response}</div>
                 </div>
                 <div className={this.state.timerClass}>11:59</div>
                 <div className={this.state.containerClass}>

@@ -1,40 +1,39 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import '../../css/common.css';
-import '../../css/main.css';
-import fire from '../fire';
-
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import "../../css/common.css";
+import "../../css/main.css";
+import fire from "../fire";
+import Chart from "react-google-charts";
 let userName;
 let userID;
 let userRightCounter;
 let userWrongCounter;
-import Chart from 'react-google-charts'
 
 class Profile extends Component {
   state = {
     user: this.props.userUid
   }
   componentDidMount = () => {
-      fire.firestore().collection('MemberShip').doc(this.state.user).get().then((doc) => {
+      fire.firestore().collection("MemberShip").doc(this.state.user).get().then((doc) => {
           if (doc.exists) {
               let userInfo = doc.data()
-              console.log('userInfo',userInfo)
+              console.log("userInfo",userInfo)
               userName = userInfo.NAME;
               userID = userInfo.ID;
               userRightCounter = userInfo.rightCounter;
               userWrongCounter = userInfo.wrongCounter;
+              this.setState({
+                userName: userName,
+                userID: userID,
+                userRightCounter: userRightCounter,
+                userWrongCounter: userWrongCounter
+            })
+          }else{
+            return ;
           }
-          this.setState({
-              userName: userName,
-              userID: userID,
-              userRightCounter: userRightCounter,
-              userWrongCounter: userWrongCounter
-          })
+          
       })
   }
-
- 
-
   render() {
 
     return (
@@ -57,45 +56,45 @@ class Profile extends Component {
               <input type="radio" name="bias" id="Jimin" value="Jimin" /><label for="Jimin">Jimin</label>
               <input type="radio" name="bias" id="V" value="V" /><label for="V">V</label>
               <input type="radio" name="bias" id="JK" value="JK" /><label for="JK">Jung Kook</label> */}
-              <Link to='/addquiz'>
+              <Link to="/addquiz">
                 <button type="button" className="profile-btn hvr-push">我要出題</button>
               </Link>
             </div>
 
             <Chart
-              width={'500px'}
-              height={'300px'}
+              width={"500px"}
+              height={"300px"}
               chartType="PieChart"
               loader={<div>Loading Chart</div>}
               data={[
-                ['Task', 'Hours per Day'],
-                ['答對', 
+                ["Task", "Hours per Day"],
+                ["答對", 
                    this.state.userRightCounter
                 ],
-                ['答錯', 
+                ["答錯", 
                    this.state.userWrongCounter
                 ],
               ]}
               options={{
-                title: '你的答題正確率',
+                title: "你的答題正確率",
                 is3D: true,
-                colors: ['skyblue', '#ffe65d'],
+                colors: ["skyblue", "#ffe65d"],
                 animation: {
                   duration: 1000,
-                  easing: 'out',
+                  easing: "out",
                   startup: true
                 },
                 enableInteractivity: false,
               }}
               chartEvents={[
                 {
-                  eventName: 'animationfinish',
+                  eventName: "animationfinish",
                   callback: () => {
-                    console.log('Animation Finished')
+                    console.log("Animation Finished")
                   },
                 },
               ]}
-              rootProps={{ 'data-testid': '2' }}
+              rootProps={{ "data-testid": "2" }}
             />
           </div>
         </div>

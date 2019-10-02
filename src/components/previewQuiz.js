@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 let num=1;
 let preview;
 const PreviewQuiz = (props) => {
@@ -35,7 +35,7 @@ const PreviewQuiz = (props) => {
         preview =
             <React.Fragment>
                 <div className="pic_quiz_title">{QUIZ}</div>
-                <img src={QUIZPIC} className='pic_quiz_img hvr-grow' />
+                <img src={QUIZPIC} className="pic_quiz_img hvr-grow" />
                 <div className="pre-options">
                     {previewOptions}
                 </div>

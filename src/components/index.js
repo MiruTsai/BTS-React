@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
-import '../../css/main.css';
-import Logo from './logo';
-
-import Response from './response';
+import React, { Component } from "react";
+import "../../css/main.css";
+import Logo from "./logo";
+import Response from "./response";
 
 const IndexPic = () => {
     return (
@@ -13,8 +12,6 @@ const IndexPic = () => {
 }
 
 class Index extends Component {
-    
-    
     render() {
         return (
             <React.Fragment>
