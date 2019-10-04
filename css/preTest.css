@@ -4,7 +4,9 @@
 .hideContainer{
     display: none;
 }
-
+.hideGuide{
+    display: none;
+}
 .hideLogo{
     display: none;
 }
@@ -15,100 +17,95 @@
     padding:30px;
     align-items: center;
 }
-
+/* GetTicketGuide */
+.guide{
+    background-color: rgba(0,0,0,0.3);
+    z-index: 1000;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100vh;
+    color:white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: popUp ease-in-out 200ms;
+}
+.guideBoard{
+    width:50%;
+}
+.tips{
+    font-size: 36px;
+    font-weight: bold;
+}
+.preGuidePic{
+    max-width: 300px;
+    flex-basis: 50%;
+}
+.arrow{
+    max-width: 150px;
+    transform: rotate(60deg);
+}
+.get,.fail{
+    filter: blur(15px);
+}
+.noteText{
+    color:white;
+    flex-basis: 30%;
+    letter-spacing: 2px;
+}
+.loadingGif{
+    text-align: center;
+    width: 300px;
+    background-color: black;
+    padding: 40px 0;
+}
+.preGuideButton{
+    background: #ffe65d;
+    padding: 5px 20px;
+    margin: 20px auto;
+    border: 1px solid rgba(0,0,0,0.21);
+    border-bottom: 4px solid rgba(0,0,0,0.1);
+    text-shadow: 0 1px 0 rgba(0,0,0,0.15);
+    width: 160px;
+}
+.row{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 30px 0;
+}
+.noteFinish{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+    margin: 30px auto;
+    align-items: center;
+}
 .top{
     flex-basis: 75%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
 }
-.quiz,.pic_quiz_title{
-    font-size: 2em;
-    font-weight: 800;
-    margin:20px 0;
-}
-.options{
-    display: flex;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    margin: 30px auto;
-}
-.option{
-    flex-basis: 50%;
-    margin: 20px 0;
-}
-.answerValue{
-    font-weight: bold;
-    font-size: 22px;
-    padding-left:20px;
-}
-.picOption{
-    flex-basis: 40%;
-    max-height:200px; 
-    margin: 20px;
-    object-fit:cover;
-    border-radius: 8px;
-}
-.picSource{
-    width: 100%;
-    height: 100%;
-    object-fit:cover;
-    border-radius: 8px;
-}
-.pic_quiz_img{
-    max-height: 400px;
-}
-.resPic{
-    position: fixed; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    width: 100%;
-    height: 100vh;
-    vertical-align: center;
-    background-color: black;
-}
+
 .hideResPic{
     display: none;
 }
-@keyframes scaleDraw {  /*定义关键帧、scaleDrew是需要绑定到选择器的关键帧名称*/
-    0%{
-        transform: scale(1);  /*开始为原始大小*/
-    }
-    30%{
-        transform: scale(2.5);
-    }  
-    80%{
-        transform: scale(2.5);        
-    }
-    100%{
-        transform: scale(1);        
-    }
-}
-
-.picSource:hover{
-    -webkit-animation-name: scaleDraw; 
-    -webkit-animation-timing-function: ease-in-out; 
-    /*-webkit-animation-iteration-count: infinite;  
-    -webkit-animation-duration: 3s; /*动画所花费的时间*/    
-    object-fit: contain;
-}
-
 span{
     font-size: 10px;
 }
-.sendAnswer,.again{
+.sendAnswer{
     width:100px;
     background-color: #ffe65d;
     padding:5px 20px;
+    border: 1px solid rgba(0,0,0,0.21);
+    border-bottom: 4px solid rgba(0,0,0,0.1);
+    border-radius: 4px;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.15);
 }
-.hideSendAnswer{
-    display: none;
-}
-.quiz-answer{
-    margin:20px 0;
-}
+
 .preloading{
     background-color: black;
     position: fixed;
@@ -172,7 +169,6 @@ span{
 }
 .board{
     text-align: center;
-    vertical-align: center;
 }
 .hideAgain{
     display: none;
@@ -226,32 +222,34 @@ span{
     .top{
         flex-wrap: wrap;
     }
-    .quiz,.pic_quiz_title{
-        font-size: 1.5em;
-    }
     .preContainer{
         width: 100%;
         padding: 15px 30px;
         margin:0 auto;
     }
-    .options{
-        margin:30px auto; 
-    }
-    .option{
-        font-size: 14px;
-    }
-    svg{
-        position: absolute;
-        top:30%;
-    }
-    .picOption{
-        flex-basis: 100%;
-        max-height:200px; 
-        margin: 20px;
-        object-fit:cover;
-        border-radius: 8px;
-    }
     .timer{
         font-size: 100px;
+    }
+}
+@media(max-width:480px){
+    .guideBoard{
+        width:100%;
+    }
+    .tips{
+        margin: 20px 10px;
+    }
+    .row{
+        margin:35px 0;
+    }
+    .preGuidePic{
+        max-width: 150px;
+    }
+    .noteText{
+        flex-basis: 50%;
+    }
+    .loadingGif{
+    width: 150px;
+    padding: 10px; 
+    
     }
 }

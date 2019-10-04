@@ -45,7 +45,6 @@ h3,h5,.title{
 }
 .user{
     flex-basis: 10%;
-    vertical-align:top;
     text-align: center;
 }
 .indexIcon{
@@ -62,6 +61,10 @@ h3,h5,.title{
 }
 .iconZone{
     display: flex;
+}
+.iconText{
+    font-size: 20px;
+    font-weight: bold;
 }
 .indexPic{    
     width: 100%;
@@ -142,8 +145,8 @@ text{
 @media (max-width:1290px){
     .indexContainer{
         width: 90%;
+        height:450px;
     }
-    
     .title{
         font-size: 36px;
     }
@@ -153,26 +156,28 @@ text{
     
 }
 @media (max-width:800px){
+    .indexContainer{
+        height: 350px;
+    }
+    .leftSide{
+        margin-bottom: 20px;
+    }
     h5{
         display: none;
     }
     .btspic{
         flex-basis: 40%;
     }
-    .text{
+    .iconText{
         font-size: 14px;
     }
-    .leftSide{
-        margin-left:20px;
-    }
+    
     .indexContainer{
         margin: 30px auto;
     }
-    .title{
-        font-size: 40px;
-    }
+    
     .indexIcon{
-        margin: 20px;
+        margin: 10px;
         padding:5px;
     }
     .profileLogo{
@@ -193,6 +198,9 @@ text{
         display: block;
         margin:0 auto;
     }
+    .index-textZone{
+        margin-left:20px; 
+    }
     h3{
         letter-spacing: 1px;
     }
@@ -205,9 +213,6 @@ text{
         width: 28px;
         margin-top: 15px;
     }
-    .iconZone{
-        margin:20px 0;
-    }
     .btspic{
         width: 100%;
         margin: 0 auto;
@@ -216,6 +221,18 @@ text{
         margin: 0; 
         margin-top:50px;
         flex-basis: 80%;
+    }
+}
+@media(max-width:480px){
+    .title{
+        font-size: 40px;
+    }
+    .iconZone{
+        justify-content: space-around;
+        margin: 15px 0;
+    }
+    .leftSide{
+        margin:0;
     }
 }
 

@@ -7,6 +7,7 @@
     width:70%;
     align-content: flex-start;
     background: white;
+    box-shadow:2px 2px 2px rgba(20%,20%,40%,0.6),4px 4px 6px rgba(20%,20%,40%,0.4),6px 6px 12px rgba(20%,20%,40%,0.4);
 }
 .add-rightSide,.preview{
     display: flex;
@@ -25,6 +26,9 @@
 }
 form{
     margin: 30px 0;
+}
+.opt-name{
+    margin:1rem 0;
 }
 .quizSelect{
     margin-left: 50px;
@@ -95,6 +99,7 @@ input{
 
 .preAddContainer{
     width:70%;
+    max-height: 90%;
     background: white;
     padding:30px;
     display: flex;
@@ -171,16 +176,7 @@ button{
     font-size: 2em;
     font-weight: 800;
 }
-.options{
-    display: flex;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    margin: 30px auto;
-}
-.option{
-    flex-basis: 50%;
-    margin: 20px 0;
-}
+
 .pre-options{
     display: flex;
     justify-content: flex-start;
@@ -192,23 +188,7 @@ button{
     top:0;
     right:0;
 }
-.picOption{
-    flex-basis: 40%;
-    max-height:200px; 
-    margin: 20px;
-    object-fit:cover;
-    border-radius: 8px;
-}
-.picSource{
-    width: 100%;
-    height: 100%;
-    object-fit:cover;
-    border-radius: 8px;
-}
-.pic_quiz_img{
-    max-height: 400px;
-    margin:0 auto;
-}
+
 @keyframes scaleDraw {  
     0%{
         transform: scale(1);        
@@ -224,10 +204,7 @@ button{
     }
 }
 .picSource:hover{
-    -webkit-animation-name: scaleDraw; /*关键帧名称*/
-    -webkit-animation-timing-function: ease-in-out; /*动画的速度曲线*/
-    /*-webkit-animation-iteration-count: infinite;  /*动画播放的次数*/
-    -webkit-animation-duration: 3s; /*动画所花费的时间*/    
+    animation: scaleDraw 3s ease-in-out infinite;
     object-fit: contain;
 }
 @media (max-width:1200px){
@@ -242,12 +219,9 @@ button{
     .addContainer,.preAddContainer{
         width:100%;
         flex-direction: column;        
-        margin-top:10px;
         justify-content: center;
     }
-    .description{
-        margin: 20px 0;
-    }
+    
     .addpic{
         text-align: center;
         margin-top: 10px;
@@ -268,5 +242,7 @@ button{
     .quizSelect{
         margin-left: 10px;
     }
+}
+@media(max-width:480px){
     
 }

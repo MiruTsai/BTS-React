@@ -5,7 +5,7 @@
 .loginContainer{
     margin: 0 auto;
     width:50%;
-    height:580px;
+    height:500px;
     background: white;
     position: absolute;
     top:50%;
@@ -41,22 +41,23 @@
     display: flex;
     flex-direction: column;
     width:50%;
-    margin: 50px auto;
+    margin: 10px auto;
     background-color: white;
-    padding:50px 50px 0;
+    padding:50px 50px 10px;
+}
+#signUpName,#signUpEmail,#signUpPW,#signInEmail,#signInPW{
+    margin-bottom: 5px;
 }
 .text2{
     text-align: left;
-    margin: 5px 0;
+    margin: 10px 0;
 }
 .seperate{
     border-right:1px solid #979797;
     height: 300px;
     margin: auto;
 }
-input{
-    width:100%;
-}
+
 .loginButton{
     width: 50%;
     margin: 0 ;
@@ -104,14 +105,12 @@ input{
     z-index: 1000;
 }
 .fadeAnime{
-    -moz-animation: fadein 6s linear;
     animation: fadein 6s linear;
 }
 
 .hideAnime{
     display: none;
 }
-
   .loginls {
       fill:none;
       fill-rule: evenodd;
@@ -166,7 +165,6 @@ input{
     .signButton{
         width: 50%;
     }
-    
     .login{
         flex-direction: column;
     }

@@ -11,7 +11,6 @@ import fire from "./fire";
 import "../css/common.css";
 import "../css/hover-min.css";
 let newquizs = [];
-let newUserQuizs = [];
 let user;
 const root = document.querySelector(".root");
 
@@ -26,6 +25,14 @@ class App extends Component {
     }
 
     signUP = (e) => {
+        if (e.state.email === "" || e.state.password === "") {
+            this.setState({
+                alertMessage: "請輸入正確申請資訊",
+                alertBlock: "alertBlock",
+                blurLayer: "alertBlurlayer"
+            });
+            return
+        }
         if (e.state.email.length < 4) {
             this.setState({
                 alertMessage: "請輸入正確 E-mail 地址",
@@ -42,45 +49,53 @@ class App extends Component {
             });
             return;
         }
+
         fire.auth().createUserWithEmailAndPassword(e.state.email, e.state.password).then(() => {
-            let currentUser = fire.auth().currentUser.uid;
-            localStorage.setItem("uid", currentUser);
-            fire.auth().currentUser.sendEmailVerification().then(function () {
+            user = fire.auth().currentUser.uid;
+            localStorage.setItem("uid", user);
+            this.setState({
+                userUid: user,
+                userRightCounter: 0,
+                userWrongCounter: 0,
+                animeClass: "anime fadeAnime",
+                loginContainerClass: "hideLoginContainer",
+            })
+            fire.auth().currentUser.sendEmailVerification().then(()=> {
                 console.log("success");
+                
             })
-            fire.firestore().collection("MemberShip").doc(fire.auth().currentUser.uid).set({
-                ID: e.state.email,
-                NAME: e.state.userName,
-                rightCounter: 0,
-                wrongCounter: 0
-            })
-            fire.firestore().collection("QUIZS").get().then((querySnapshot)=> {
+            fire.firestore().collection("QUIZS").get().then((querySnapshot) => {
                 querySnapshot.forEach(function (doc) {
                     let x = doc.id;
                     let y = doc.data();
                     y.id = x;
-                    newUserQuizs.push(y);
+                    newquizs.push(y);
                 });
                 this.setState({
-                    userUid: currentUser,
-                    userRightCounter: 0,
-                    userWrongCounter: 0,
-                    animeClass: "anime fadeAnime",
-                    loginContainerClass: "hideLoginContainer",
-                    Quizs: newUserQuizs
+                    Quizs: newquizs
                 })
-            }).catch((error) => {
-                console.log(error);
+                fire.firestore().collection("MemberShip").doc(fire.auth().currentUser.uid).set({
+                    ID: e.state.email,
+                    NAME: e.state.userName,
+                    rightCounter: 0,
+                    wrongCounter: 0
+                })
             })
-
-        }).catch(function (error) {
+        }).catch( (error) => {
             console.log("Error getting documents: ", error);
         })
-
-        setTimeout(function () { e.props.history.push("/") }, 5700)
+        setTimeout( () => { e.props.history.push("/") }, 5700)
     }
 
     login = (a) => {
+        if (a.state.email === "" || a.state.password === "") {
+            this.setState({
+                alertMessage: "請輸入正確登入資訊",
+                alertBlock: "alertBlock",
+                blurLayer: "alertBlurlayer"
+            });
+            return
+        }
         if (a.state.email.length < 4) {
             this.setState({
                 alertMessage: "請輸入正確 E-mail 地址",
@@ -97,13 +112,33 @@ class App extends Component {
             })
             return;
         }
-        fire.auth().signInWithEmailAndPassword(a.state.email, a.state.password).then(() => {
-            user = fire.auth().currentUser.uid
+        fire.auth().signInWithEmailAndPassword(a.state.email, a.state.password).catch( (error) => {
+            console.log("Error getting documents: ", error);
+            console.log("errorcode",error.code)
+            if (error.code.slice(5,error.code.length)==="wrong-password"){
+            this.setState({
+                alertMessage: "糟糕！密碼打錯囉",
+                alertBlock: "alertBlock",
+                blurLayer: "alertBlurlayer"
+            })}else{
+                this.setState({
+                    alertMessage: "糟糕！沒有這個人喔",
+                    alertBlock: "alertBlock",
+                    blurLayer: "alertBlurlayer"
+                })
+            }
+        }).then(() => {
+            user = fire.auth().currentUser.uid;
+            if(!user){
+                return
+            }else{
             localStorage.setItem("uid", user);
             this.setState({
                 userUid: user,
+                animeClass: "anime fadeAnime",
+                loginContainerClass: "hideLoginContainer"
             })
-            fire.firestore().collection("QUIZS").get().then((querySnapshot)=> {
+            fire.firestore().collection("QUIZS").get().then((querySnapshot) => {
                 querySnapshot.forEach(function (doc) {
                     let x = doc.id;
                     let y = doc.data();
@@ -112,20 +147,13 @@ class App extends Component {
                 });
                 this.setState({
                     Quizs: newquizs,
-                    userUid: user,
-                    animeClass: "anime fadeAnime",
-                    loginContainerClass: "hideLoginContainer"
                 });
-            }).catch((error) => {
-                console.log(error);
-                alert(error)
-                return
-            });
-        }).catch(function (error) {
-            console.log("Error getting documents: ", error);
+            })}
+            setTimeout( () => { a.props.history.push("/") }, 5700)
         });
-        setTimeout(function () { a.props.history.push("/") }, 5700)
+        
     }
+    
     authListener = (e) => {
         let user = this.state.userUid
         if (user === "") {

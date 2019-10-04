@@ -36,6 +36,9 @@
     flex-basis: 25%;
     margin-top:50px;
 }
+.note{
+    text-align: center;
+}
 .all,.right,.wrong{
     margin: 50px;
     font-size: 20px;
@@ -55,6 +58,12 @@
     font-size: 2em;
     font-weight: 800;
     margin:20px 0;
+    background-color: #ffe65d;
+    padding:10px;
+    width:80%;
+}
+.quiz-subtext{
+    font-size: 12px;
 }
 .hideResBoard{
     animation: closePopup 100ms;
@@ -64,7 +73,7 @@
     background: rgba(0,0,0,0.7);
     width:100vw;
     height: 100vh;
-    animation: popUp 100ms;
+    animation: popUp ease-in-out 200ms;
     position: fixed;
     z-index: 100;
     top:0;
@@ -94,7 +103,6 @@
     font-size: 20px;
     margin:20px;
     color:#415159;
-
 }
 .qres-button{
     width:100px;
@@ -117,7 +125,10 @@
     from { transform: scale(1) }
     to   {transform: scale(0)}
     }
-
+.optNum{
+    font-size:14px;
+    flex-basis:10%;
+}
 .options{
     display: flex;
     justify-content: flex-start;
@@ -129,12 +140,15 @@
     margin: 20px 0;
     display: flex;
     align-items: center;
-
+}
+.answerBlock{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
 }
 .answerValue{
-    font-weight: bold;
     font-size: 22px;
-    padding-left:20px;
+    margin: 20px 0;
 }
 .picOption{
     flex-basis: 40%;
@@ -151,7 +165,8 @@
     border-radius: 8px;
 }
 .pic_quiz_img{
-    max-height: 400px;
+    max-height: 500px;
+    max-width: 500px;
 }
 /*scalper*/
 .hideScalper{
@@ -217,7 +232,6 @@
     stroke:lightskyblue;
     stroke-dasharray: 80;
     transition-timing-function: linear;
-    /* animation: dash 5s linear; */
     stroke-width: 5;
     stroke-opacity: .5
   }
@@ -271,18 +285,18 @@ span{
     width:100px;
     background-color: #ffe65d;
     padding:5px 20px;
-    margin-top: 10px;
+    margin-left: 20px;
     border: 1px solid rgba(0,0,0,0.21);
     border-bottom: 4px solid rgba(0,0,0,0.1);
-    border-radius: 4px;
     text-shadow: 0 1px 0 rgba(0,0,0,0.15);
 }
 .quiz-button:active{
     background: #DBC05B;   
 } 
 .quiz-answer{
-    margin:20px 0;
-    width:20%;
+    text-align: center;
+    margin:20px;
+    width:10%;
 }
 .mask{
     background-color: black;
@@ -303,9 +317,15 @@ span{
 }
 .board{
     text-align: center;
-    vertical-align: center;
 }
-
+@media(max-width:1200px){
+.quizContainer{
+    width:85%;
+}
+.optNum{
+    flex-basis:20%;
+}
+}
 @media(max-width:800px){
     .quizLogo{
         width: 60px;
@@ -319,7 +339,9 @@ span{
     }
     .counter{
         display: flex;
+        flex-basis: 100%;
         margin:30px 0;
+        justify-content: center;
     }
     .all,.right,.wrong{
         margin: 10px;
@@ -331,6 +353,12 @@ span{
 }
 
 @media(max-width:640px){
+    .resPic{
+        max-height:70vh;
+    }
+    .layer{
+        max-height: 90vh;
+    }
     .top{
         flex-wrap: wrap;
     }
@@ -351,6 +379,10 @@ span{
     .all,.right,.wrong{
         font-size: 16px;
     }
+    .pic_quiz_img{
+        max-width: 80vw;
+        max-height: 30vh;
+    }
     .anime{
         margin: 0 auto;
         width: 100vw;
@@ -367,8 +399,46 @@ span{
         object-fit:cover;
         border-radius: 8px;
     }
+    
+    .quiz-button{
+        margin: 10px auto;
+    }
+    .answerBlock{
+        text-align: center;
+    }
+    .optNum{
+        font-size: 10px;
+    }
     .answerValue{
-        padding-left: 10px;
         font-size: 16px;
     }
+}
+@media(max-width:480px){
+    .quiz,.pic_quiz_title{
+        width: 100%;
+    }
+    .answerBlock{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .quiz-answer{
+        width:30%;
+        flex-basis: 20%;
+    }
+    .quizContainer{
+        padding: 20px;
+    }
+    .note{
+        flex-basis: 50%;
+        font-size: 14px;
+    }
+    .quiz-subtext{
+        font-size: 10px;
+    }    
+    .quiz-button{
+        flex-basis: 70%;
+    }
+
+
 }

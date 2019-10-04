@@ -18,29 +18,29 @@ const Description = (props) => {
 }
 
 class NewQuiz extends React.Component {
-
     render() {
         let quizTitle;
-        if (this.props.TAG === "picture2") {
+        const { TAG, QUIZ,  OPT1, OPT2, OPT3, OPT4, ANSWER, QUIZPIC, updateInput, handleChange, sendQuiz, statusChange} = this.props;
+        if (TAG === "picture2") {
             quizTitle =
                 <div className="choice">
                     <div className="text">題目</div>
-                    <input type="text" name="QUIZ" id="quizTitle" value={this.props.QUIZ} onChange={this.props.updateInput} />
+                    <input type="text" name="QUIZ" id="quizTitle" value={QUIZ} onChange={updateInput} />
                     <div className="text">圖片網址</div>
-                    <input type="text" name="QUIZPIC" id="quizTitle" value={this.props.QUIZPIC} onChange={this.props.updateInput} />
+                    <input type="text" name="QUIZPIC" id="quizTitle" value={QUIZPIC} onChange={updateInput} />
                 </div>
         } else {
             quizTitle =
                 <div className="choice">
-                    <div className="text">題目</div>
-                    <input type="text" name="QUIZ" id="quizTitle" value={this.props.QUIZ} onChange={this.props.updateInput} />
+                    <div className="opt-name">題目</div>
+                    <input type="text" name="QUIZ" id="quizTitle" value={QUIZ} onChange={updateInput} />
                 </div>
         }
         return (
             <form>
                 <div className="quizSelect">
-                    <div className="text">題型</div>
-                    <select id="quizType" name="TAG" value={this.props.TAG} onChange={this.props.handleChange}>
+                    <div className="opt-name">題型</div>
+                    <select id="quizType" name="TAG" value={TAG} onChange={handleChange}>
                         <option value="text">文字型</option>
                         <option value="picture">圖片型-1</option>
                         <option value="picture2">圖片型-2</option>
@@ -48,22 +48,22 @@ class NewQuiz extends React.Component {
                 </div>
                 {quizTitle}
                 <div className="choice">
-                    <div className="text">選擇 1</div>
-                    <input type="text" name="OPT1" id="OPT1" value={this.props.OPT1} placeholder="請填入選項，如為圖片型-1請填入網址 ( 建議尺寸 200 x 200 以上 ) " onChange={this.props.updateInput} />
-                    <div className="text">選擇 2</div>
-                    <input type="text" name="OPT2" id="OPT2" value={this.props.OPT2} placeholder="請填入選項，如為圖片型-1請填入網址 ( 建議尺寸 200 x 200 以上 ) " onChange={this.props.updateInput} />
-                    <div className="text">選擇 3</div>
-                    <input type="text" name="OPT3" id="OPT3" value={this.props.OPT3} placeholder="請填入選項，如為圖片型-1請填入網址 ( 建議尺寸 200 x 200 以上 ) " onChange={this.props.updateInput} />
-                    <div className="text">選擇 4</div>
-                    <input type="text" name="OPT4" id="OPT4" value={this.props.OPT4} placeholder="請填入選項，如為圖片型-1請填入網址 ( 建議尺寸 200 x 200 以上 ) " onChange={this.props.updateInput} />
+                    <div className="opt-name">選擇 1</div>
+                    <input type="text" name="OPT1" id="OPT1" value={OPT1} placeholder="請填入選項，如為圖片型-1請填入網址 ( 建議尺寸 200 x 200 以上 ) " onChange={updateInput} />
+                    <div className="opt-name">選擇 2</div>
+                    <input type="text" name="OPT2" id="OPT2" value={OPT2} placeholder="請填入選項，如為圖片型-1請填入網址 ( 建議尺寸 200 x 200 以上 ) " onChange={updateInput} />
+                    <div className="opt-name">選擇 3</div>
+                    <input type="text" name="OPT3" id="OPT3" value={OPT3} placeholder="請填入選項，如為圖片型-1請填入網址 ( 建議尺寸 200 x 200 以上 ) " onChange={updateInput} />
+                    <div className="opt-name">選擇 4</div>
+                    <input type="text" name="OPT4" id="OPT4" value={OPT4} placeholder="請填入選項，如為圖片型-1請填入網址 ( 建議尺寸 200 x 200 以上 ) " onChange={updateInput} />
                 </div>
                 <div className="choice answer_zone">
-                    <div className="text">答案</div>
-                    <input type="text" name="ANSWER" id="answer" value={this.props.ANSWER} placeholder="請輸入半形數字，勿輸入中文、英文或其他特殊字" onChange={this.props.updateInput} />
+                    <div className="opt-name">答案</div>
+                    <input type="text" name="ANSWER" id="answer" value={ANSWER} placeholder="請輸入半形數字，勿輸入中文、英文或其他特殊字" onChange={updateInput} />
                 </div>
                 <div className="buttonBlock">
-                    <button type="button" className="addquiz-button" onClick={this.props.sendQuiz}>提交</button>
-                    <button type="button" className="preview-button" onClick={this.props.statusChange}>預覽</button>
+                    <button type="button" className="addquiz-button" onClick={sendQuiz}>提交</button>
+                    <button type="button" className="preview-button" onClick={statusChange}>預覽</button>
                 </div>
             </form>
         )
@@ -139,14 +139,9 @@ class Addquiz extends React.Component {
                 TAG: this.state.TAG,
                 rightCounter: 0,
                 wrongCounter: 0,
-            })
-                .then(function () {
-                    console.log("Document successfully written!");
-
-                })
-                .catch(function (error) {
-                    console.error("Error writing document: ", error);
-                });
+            }).catch(function (error) {
+                console.error("Error writing document: ", error);
+            });
             this.setState({
                 alertMessage: "感謝您的提供，祝您搶票順利，人品大爆發！",
                 alertBlock: "alertBlock",
@@ -167,14 +162,9 @@ class Addquiz extends React.Component {
                 TAG: this.state.TAG,
                 rightCounter: 0,
                 wrongCounter: 0,
-            })
-                .then(function () {
-                    console.log("Document successfully written!");
-
-                })
-                .catch(function (error) {
-                    console.error("Error writing document: ", error);
-                });
+            }).catch(function (error) {
+                console.error("Error writing document: ", error);
+            });
             this.setState({
                 alertMessage: "感謝您的提供，祝您搶票順利，人品大爆發！",
                 alertBlock: "alertBlock",

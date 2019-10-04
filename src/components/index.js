@@ -22,7 +22,7 @@ class Index extends Component {
                         <div className="mobile_user member" onClick={() => this.props.auth(this)}>
                             <img src="img/user.svg" className="userIcon" />
                         </div>
-                        <div className="index_textZone">
+                        <div className="index-textZone">
                             <h3>Love yourself. Love myself. Peace!</h3>
                             <div className="title">BTS Too Much Information</div>
                             <h5>I have come to love myself for who I am, <br />
@@ -31,11 +31,11 @@ class Index extends Component {
                         <div className="iconZone">
                             <div className="indexIcon hvr-push" id="test" onClick={() => this.props.quizEntry(this)}>
                                 <img src="/img/edit.svg" className="icon" />
-                                <div className="text">測驗模式</div>
+                                <div className="iconText">測驗模式</div>
                             </div>
                             <div className="indexIcon hvr-push" id="preTest" onClick={() => this.props.preTestEntry(this)}>
                                 <img src="/img/clock.svg" className="icon" />
-                                <div className="text">模擬搶票</div>
+                                <div className="iconText">模擬搶票</div>
                             </div>
                         </div>
                        

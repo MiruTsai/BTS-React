@@ -4,6 +4,9 @@ import fire from "../fire";
 import QuizAnime from "./quizanime";
 import Scalper from "./scalper";
 import { Link } from "react-router-dom";
+import TextType from "./quizType/textType";
+import PictureType from "./quizType/pictureType";
+import PictureType2 from "./quizType/pictureType2";
 let currentQuiz;
 let index;
 let num = 1;
@@ -14,6 +17,8 @@ let userRightCounter;
 let userWrongCounter;
 let quizRightCounter;
 let quizWrongCounter;
+let rightResIndex;
+let wrongResIndex;
 class AnswerBlock extends Component {
     state = {
         ANSWER: "",
@@ -27,10 +32,10 @@ class AnswerBlock extends Component {
         return (
             <React.Fragment>
                 <div className="answerBlock">
-                    <div className="note">請在下方答案框輸入答案<br /> * 僅限半形數字，請勿填寫中文</div>
+                    <div className="note">請在答案框輸入答案<br /> <span className="quiz-subtext">* 僅限半形數字，請勿填寫中文</span></div>
                     <input type="text" name="ANSWER" className="quiz-answer" value={this.state.ANSWER} onChange={this.handleChange} />
+                    <button type="button" className="quiz-button" onClick={() => this.props.checkAnswer(this)}>確定</button>
                 </div>
-                <button type="button" className="quiz-button" onClick={() => this.props.checkAnswer(this)}>確定</button>
             </React.Fragment>
         )
     }
@@ -80,20 +85,19 @@ class QuizBoard extends React.Component {
     checkAnswer = (e) => {
         quizRightCounter = this.state.quizs[index].rightCounter;
         quizWrongCounter = this.state.quizs[index].wrongCounter;
-        console.log("tt",quizRightCounter)
-        let rightResIndex = Math.floor(Math.random() * this.state.rightResponse.length);
-        let wrongResIndex = Math.floor(Math.random() * this.state.wrongResponse.length);
+        rightResIndex = Math.floor(Math.random() * this.state.rightResponse.length);
+        wrongResIndex = Math.floor(Math.random() * this.state.wrongResponse.length);
         if (e.state.ANSWER === this.state.quizs[index].ANSWER) {
             this.setState((prevState) => ({
                 rightCounter: prevState.rightCounter + 1,
                 userRightCounter: prevState.userRightCounter + 1,
                 rightQuizs: [...this.state.rightQuizs, this.state.quizs[index]],
                 quizs: this.state.quizs.filter(p => p.QUIZ !== this.state.quizs[index].QUIZ),
-                res: "答對了！只有 "+Math.floor(quizRightCounter/(quizRightCounter+quizWrongCounter)*100)+"% 的人答對呢！",
+                res: "答對了！只有 " + Math.floor(quizRightCounter / (quizRightCounter + quizWrongCounter) * 100) + "% 的人答對呢！",
                 resBoardClass: "resBoard",
                 resPic: "../../img/right/" + this.state.rightResponse[rightResIndex],
                 containerClass: "hideContainer",
-                blurLayer: "blurLayer",
+                blurLayer: "blurLayer"
             }))
             fire.firestore().collection("MemberShip").doc(this.props.userUid).update({
                 rightCounter: this.state.userRightCounter + 1,
@@ -108,7 +112,7 @@ class QuizBoard extends React.Component {
                 userWrongCounter: prevState.userWrongCounter + 1,
                 wrongQuizs: [...this.state.wrongQuizs, this.state.quizs[index]],
                 quizs: this.state.quizs.filter(p => p.QUIZ !== this.state.quizs[index].QUIZ),
-            res: "答案是 " + this.state.quizs[index].ANSWER + "。" + "沒關係有 "+Math.floor(quizWrongCounter/(quizRightCounter+quizWrongCounter)*100)+"% 的人沒答對。",
+                res: "答案是 " + this.state.quizs[index].ANSWER + "。" + "沒關係有 " + Math.floor(quizWrongCounter / (quizRightCounter + quizWrongCounter) * 100) + "% 的人沒答對。",
                 resBoardClass: "resBoard",
                 resPic: "../../img/wrong/" + this.state.wrongResponse[wrongResIndex],
                 containerClass: "hideContainer",
@@ -141,59 +145,27 @@ class QuizBoard extends React.Component {
         }
     }
     render() {
-        const { quizs } = this.state
-        console.log("quizstest",quizs)
+        const { quizs } = this.state;
         if (!quizs.length) {
-            this.props.history.push("/profile")
+            this.props.history.push("/profile");
         } else {
             index = Math.floor(Math.random() * quizs.length)
-            const options = quizs[index].OPTIONS.map((option, num) => {
-                return (
-                    <div className="option" key={Math.random()}> ( {num + 1} )<span className="answerValue">{option} </span></div>
-                )
-            })
-            const picOption = quizs[index].OPTIONS.map((option, num) => {
-                return (
-                    <div className="picOption" key={Math.random()}> ( {num + 1} )
-                <img className="picSource" src={option} />
-                    </div>
-                )
-            })
             if (quizs[index].TAG === "text") {
-                currentQuiz =
-                    <React.Fragment>
-                        <div className="quiz">{quizs[index].QUIZ}</div>
-                        <div className="options">
-                            {options}
-                        </div>
-                    </React.Fragment>
+                currentQuiz = <TextType quizs={quizs} index={index} />
             } else if (quizs[index].TAG === "picture") {
-                currentQuiz =
-                    <React.Fragment>
-                        <div className="quiz">{quizs[index].QUIZ}</div>
-                        <div className="options">
-                            {picOption}
-                        </div>
-                    </React.Fragment>
+                currentQuiz = <PictureType quizs={quizs} index={index} />
             } else {
-                currentQuiz =
-                    <React.Fragment>
-                        <div className="pic_quiz_title">{quizs[index].QUIZ}</div>
-                        <img src={quizs[index].QUIZPIC} className="pic_quiz_img hvr-grow" />
-                        <div className="options">
-                            {options}
-                        </div>
-                    </React.Fragment>
+                currentQuiz = <PictureType2 quizs={quizs} index={index} />
             }
         }
         return (
             <React.Fragment>
                 <div className={this.state.resBoardClass}>
-                <div className="board-Title">BTS-TMI</div>
-                <div className="layer">
-                    <img src={this.state.resPic} />
-                    <div className="res">{this.state.res}</div>
-                    <button type="button" className="qres-button" onClick={this.closeRes}>知道了</button>
+                    <div className="board-Title">BTS-TMI</div>
+                    <div className="layer">
+                        <img className="resPic" src={this.state.resPic} />
+                        <div className="res">{this.state.res}</div>
+                        <button type="button" className="qres-button" onClick={this.closeRes}>知道了</button>
                     </div>
                 </div>
                 <div className={this.state.blurLayer}>

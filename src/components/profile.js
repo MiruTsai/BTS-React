@@ -14,33 +14,32 @@ class Profile extends Component {
     user: this.props.userUid
   }
   componentDidMount = () => {
-      fire.firestore().collection("MemberShip").doc(this.state.user).get().then((doc) => {
-          if (doc.exists) {
-              let userInfo = doc.data()
-              console.log("userInfo",userInfo)
-              userName = userInfo.NAME;
-              userID = userInfo.ID;
-              userRightCounter = userInfo.rightCounter;
-              userWrongCounter = userInfo.wrongCounter;
-              this.setState({
-                userName: userName,
-                userID: userID,
-                userRightCounter: userRightCounter,
-                userWrongCounter: userWrongCounter
-            })
-          }else{
-            return ;
-          }
-          
-      })
+    fire.firestore().collection("MemberShip").doc(this.state.user).get().then((doc) => {
+      if (doc.exists) {
+        let userInfo = doc.data()
+        userName = userInfo.NAME;
+        userID = userInfo.ID;
+        userRightCounter = userInfo.rightCounter;
+        userWrongCounter = userInfo.wrongCounter;
+        this.setState({
+          userName: userName,
+          userID: userID,
+          userRightCounter: userRightCounter,
+          userWrongCounter: userWrongCounter
+        })
+      } else {
+        return;
+      }
+
+    })
   }
   render() {
 
     return (
       <React.Fragment>
         <Link to="/">
-                    <img src="/../img/LOGO.png" className="profileLogo" />
-                </Link>
+          <img src="/../img/LOGO.png" className="profileLogo" />
+        </Link>
         <div className="proContainer">
           <div className="profile">
             <div className="profileZone">
@@ -68,11 +67,11 @@ class Profile extends Component {
               loader={<div>Loading Chart</div>}
               data={[
                 ["Task", "Hours per Day"],
-                ["答對", 
-                   this.state.userRightCounter
+                ["答對",
+                  this.state.userRightCounter
                 ],
-                ["答錯", 
-                   this.state.userWrongCounter
+                ["答錯",
+                  this.state.userWrongCounter
                 ],
               ]}
               options={{
