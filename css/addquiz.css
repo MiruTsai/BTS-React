@@ -44,6 +44,7 @@ form{
   height:34px;
   padding-left:10px;
   background-color:#F6F7F7;
+  cursor: pointer;
 }
 .choice{
     display: flex;

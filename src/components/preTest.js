@@ -5,13 +5,43 @@ import GetTicketGuide from "./guide";
 import TextType from "./quizType/textType";
 import PictureType from "./quizType/pictureType";
 import PictureType2 from "./quizType/pictureType2";
-let answer;
 let index;
 let currentQuiz;
 let seconds = 0;
 let randomTime;
 let getSound;
 let failSound;
+
+class AnswerBlock extends Component {
+    state = {
+        ANSWER: "",
+    }
+    handleChange = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
+    componentDidMount = () => {
+        window.addEventListener("keydown", event => {
+            if (event.keyCode === 13 || event.keyCode === 108) {
+                this.props.checkAnswer(this);
+                this.state.ANSWER = "";
+            }
+        })
+    }
+    
+    render() {
+        return (
+            <React.Fragment>
+                <div className="answerBlock">
+                    <div className="note">請在答案框輸入答案<br /> <span className="quiz-subtext">* 僅限半形數字，請勿填寫中文</span></div>
+                    <input type="text" name="ANSWER" className="quiz-answer" value={this.state.ANSWER} onChange={this.handleChange} />
+                    <button type="button" className="quiz-button" onClick={() => this.props.checkAnswer(this)}>確定</button>
+                </div>
+            </React.Fragment>
+        )
+    }
+}
 
 class PreTest extends Component {
     state = {
@@ -30,17 +60,19 @@ class PreTest extends Component {
         getSound.src = "../../source/get.mp3";
         failSound = new Audio();
         failSound.src = "../../source/fail.mp3";
-        seconds = 0;
         this.countDown = setInterval(() => {
             seconds++
             console.log(seconds);
         }, 1000);
+        seconds = 0;
     }
-    componentWillUnmount = ()=>{
+    componentWillUnmount = () => {
         clearInterval(this.countDown);
     }
     handleChange = (e) => {
-        answer = e.target.value
+        this.setState({
+            [e.target.name]: e.target.value
+        })
     }
     closeGuide = () => {
         this.setState({
@@ -55,10 +87,11 @@ class PreTest extends Component {
             })
         }, 5000);
     }
-    checkAnswer = () => {
+    checkAnswer = (e) => {
         this.setState({ loadingClass: "preloading" });
+        console.log("ANSWER", e.state.ANSWER)
         randomTime = Math.floor(Math.random() * 10000)
-        if (answer === this.state.quizs[index].ANSWER) {
+        if (e.state.ANSWER === this.state.quizs[index].ANSWER) {
             if (seconds < 8) {
                 setTimeout(() => {
                     this.setState({
@@ -89,6 +122,7 @@ class PreTest extends Component {
                     setTimeout(() => {
                         this.setState({
                             alertBlockClass: "alertBlock",
+                            ANSWER: ""
                         })
                     }, 7000)
                 }, randomTime)
@@ -108,6 +142,7 @@ class PreTest extends Component {
                 setTimeout(() => {
                     this.setState({
                         alertBlockClass: "alertBlock",
+                        ANSWER: ""
                     })
                 }, 7000)
             }, randomTime)
@@ -128,15 +163,9 @@ class PreTest extends Component {
                 timerClass: "hideTimer",
                 resPicClass: "hidemask",
             })
-            // setInterval(() => {
-            //     seconds++
-            //     console.log(seconds);
-            // }, 1000);
         }, 5000);
-        // clearInterval(countDown);
     }
     backToIndex = () => {
-        // clearInterval(countDown);
         this.props.history.push("/")
     }
     render() {
@@ -149,9 +178,7 @@ class PreTest extends Component {
         } else {
             currentQuiz = <PictureType2 quizs={quizs} index={index} />
         }
-        
         seconds = 0;
-        
         return (
             <React.Fragment>
                 <Link to="/">
@@ -178,11 +205,7 @@ class PreTest extends Component {
                         <div className="quizBlock">
                             {currentQuiz}
                         </div>
-                        <div className="answerBlock">
-                            <div className="note">請在下方答案框輸入答案<br /><span className="quiz-subtext"> * 僅限半形數字，請勿填寫中文</span></div>
-                            <input type="text" className="quiz-answer" value={this.state.answer} onChange={this.handleChange} />
-                        </div>
-                        <button type="button" onClick={this.checkAnswer} className="sendAnswer">送出</button>
+                        <AnswerBlock checkAnswer={this.checkAnswer} />
                     </div>
                 </div>
             </React.Fragment>

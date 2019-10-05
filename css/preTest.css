@@ -20,6 +20,7 @@
 /* GetTicketGuide */
 .guide{
     background-color: rgba(0,0,0,0.3);
+    position: fixed;
     z-index: 1000;
     top:0;
     left:0;

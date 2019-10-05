@@ -20,7 +20,7 @@ const Description = (props) => {
 class NewQuiz extends React.Component {
     render() {
         let quizTitle;
-        const { TAG, QUIZ,  OPT1, OPT2, OPT3, OPT4, ANSWER, QUIZPIC, updateInput, handleChange, sendQuiz, statusChange} = this.props;
+        const { TAG, QUIZ, OPT1, OPT2, OPT3, OPT4, ANSWER, QUIZPIC, updateInput, handleChange, sendQuiz, statusChange } = this.props;
         if (TAG === "picture2") {
             quizTitle =
                 <div className="choice">
@@ -90,6 +90,7 @@ class Addquiz extends React.Component {
         alertBlock: "hideAlertBlock",
         blurLayer: "hideblurLayer"
     }
+
     showGuide = () => {
         this.setState({
             className1: "textZoneVisible"
@@ -187,6 +188,7 @@ class Addquiz extends React.Component {
         })
     }
     render() {
+        const { ANSWER, QUIZ, QUIZPIC, OPTIONS, OPT1, OPT2, OPT3, OPT4, TAG } = this.state;
         let board;
         if (this.state.review === false) {
             board =
@@ -201,12 +203,12 @@ class Addquiz extends React.Component {
                     </div>
                     <Description showGuide={this.showGuide} />
                     <div className="add-rightSide">
-                        <NewQuiz handleChange={this.handleChange} updateInput={this.updateInput} sendQuiz={this.sendQuiz} statusChange={this.statusChange} ANSWER={this.state.ANSWER} QUIZ={this.state.QUIZ}
-                            OPTIONS={this.state.OPTIONS} QUIZPIC={this.state.QUIZPIC} TAG={this.state.TAG} OPT1={this.state.OPT1} OPT2={this.state.OPT2} OPT3={this.state.OPT3} OPT4={this.state.OPT4} />
+                        <NewQuiz handleChange={this.handleChange} updateInput={this.updateInput} sendQuiz={this.sendQuiz} statusChange={this.statusChange} ANSWER={ANSWER} QUIZ={QUIZ}
+                            OPTIONS={OPTIONS} QUIZPIC={QUIZPIC} TAG={TAG} OPT1={OPT1} OPT2={OPT2} OPT3={this.state.OPT3} OPT4={OPT4} />
                     </div>
                 </React.Fragment>
         } else {
-            board = <PreviewQuiz QUIZ={this.state.QUIZ} OPTIONS={this.state.OPTIONS} OPT1={this.state.OPT1} OPT2={this.state.OPT2} OPT3={this.state.OPT3} OPT4={this.state.OPT4} QUIZPIC={this.state.QUIZPIC} TAG={this.state.TAG} backStatus={this.backStatus} />
+            board = <PreviewQuiz QUIZ={QUIZ} OPTIONS={OPTIONS} OPT1={OPT1} OPT2={OPT2} OPT3={OPT3} OPT4={OPT4} QUIZPIC={QUIZPIC} TAG={TAG} backStatus={this.backStatus} />
         }
         return (
             <React.Fragment>
