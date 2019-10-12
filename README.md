@@ -7,7 +7,6 @@
 
 *Emphasis Text* → Emphasis Text
 
-[A Hyperlink](#yourLink) → A Hyperlink
 
-![An Image](/img/readme/BTS.png)
+![An Image](/dist/img/readme/BTS.png)
 
