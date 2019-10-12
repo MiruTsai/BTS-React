@@ -225,6 +225,17 @@ text{
     }
 }
 @media(max-width:480px){
+    body{
+        margin:0;
+    }
+    .indexContainer{
+        position:static;
+        transform: translateX(0) translateY(0);
+        width:100%;
+        display: block;
+        margin:0;
+        height:100vh;
+    }
     .title{
         font-size: 40px;
     }

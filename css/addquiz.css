@@ -230,6 +230,9 @@ button{
     
 }
 @media (max-width:640px){
+    body{
+        margin: 0;
+    }
     .group-pic{
         width:80%;
         margin-right:10px;
@@ -245,5 +248,10 @@ button{
     }
 }
 @media(max-width:480px){
-    
+    .description{
+        margin: 10px 0;
+    }
+    form{
+        margin: 10px 0;
+    }
 }

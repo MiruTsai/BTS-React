@@ -103,6 +103,16 @@ class QuizBoard extends React.Component {
         quizWrongCounter = this.state.quizs[index].wrongCounter;
         rightResIndex = Math.floor(Math.random() * this.state.rightResponse.length);
         wrongResIndex = Math.floor(Math.random() * this.state.wrongResponse.length);
+        if (e.state.ANSWER === "" || isNaN(e.state.ANSWER)) {
+            this.setState({
+                res: "你的答案格式不對喔！",
+                resBoardClass: "resBoard",
+                resPic: "../../img/wrong/" + this.state.wrongResponse[wrongResIndex],
+                containerClass: "hideContainer",
+                blurLayer: "blurLayer"
+            })
+            return
+        }
         if (e.state.ANSWER === this.state.quizs[index].ANSWER) {
             fire.firestore().collection("QUIZS").doc(this.state.quizs[index].id).update({
                 rightCounter: quizRightCounter + 1,
@@ -145,7 +155,7 @@ class QuizBoard extends React.Component {
             blurLayer: "hideBlurLayer",
             resPic: ""
         })
-        if (this.state.wrongQuizs.length === 40) {
+        if (this.state.wrongQuizs.length > 5) {
             this.setState({
                 scalper: "scalper",
                 containerClass: "hideContainer"
@@ -154,7 +164,6 @@ class QuizBoard extends React.Component {
             setTimeout(() => { this.props.history.push("/") }, 6000)
         }
     }
-
     render() {
         const { quizs, resBoardClass, res, resPic, blurLayer, scalper, animeClass, containerClass, rightQuizs, wrongQuizs } = this.state;
         if (!quizs.length) {
