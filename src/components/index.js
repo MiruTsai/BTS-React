@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import "../../css/main.css";
+// import "../../css/main.css";
 import Logo from "./logo";
 import Response from "./response";
 
-const IndexPic = () => {
+export const IndexPic = () => {
     return (
         <div className="btspic">
             <img src="/img/group.jpg" className="indexPic" />
