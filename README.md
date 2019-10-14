@@ -30,5 +30,6 @@
 ![](/dist/img/readme/opening.gif)
 
 * __Established a mock ticketing queue for user to practice before snatching concert tickets__
+
 ![](/dist/img/readme/pretest.gif)
 
