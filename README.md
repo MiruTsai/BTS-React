@@ -12,6 +12,7 @@
 * Babel
 * SVG Animation
 * Unit test: Jest
+* RWD
 
 
 ## Features
