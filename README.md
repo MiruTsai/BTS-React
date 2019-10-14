@@ -7,7 +7,7 @@
 * Built Single Page Application by React, React Router
 * Developed a template for mock test bank that can be customized for other artists easily
 * Implemented member system by Firebase Authentication
-* Created questions database with Firebase Cloud Firestore, allowed login users to add questions
+### Created questions database with Firebase Cloud Firestore, allowed login users to add questions
 ![](/dist/img/readme/constructure.PNG)
 
 ### Visualized users' result statistics with Google Charts
