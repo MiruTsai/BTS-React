@@ -60,9 +60,8 @@ class App extends Component {
                 animeClass: "anime fadeAnime",
                 loginContainerClass: "hideLoginContainer",
             })
-            fire.auth().currentUser.sendEmailVerification().then(()=> {
+            fire.auth().currentUser.sendEmailVerification().then(() => {
                 console.log("success");
-                
             })
             fire.firestore().collection("QUIZS").get().then((querySnapshot) => {
                 querySnapshot.forEach(function (doc) {
@@ -81,10 +80,10 @@ class App extends Component {
                     wrongCounter: 0
                 })
             })
-        }).catch( (error) => {
+        }).catch((error) => {
             console.log("Error getting documents: ", error);
         })
-        setTimeout( () => { e.props.history.push("/") }, 5700)
+        setTimeout(() => { e.props.history.push("/") }, 5700)
     }
 
     login = (a) => {
@@ -112,15 +111,16 @@ class App extends Component {
             })
             return;
         }
-        fire.auth().signInWithEmailAndPassword(a.state.email, a.state.password).catch( (error) => {
+        fire.auth().signInWithEmailAndPassword(a.state.email, a.state.password).catch((error) => {
             console.log("Error getting documents: ", error);
-            console.log("errorcode",error.code)
-            if (error.code.slice(5,error.code.length)==="wrong-password"){
-            this.setState({
-                alertMessage: "糟糕！密碼打錯囉",
-                alertBlock: "alertBlock",
-                blurLayer: "alertBlurlayer"
-            })}else{
+            console.log("errorcode", error.code)
+            if (error.code.slice(5, error.code.length) === "wrong-password") {
+                this.setState({
+                    alertMessage: "糟糕！密碼打錯囉",
+                    alertBlock: "alertBlock",
+                    blurLayer: "alertBlurlayer"
+                })
+            } else {
                 this.setState({
                     alertMessage: "糟糕！沒有這個人喔",
                     alertBlock: "alertBlock",
@@ -129,31 +129,32 @@ class App extends Component {
             }
         }).then(() => {
             user = fire.auth().currentUser.uid;
-            if(!user){
+            if (!user) {
                 return
-            }else{
-            localStorage.setItem("uid", user);
-            this.setState({
-                userUid: user,
-                animeClass: "anime fadeAnime",
-                loginContainerClass: "hideLoginContainer"
-            })
-            fire.firestore().collection("QUIZS").get().then((querySnapshot) => {
-                querySnapshot.forEach(function (doc) {
-                    let x = doc.id;
-                    let y = doc.data();
-                    y.id = x;
-                    newquizs.push(y);
-                });
+            } else {
+                localStorage.setItem("uid", user);
                 this.setState({
-                    Quizs: newquizs,
-                });
-            })}
-            setTimeout( () => { a.props.history.push("/") }, 5700)
+                    userUid: user,
+                    animeClass: "anime fadeAnime",
+                    loginContainerClass: "hideLoginContainer"
+                })
+                fire.firestore().collection("QUIZS").get().then((querySnapshot) => {
+                    querySnapshot.forEach(function (doc) {
+                        let x = doc.id;
+                        let y = doc.data();
+                        y.id = x;
+                        newquizs.push(y);
+                    });
+                    this.setState({
+                        Quizs: newquizs,
+                    });
+                })
+            }
+            setTimeout(() => { a.props.history.push("/") }, 5700)
         });
-        
+
     }
-    
+
     authListener = (e) => {
         let user = this.state.userUid
         if (user === "") {
@@ -203,18 +204,19 @@ class App extends Component {
         }
     }
     render() {
+        const { alertMessage, alertBlock, userUid,Quizs } = this.state;
         return (
             <BrowserRouter>
                 <Route exact path="/" render={(props) => <Index {...props} auth={this.authListener} quizEntry={this.quizEntry} preTestEntry={this.preTestEntry}
-                    alertMessage={this.state.alertMessage} alertBlock={this.state.alertBlock} blurLayer={this.state.blurLayer} closeAlert={this.closeAlert} />}
-                    userUid={this.state.userUid} />
-                <Route path="/login" render={(props) => <Login {...props}
-                    alertMessage={this.state.alertMessage} alertBlock={this.state.alertBlock} blurLayer={this.state.blurLayer} closeAlert={this.closeAlert}
-                    login={this.login} signUP={this.signUP} userUid={this.state.userUid} animeClass={this.state.animeClass} loginContainerClass={this.state.loginContainerClass} />} />
-                <Route path="/profile" render={(props) => <Profile {...props} userUid={this.state.userUid} logOut={this.logOut} />} />
-                <Route path="/quizboard" render={(props) => <QuizBoard {...props} quizs={this.state.Quizs} userUid={this.state.userUid} />} />
+                    alertMessage={alertMessage} alertBlock={alertBlock} blurLayer={this.state.blurLayer} closeAlert={this.closeAlert} />}
+                    userUid={userUid} />
+                <Route path="/login" render={(props) => <Login {...props} alertMessage={alertMessage} alertBlock={alertBlock} closeAlert={this.closeAlert}
+                    blurLayer={this.state.blurLayer} login={this.login} signUP={this.signUP} userUid={userUid} animeClass={this.state.animeClass}
+                    loginContainerClass={this.state.loginContainerClass} />} />
+                <Route path="/profile" render={(props) => <Profile {...props} userUid={userUid} logOut={this.logOut} />} />
+                <Route path="/quizboard" render={(props) => <QuizBoard {...props} quizs={Quizs} userUid={userUid} />} />
                 <Route path="/Addquiz" component={Addquiz} closeAlert={this.closeAlert} />
-                <Route path="/preTest" render={(props) => <PreTest {...props} quizs={this.state.Quizs} closeAlert={this.closeAlert} />} />
+                <Route path="/preTest" render={(props) => <PreTest {...props} quizs={Quizs} closeAlert={this.closeAlert} />} />
             </BrowserRouter>
         )
     }
