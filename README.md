@@ -1,7 +1,18 @@
-# BTS-React
+# BTS-TMI [![Codacy Badge](https://api.codacy.com/project/badge/Grade/77cb95185a7c4c9e94fb2f0524b3978c)](https://www.codacy.com/manual/MiruTsai/BTS-React?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=MiruTsai/BTS-React&amp;utm_campaign=Badge_Grade)
+##### Web Link:   ![BTS-TMI](https://btstmi.firebaseapp.com/) 
 ### A test bank for dedicated BTS's (K-POP boy group) fans to practice mock questions before snatching concert tickets. 
 
 ![](/dist/img/readme/BTS.PNG)
+
+## Technologies
+* React
+* Router
+* Firebase
+* Webpack
+* Babel
+* SVG Animation
+* Unit test: Jest
+
 
 ## Features
 * Built Single Page Application by React, React Router
