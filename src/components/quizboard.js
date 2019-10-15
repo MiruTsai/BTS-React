@@ -32,8 +32,12 @@ class AnswerBlock extends Component {
     componentDidMount = () => {
         window.addEventListener("keydown", event => {
             if (event.keyCode === 13 || event.keyCode === 108) {
-                this.props.checkAnswer(this);
-                this.state.ANSWER = "";
+                if (this.state.ANSWER === "") {
+                    this.props.closeRes();
+                } else {
+                    this.props.checkAnswer(this);
+                    this.state.ANSWER = "";
+                }
             }
         })
     }
@@ -73,11 +77,6 @@ class QuizBoard extends React.Component {
         rightSound.src = "../../source/right.mp3";
         errorSound = new Audio();
         errorSound.src = "../../source/error.mp3";
-        window.addEventListener("keydown", event => {
-            if (event.keyCode === 32) {
-                this.closeRes();
-            }
-        })
         window.setTimeout(() => {
             this.setState({
                 animeClass: "hideQuizAnime",
@@ -190,7 +189,7 @@ class QuizBoard extends React.Component {
                         <div className="quizBlock">
                             {currentQuiz}
                         </div>
-                        <AnswerBlock checkAnswer={this.checkAnswer} />
+                        <AnswerBlock checkAnswer={this.checkAnswer} closeRes={this.closeRes}/>
                     </div>
                     <div className="counter">
                         <div className="all">還有：{quizs.length}</div>

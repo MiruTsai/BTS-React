@@ -24,12 +24,12 @@ class AnswerBlock extends Component {
     componentDidMount = () => {
         window.addEventListener("keydown", event => {
             if (event.keyCode === 13 || event.keyCode === 108) {
-                this.props.checkAnswer(this);
-                this.state.ANSWER = "";
+                    this.props.checkAnswer(this);
+                    this.state.ANSWER = "";
             }
         })
     }
-    
+
     render() {
         return (
             <React.Fragment>
@@ -89,7 +89,6 @@ class PreTest extends Component {
     }
     checkAnswer = (e) => {
         this.setState({ loadingClass: "preloading" });
-        console.log("ANSWER", e.state.ANSWER)
         randomTime = Math.floor(Math.random() * 10000)
         if (e.state.ANSWER === this.state.quizs[index].ANSWER) {
             if (seconds < 8) {
