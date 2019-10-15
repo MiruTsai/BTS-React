@@ -24,8 +24,16 @@ class AnswerBlock extends Component {
     componentDidMount = () => {
         window.addEventListener("keydown", event => {
             if (event.keyCode === 13 || event.keyCode === 108) {
-                    this.props.checkAnswer(this);
-                    this.state.ANSWER = "";
+                this.props.checkAnswer(this);
+                this.state.ANSWER = "";
+            }
+        })
+    }
+    componentWillUnmount = () => {
+        window.removeEventListener("keydown", event => {
+            if (event.keyCode === 13 || event.keyCode === 108) {
+                this.props.checkAnswer(this);
+                this.state.ANSWER = "";
             }
         })
     }
@@ -91,7 +99,7 @@ class PreTest extends Component {
         this.setState({ loadingClass: "preloading" });
         randomTime = Math.floor(Math.random() * 10000)
         if (e.state.ANSWER === this.state.quizs[index].ANSWER) {
-            if (seconds < 8) {
+            if (seconds < 5) {
                 setTimeout(() => {
                     this.setState({
                         logoClass: "hideLogo",
@@ -99,7 +107,9 @@ class PreTest extends Component {
                         maskClass: "preTestMask",
                         containerClass: "hideContainer",
                         resPic: "../../img/concert2S.jpg",
-                        response: ""
+                        resPicClass: "preResPic",
+                        response: "",
+                        resBoardClass: "hideResBoard"
                     })
                     getSound.play();
                     setTimeout(() => {
@@ -113,9 +123,10 @@ class PreTest extends Component {
                         loadingClass: "hideLoading",
                         maskClass: "preTestMask",
                         containerClass: "hideContainer",
-                        resPicClass: "preTestMask",
+                        resPicClass: "wrongResPic",
                         resPic: "../../img/fail.gif",
-                        response: "手腳太慢被搶光了..."
+                        response: "手腳太慢被搶光了...",
+                        resBoardClass: "response"
                     })
                     failSound.play();
                     setTimeout(() => {
@@ -134,8 +145,9 @@ class PreTest extends Component {
                     maskClass: "preTestMask",
                     containerClass: "hideContainer",
                     resPic: "../../img/fail.gif",
-                    resPicClass: "preTestMask",
-                    response: "答案錯囉..."
+                    resPicClass: "wrongResPic",
+                    response: "答案錯囉...",
+                    resBoardClass: "response"
                 })
                 failSound.play();
                 setTimeout(() => {
@@ -160,7 +172,7 @@ class PreTest extends Component {
                 maskClass: "hideMask",
                 logoClass: "preTestlogo",
                 timerClass: "hideTimer",
-                resPicClass: "hidemask",
+                resPicClass: "hideMask",
             })
         }, 5000);
     }
@@ -195,8 +207,8 @@ class PreTest extends Component {
                     <img src="../../img/loading.gif" />
                 </div>
                 <div className={this.state.maskClass}>
-                    <img src={this.state.resPic} className={this.resPicClass} />
-                    <div className="response">{this.state.response}</div>
+                    <img src={this.state.resPic} className={this.state.resPicClass} />
+                    <div className={this.state.resBoardClass}>{this.state.response}</div>
                 </div>
                 <div className={this.state.timerClass}>11:59</div>
                 <div className={this.state.containerClass}>

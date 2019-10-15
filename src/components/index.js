@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// import "../../css/main.css";
 import Logo from "./logo";
 import Response from "./response";
 
@@ -38,7 +37,6 @@ class Index extends Component {
                                 <div className="iconText">模擬搶票</div>
                             </div>
                         </div>
-                       
                     </div>
                     <IndexPic />
                     <div className="user member hvr-float-shadow" onClick={() => this.props.auth(this)}>

@@ -20,10 +20,7 @@
     top:0;
     left: 0;
 }
-.hideBlurLayer{
-    display: none;
-}
-.fake{
+.hide{
     display: none;
 }
 .top{
@@ -168,9 +165,6 @@
     max-width: 500px;
 }
 /*scalper*/
-.hideScalper{
-    display: none
-}
 .scalper{
     animation: crosszoom 0.1s;
     position: fixed;
@@ -213,9 +207,6 @@
     }
 }
 /* anime */
-.hideQuizAnime{
-    display: none;
-}
 .anime{
     width: 100vw;
     height:100vh;

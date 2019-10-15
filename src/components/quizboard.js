@@ -64,9 +64,9 @@ class QuizBoard extends React.Component {
         resBoardClass: "hideResBoard",
         containerClass: "hideContainer",
         animeClass: "anime",
-        blurLayer: "hideBlurLayer",
+        blurLayer: "hide",
         res: "",
-        scalper: "hideScalper",
+        scalper: "hide",
         rightResponse: ["group_right_1.gif", "group_right_2.gif", "group_right_3.gif", "jhope_right_1.gif", "jimin_right_1.gif", "jin_right_1.gif", "jin_right_2.gif", "jk_right_1.gif", "jk_right_2.gif", "rm_right_1.gif", "rm_right_2.gif", "suga_right_1.gif", "suga_right_1.gif", "v_right_1.gif", "v_right_2.gif"],
         wrongResponse: ["group_wrong_1.gif", "group_wrong_2.gif", "jhope_wrong_1.gif", "jhope_wrong_3.gif", "jhope_wrong_4.gif", "jimin_wrong_1.gif", "jimin_wrong_2.gif", "jin_wrong_1.gif", "jin_wrong_2.gif", "jin_wrong_3.gif", "jk_wrong_1.gif", "suga_wrong_1.gif", "suga_wrong_2.gif", "rm_wrong_1.gif"],
     }
@@ -79,7 +79,7 @@ class QuizBoard extends React.Component {
         errorSound.src = "../../source/error.mp3";
         window.setTimeout(() => {
             this.setState({
-                animeClass: "hideQuizAnime",
+                animeClass: "hide",
                 containerClass: "quizContainer"
             })
         }, 2000)
@@ -131,7 +131,8 @@ class QuizBoard extends React.Component {
                     resPic: "../../img/wrong/" + this.state.wrongResponse[wrongResIndex],
                     containerClass: "hideContainer",
                     blurLayer: "blurLayer",
-                }))
+                })
+                )
                 wrongSound.play();
             })
         }
@@ -141,7 +142,7 @@ class QuizBoard extends React.Component {
         this.setState({
             resBoardClass: "hideResBoard",
             containerClass: "quizContainer",
-            blurLayer: "hideBlurLayer",
+            blurLayer: "hide",
             resPic: ""
         })
         if (this.state.wrongQuizs.length > 5) {

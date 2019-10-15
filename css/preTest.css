@@ -90,7 +90,22 @@
     flex-direction: column;
     justify-content: flex-start;
 }
-
+.preResPic{
+    position: fixed;
+    display: flex;
+    top:0;
+    left:0;
+    flex-direction: column;
+    width: 100vw;
+    justify-content: center;
+    align-items: center;
+}
+.wrongResPic{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 .hideResPic{
     display: none;
 }

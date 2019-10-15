@@ -17,11 +17,11 @@ const root = document.querySelector(".root");
 class App extends Component {
     state = {
         userUid: "",
-        animeClass: "hideAnime",
+        animeClass: "hide",
         loginContainerClass: "loginContainer",
         alertMessage: "",
-        alertBlock: "hideAlertBlock",
-        blurLayer: "hideblurLayer"
+        alertBlock: "hide",
+        blurLayer: "hide"
     }
 
     signUP = (e) => {
@@ -49,7 +49,6 @@ class App extends Component {
             });
             return;
         }
-
         fire.auth().createUserWithEmailAndPassword(e.state.email, e.state.password).then(() => {
             user = fire.auth().currentUser.uid;
             localStorage.setItem("uid", user);
@@ -112,8 +111,6 @@ class App extends Component {
             return;
         }
         fire.auth().signInWithEmailAndPassword(a.state.email, a.state.password).catch((error) => {
-            console.log("Error getting documents: ", error);
-            console.log("errorcode", error.code)
             if (error.code.slice(5, error.code.length) === "wrong-password") {
                 this.setState({
                     alertMessage: "糟糕！密碼打錯囉",
@@ -192,14 +189,14 @@ class App extends Component {
             e.props.history.push("/login");
             this.setState({
                 alertMessage: "",
-                alertBlock: "hideAlertBlock",
-                blurLayer: "hideBlurLayer"
+                alertBlock: "hide",
+                blurLayer: "hide"
             })
         } else {
             this.setState({
                 alertMessage: "",
-                alertBlock: "hideAlertBlock",
-                blurLayer: "hideBlurLayer"
+                alertBlock: "hide",
+                blurLayer: "hide"
             })
         }
     }
