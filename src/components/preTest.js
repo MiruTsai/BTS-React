@@ -70,7 +70,6 @@ class PreTest extends Component {
         failSound.src = "../../source/fail.mp3";
         this.countDown = setInterval(() => {
             seconds++
-            console.log(seconds);
         }, 1000);
         seconds = 0;
     }
@@ -132,7 +131,6 @@ class PreTest extends Component {
                     setTimeout(() => {
                         this.setState({
                             alertBlockClass: "alertBlock",
-                            ANSWER: ""
                         })
                     }, 7000)
                 }, randomTime)
@@ -153,12 +151,12 @@ class PreTest extends Component {
                 setTimeout(() => {
                     this.setState({
                         alertBlockClass: "alertBlock",
-                        ANSWER: ""
                     })
                 }, 7000)
             }, randomTime)
             seconds = 0;
         }
+        e.state.ANSWER="";
     }
     oneMoreTime = () => {
         this.setState({

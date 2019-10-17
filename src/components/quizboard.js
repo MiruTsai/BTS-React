@@ -138,7 +138,6 @@ class QuizBoard extends React.Component {
                     wrongCounter: prevState.wrongCounter + 1,
                     wrongQuizs: [...this.state.wrongQuizs, this.state.quizs[index]],
                     quizs: this.state.quizs.filter(p => p.QUIZ !== this.state.quizs[index].QUIZ),
-                    //res: "答案是 " + this.state.quizs[index].ANSWER + "。" + "沒關係有 " + Math.floor(quizWrongCounter / (quizRightCounter + quizWrongCounter) * 100) + "% 的人沒答對。",
                     res: "答案是 " + this.state.quizs[index].ANSWER + "。" + reply,
                     resBoardClass: "resBoard",
                     resPic: "../../img/wrong/" + this.state.wrongResponse[wrongResIndex],
