@@ -23,7 +23,6 @@ class App extends Component {
         alertBlock: "hide",
         blurLayer: "hide"
     }
-
     signUP = (e) => {
         if (e.state.email === "" || e.state.password === "") {
             this.setState({
@@ -201,7 +200,7 @@ class App extends Component {
         }
     }
     render() {
-        const { alertMessage, alertBlock, userUid,Quizs } = this.state;
+        const { alertMessage, alertBlock, userUid, Quizs } = this.state;
         return (
             <BrowserRouter>
                 <Route exact path="/" render={(props) => <Index {...props} auth={this.authListener} quizEntry={this.quizEntry} preTestEntry={this.preTestEntry}

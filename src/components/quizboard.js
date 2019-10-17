@@ -19,6 +19,7 @@ let quizRightCounter;
 let quizWrongCounter;
 let rightResIndex;
 let wrongResIndex;
+let reply;
 
 class AnswerBlock extends Component {
     state = {
@@ -106,11 +107,16 @@ class QuizBoard extends React.Component {
             fire.firestore().collection("QUIZS").doc(this.state.quizs[index].id).update({
                 rightCounter: quizRightCounter + 1,
             }).then(() => {
+                if (quizRightCounter + quizWrongCounter === 0) {
+                    reply = "恭喜你是第一個答對的人！！"
+                } else {
+                    reply = "只有 " + Math.floor(quizRightCounter / (quizRightCounter + quizWrongCounter) * 100) + "% 的人答對呢！"
+                }
                 this.setState((prevState) => ({
                     rightCounter: prevState.rightCounter + 1,
                     rightQuizs: [...this.state.rightQuizs, this.state.quizs[index]],
                     quizs: this.state.quizs.filter(p => p.QUIZ !== this.state.quizs[index].QUIZ),
-                    res: "答對了！只有 " + Math.floor(quizRightCounter / (quizRightCounter + quizWrongCounter) * 100) + "% 的人答對呢！",
+                    res: "答對了！" + reply,
                     resBoardClass: "resBoard",
                     resPic: "../../img/right/" + this.state.rightResponse[rightResIndex],
                     containerClass: "hideContainer",
@@ -122,11 +128,18 @@ class QuizBoard extends React.Component {
             fire.firestore().collection("QUIZS").doc(this.state.quizs[index].id).update({
                 wrongCounter: quizWrongCounter + 1,
             }).then(() => {
+                if (quizRightCounter + quizWrongCounter === 0) {
+                    reply = "你是第一個答錯的人 T T"
+                } else {
+                    reply = "沒關係有 " +
+                        Math.floor(quizWrongCounter / (quizRightCounter + quizWrongCounter) * 100) + "% 的人沒答對。"
+                }
                 this.setState((prevState) => ({
                     wrongCounter: prevState.wrongCounter + 1,
                     wrongQuizs: [...this.state.wrongQuizs, this.state.quizs[index]],
                     quizs: this.state.quizs.filter(p => p.QUIZ !== this.state.quizs[index].QUIZ),
-                    res: "答案是 " + this.state.quizs[index].ANSWER + "。" + "沒關係有 " + Math.floor(quizWrongCounter / (quizRightCounter + quizWrongCounter) * 100) + "% 的人沒答對。",
+                    //res: "答案是 " + this.state.quizs[index].ANSWER + "。" + "沒關係有 " + Math.floor(quizWrongCounter / (quizRightCounter + quizWrongCounter) * 100) + "% 的人沒答對。",
+                    res: "答案是 " + this.state.quizs[index].ANSWER + "。" + reply,
                     resBoardClass: "resBoard",
                     resPic: "../../img/wrong/" + this.state.wrongResponse[wrongResIndex],
                     containerClass: "hideContainer",
@@ -190,7 +203,7 @@ class QuizBoard extends React.Component {
                         <div className="quizBlock">
                             {currentQuiz}
                         </div>
-                        <AnswerBlock checkAnswer={this.checkAnswer} closeRes={this.closeRes}/>
+                        <AnswerBlock checkAnswer={this.checkAnswer} closeRes={this.closeRes} />
                     </div>
                     <div className="counter">
                         <div className="all">還有：{quizs.length}</div>
