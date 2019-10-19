@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import SignInAnime from "./signInAnime";
-import Response from "./response";
+import SignInAnime from "./SignInAnime";
+import Response from "./Response";
 import { Link } from "react-router-dom";
 import "../../css/login.css";
 
@@ -11,7 +11,6 @@ class Login extends Component {
         password: "",
         status: "signIn",
     }
-
     signUpSide = () => {
         this.setState({
             status: "signUp"
@@ -29,6 +28,7 @@ class Login extends Component {
             [e.target.name]: e.target.value
         });
     }
+    
     render() {
         let loginZone;
         if (this.state.status === "signIn") {

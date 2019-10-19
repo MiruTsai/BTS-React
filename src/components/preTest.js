@@ -1,16 +1,13 @@
 import React, { Component } from "react";
 import "../../css/preTest.css"
 import { Link } from "react-router-dom";
-import GetTicketGuide from "./guide";
-import TextType from "./quizType/textType";
-import PictureType from "./quizType/pictureType";
-import PictureType2 from "./quizType/pictureType2";
+import GetTicketGuide from "./Guide";
+import TextType from "./quizType/TextType";
+import PictureType from "./quizType/PictureType";
+import PictureType2 from "./quizType/PictureType2";
 let index;
 let currentQuiz;
 let seconds = 0;
-let randomTime;
-let getSound;
-let failSound;
 
 class AnswerBlock extends Component {
     state = {
@@ -37,7 +34,6 @@ class AnswerBlock extends Component {
             }
         })
     }
-
     render() {
         return (
             <React.Fragment>
@@ -52,6 +48,8 @@ class AnswerBlock extends Component {
 }
 
 class PreTest extends Component {
+    getSound = new Audio();
+    failSound = new Audio();
     state = {
         quizs: this.props.quizs,
         loadingClass: "hideLoading",
@@ -64,10 +62,8 @@ class PreTest extends Component {
         guideClass: "guide"
     }
     componentDidMount = () => {
-        getSound = new Audio();
-        getSound.src = "../../source/get.mp3";
-        failSound = new Audio();
-        failSound.src = "../../source/fail.mp3";
+        this.getSound.src = "../../source/get.mp3";
+        this.failSound.src = "../../source/fail.mp3";
         this.countDown = setInterval(() => {
             seconds++
         }, 1000);
@@ -96,7 +92,7 @@ class PreTest extends Component {
     }
     checkAnswer = (e) => {
         this.setState({ loadingClass: "preloading" });
-        randomTime = Math.floor(Math.random() * 10000)
+        let randomTime = Math.floor(Math.random() * 10000);
         if (e.state.ANSWER === this.state.quizs[index].ANSWER) {
             if (seconds < 5) {
                 setTimeout(() => {
@@ -110,7 +106,7 @@ class PreTest extends Component {
                         response: "",
                         resBoardClass: "hideResBoard"
                     })
-                    getSound.play();
+                    this.getSound.play();
                     setTimeout(() => {
                         this.props.history.push("/")
                     }, 7000)
@@ -127,7 +123,7 @@ class PreTest extends Component {
                         response: "手腳太慢被搶光了...",
                         resBoardClass: "response"
                     })
-                    failSound.play();
+                    this.failSound.play();
                     setTimeout(() => {
                         this.setState({
                             alertBlockClass: "alertBlock",
@@ -147,7 +143,7 @@ class PreTest extends Component {
                     response: "答案錯囉...",
                     resBoardClass: "response"
                 })
-                failSound.play();
+                this.failSound.play();
                 setTimeout(() => {
                     this.setState({
                         alertBlockClass: "alertBlock",

@@ -1,9 +1,9 @@
 import "../../css/addquiz.css";
 import React from "react";
-import fire from "../fire"
-import PreviewQuiz from "./previewQuiz";
-import Logo from "./logo";
-import Response from "./response"
+import fire from "../Fire"
+import PreviewQuiz from "./PreviewQuiz";
+import Logo from "./Logo";
+import Response from "./Response"
 
 const Description = (props) => {
     return (<div className="description">
@@ -188,7 +188,7 @@ class Addquiz extends React.Component {
         })
     }
     render() {
-        const { ANSWER, QUIZ, QUIZPIC, OPTIONS, OPT1, OPT2, OPT3, OPT4, TAG } = this.state;
+        const { ANSWER, QUIZ, QUIZPIC, OPTIONS, OPT1, OPT2, OPT3, OPT4, TAG, alertMessage, alertBlock, blurLayer, containerClass} = this.state;
         let board;
         if (this.state.review === false) {
             board =
@@ -204,7 +204,7 @@ class Addquiz extends React.Component {
                     <Description showGuide={this.showGuide} />
                     <div className="add-rightSide">
                         <NewQuiz handleChange={this.handleChange} updateInput={this.updateInput} sendQuiz={this.sendQuiz} statusChange={this.statusChange} ANSWER={ANSWER} QUIZ={QUIZ}
-                            OPTIONS={OPTIONS} QUIZPIC={QUIZPIC} TAG={TAG} OPT1={OPT1} OPT2={OPT2} OPT3={this.state.OPT3} OPT4={OPT4} />
+                            OPTIONS={OPTIONS} QUIZPIC={QUIZPIC} TAG={TAG} OPT1={OPT1} OPT2={OPT2} OPT3={OPT3} OPT4={OPT4} />
                     </div>
                 </React.Fragment>
         } else {
@@ -212,9 +212,9 @@ class Addquiz extends React.Component {
         }
         return (
             <React.Fragment>
-                <Response alertMessage={this.state.alertMessage} alertBlock={this.state.alertBlock} blurLayer={this.state.blurLayer} closeAlert={this.closeBoard} />
+                <Response alertMessage={alertMessage} alertBlock={alertBlock} blurLayer={blurLayer} closeAlert={this.closeBoard} />
                 <Logo />
-                <div className={this.state.containerClass}>
+                <div className={containerClass}>
                     {board}
                 </div>
             </React.Fragment>

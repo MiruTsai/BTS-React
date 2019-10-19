@@ -1,25 +1,15 @@
 import React, { Component } from "react";
 import "../../css/quiz.css";
-import fire from "../fire";
-import QuizAnime from "./quizanime";
-import Scalper from "./scalper";
+import fire from "../Fire";
+import QuizAnime from "./Quizanime";
+import Scalper from "./Scalper";
 import { Link } from "react-router-dom";
-import TextType from "./quizType/textType";
-import PictureType from "./quizType/pictureType";
-import PictureType2 from "./quizType/pictureType2";
-let currentQuiz;
-let index;
-let num = 1;
-let wrongSound;
-let rightSound;
-let errorSound;
-let userRightCounter;
-let userWrongCounter;
+import TextType from "./quizType/TextType";
+import PictureType from "./quizType/PictureType";
+import PictureType2 from "./quizType/PictureType2";
 let quizRightCounter;
 let quizWrongCounter;
-let rightResIndex;
-let wrongResIndex;
-let reply;
+let quizIndex
 
 class AnswerBlock extends Component {
     state = {
@@ -32,6 +22,19 @@ class AnswerBlock extends Component {
     }
     componentDidMount = () => {
         window.addEventListener("keydown", event => {
+            if (event.keyCode === 13 || event.keyCode === 108) {
+                if (this.state.ANSWER === "") {
+                    this.props.closeRes();
+                } else {
+                    this.props.checkAnswer(this);
+                    this.state.ANSWER = "";
+                }
+            }
+        })
+    }
+
+    componentWillUnmount = ()=>{
+        window.removeEventListener("keydown", event => {
             if (event.keyCode === 13 || event.keyCode === 108) {
                 if (this.state.ANSWER === "") {
                     this.props.closeRes();
@@ -56,6 +59,8 @@ class AnswerBlock extends Component {
 }
 
 class QuizBoard extends React.Component {
+    rightResponse=["group_right_1.gif", "group_right_2.gif", "group_right_3.gif", "jhope_right_1.gif", "jimin_right_1.gif", "jin_right_1.gif", "jin_right_2.gif", "jk_right_1.gif", "jk_right_2.gif", "rm_right_1.gif", "rm_right_2.gif", "suga_right_1.gif", "suga_right_1.gif", "v_right_1.gif", "v_right_2.gif"];
+    wrongResponse=["group_wrong_1.gif", "group_wrong_2.gif", "jhope_wrong_1.gif", "jhope_wrong_3.gif", "jhope_wrong_4.gif", "jimin_wrong_1.gif", "jimin_wrong_2.gif", "jin_wrong_1.gif", "jin_wrong_2.gif", "jin_wrong_3.gif", "jk_wrong_1.gif", "suga_wrong_1.gif", "suga_wrong_2.gif", "rm_wrong_1.gif"];
     state = {
         wrongQuizs: [],
         rightQuizs: [],
@@ -68,16 +73,14 @@ class QuizBoard extends React.Component {
         blurLayer: "hide",
         res: "",
         scalper: "hide",
-        rightResponse: ["group_right_1.gif", "group_right_2.gif", "group_right_3.gif", "jhope_right_1.gif", "jimin_right_1.gif", "jin_right_1.gif", "jin_right_2.gif", "jk_right_1.gif", "jk_right_2.gif", "rm_right_1.gif", "rm_right_2.gif", "suga_right_1.gif", "suga_right_1.gif", "v_right_1.gif", "v_right_2.gif"],
-        wrongResponse: ["group_wrong_1.gif", "group_wrong_2.gif", "jhope_wrong_1.gif", "jhope_wrong_3.gif", "jhope_wrong_4.gif", "jimin_wrong_1.gif", "jimin_wrong_2.gif", "jin_wrong_1.gif", "jin_wrong_2.gif", "jin_wrong_3.gif", "jk_wrong_1.gif", "suga_wrong_1.gif", "suga_wrong_2.gif", "rm_wrong_1.gif"],
     }
     componentDidMount = () => {
-        wrongSound = new Audio();
-        wrongSound.src = "../../source/wrong.mp3";
-        rightSound = new Audio();
-        rightSound.src = "../../source/right.mp3";
-        errorSound = new Audio();
-        errorSound.src = "../../source/error.mp3";
+        this.wrongSound = new Audio();
+        this.wrongSound.src = "../../source/wrong.mp3";
+        this.rightSound = new Audio();
+        this.rightSound.src = "../../source/right.mp3";
+        this.errorSound = new Audio();
+        this.errorSound.src = "../../source/error.mp3";
         window.setTimeout(() => {
             this.setState({
                 animeClass: "hide",
@@ -87,65 +90,66 @@ class QuizBoard extends React.Component {
         fire.firestore().collection("MemberShip").doc(this.props.userUid).get().then((doc) => {
             if (doc.exists) {
                 let userInfo = doc.data();
-                userRightCounter = userInfo.rightCounter;
-                userWrongCounter = userInfo.wrongCounter;
+                this.userRightCounter = userInfo.rightCounter;
+                this.userWrongCounter = userInfo.wrongCounter;
             }
         })
     }
     componentWillUnmount = () => {
         fire.firestore().collection("MemberShip").doc(this.props.userUid).update({
-            rightCounter: userRightCounter + this.state.rightQuizs.length,
-            wrongCounter: userWrongCounter + this.state.wrongQuizs.length
+            rightCounter: this.userRightCounter + this.state.rightQuizs.length,
+            wrongCounter: this.userWrongCounter + this.state.wrongQuizs.length
         })
     }
     checkAnswer = (e) => {
-        quizRightCounter = this.state.quizs[index].rightCounter;
-        quizWrongCounter = this.state.quizs[index].wrongCounter;
-        rightResIndex = Math.floor(Math.random() * this.state.rightResponse.length);
-        wrongResIndex = Math.floor(Math.random() * this.state.wrongResponse.length);
-        if (e.state.ANSWER === this.state.quizs[index].ANSWER) {
-            fire.firestore().collection("QUIZS").doc(this.state.quizs[index].id).update({
+        const { quizs } = this.state;
+        quizRightCounter = quizs[quizIndex].rightCounter;
+        quizWrongCounter = quizs[quizIndex].wrongCounter;
+        this.rightResIndex = Math.floor(Math.random() * this.rightResponse.length);
+        this.wrongResIndex = Math.floor(Math.random() * this.wrongResponse.length);
+        if (e.state.ANSWER === quizs[quizIndex].ANSWER) {
+            fire.firestore().collection("QUIZS").doc(quizs[quizIndex].id).update({
                 rightCounter: quizRightCounter + 1,
             }).then(() => {
                 if (quizRightCounter + quizWrongCounter === 0) {
-                    reply = "恭喜你是第一個答對的人！！"
+                    this.reply = "恭喜你是第一個答對的人！！"
                 } else {
-                    reply = "只有 " + Math.floor(quizRightCounter / (quizRightCounter + quizWrongCounter) * 100) + "% 的人答對呢！"
+                    this.reply = "只有 " + Math.floor(quizRightCounter / (quizRightCounter + quizWrongCounter) * 100) + "% 的人答對呢！"
                 }
                 this.setState((prevState) => ({
                     rightCounter: prevState.rightCounter + 1,
-                    rightQuizs: [...this.state.rightQuizs, this.state.quizs[index]],
-                    quizs: this.state.quizs.filter(p => p.QUIZ !== this.state.quizs[index].QUIZ),
-                    res: "答對了！" + reply,
+                    rightQuizs: [...this.state.rightQuizs, quizs[quizIndex]],
+                    quizs: quizs.filter(p => p.QUIZ !== quizs[quizIndex].QUIZ),
+                    res: "答對了！" + this.reply,
                     resBoardClass: "resBoard",
-                    resPic: "../../img/right/" + this.state.rightResponse[rightResIndex],
+                    resPic: "../../img/right/" + this.rightResponse[this.rightResIndex],
                     containerClass: "hideContainer",
                     blurLayer: "blurLayer"
                 }))
-                rightSound.play();
+                this.rightSound.play();
             })
         } else {
-            fire.firestore().collection("QUIZS").doc(this.state.quizs[index].id).update({
+            fire.firestore().collection("QUIZS").doc(quizs[quizIndex].id).update({
                 wrongCounter: quizWrongCounter + 1,
             }).then(() => {
                 if (quizRightCounter + quizWrongCounter === 0) {
-                    reply = "你是第一個答錯的人 T T"
+                    this.reply = "你是第一個答錯的人 T T"
                 } else {
-                    reply = "沒關係有 " +
+                    this.reply = "沒關係有 " +
                         Math.floor(quizWrongCounter / (quizRightCounter + quizWrongCounter) * 100) + "% 的人沒答對。"
                 }
                 this.setState((prevState) => ({
                     wrongCounter: prevState.wrongCounter + 1,
-                    wrongQuizs: [...this.state.wrongQuizs, this.state.quizs[index]],
-                    quizs: this.state.quizs.filter(p => p.QUIZ !== this.state.quizs[index].QUIZ),
-                    res: "答案是 " + this.state.quizs[index].ANSWER + "。" + reply,
+                    wrongQuizs: [...this.state.wrongQuizs, quizs[quizIndex]],
+                    quizs: this.state.quizs.filter(p => p.QUIZ !== quizs[quizIndex].QUIZ),
+                    res: "答案是 " + quizs[quizIndex].ANSWER + "。" + this.reply,
                     resBoardClass: "resBoard",
-                    resPic: "../../img/wrong/" + this.state.wrongResponse[wrongResIndex],
+                    resPic: "../../img/wrong/" + this.wrongResponse[this.wrongResIndex],
                     containerClass: "hideContainer",
                     blurLayer: "blurLayer",
                 })
                 )
-                wrongSound.play();
+                this.wrongSound.play();
             })
         }
         e.state.ANSWER = "";
@@ -157,29 +161,28 @@ class QuizBoard extends React.Component {
             blurLayer: "hide",
             resPic: ""
         })
+        if (this.state.quizs.length === 0) {
+            this.props.history.push("/profile");
+        }
         if (this.state.wrongQuizs.length > 5) {
             this.setState({
                 scalper: "scalper",
                 containerClass: "hideContainer"
             })
-            errorSound.play();
+            this.errorSound.play();
             setTimeout(() => { this.props.history.push("/") }, 6000)
         }
     }
     render() {
         const { quizs, resBoardClass, res, resPic, blurLayer, scalper, animeClass, containerClass, rightQuizs, wrongQuizs } = this.state;
-        if (!quizs.length) {
-            this.props.history.push("/profile");
-        } else {
-            index = Math.floor(Math.random() * quizs.length)
-            if (quizs[index].TAG === "text") {
-                currentQuiz = <TextType quizs={quizs} index={index} />
-            } else if (quizs[index].TAG === "picture") {
-                currentQuiz = <PictureType quizs={quizs} index={index} />
+            quizIndex = Math.floor(Math.random() * quizs.length)
+            if (quizs[quizIndex].TAG === "text") {
+                this.currentQuiz = <TextType quizs={quizs} index={quizIndex} />
+            } else if (quizs[quizIndex].TAG === "picture") {
+                this.currentQuiz = <PictureType quizs={quizs} index={quizIndex} />
             } else {
-                currentQuiz = <PictureType2 quizs={quizs} index={index} />
+                this.currentQuiz = <PictureType2 quizs={quizs} index={quizIndex} />
             }
-        }
         return (
             <React.Fragment>
                 <div className={resBoardClass}>
@@ -200,7 +203,7 @@ class QuizBoard extends React.Component {
                 <div className={containerClass} >
                     <div className="top">
                         <div className="quizBlock">
-                            {currentQuiz}
+                            {this.currentQuiz}
                         </div>
                         <AnswerBlock checkAnswer={this.checkAnswer} closeRes={this.closeRes} />
                     </div>

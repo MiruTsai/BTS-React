@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Logo from "./logo";
-import Response from "./response";
+import Logo from "./Logo";
+import Response from "./Response";
 
 export const IndexPic = () => {
     return (
@@ -15,7 +15,7 @@ class Index extends Component {
         return (
             <React.Fragment>
                 <Logo />
-                <Response alertMessage={this.props.alertMessage} alertBlock={this.props.alertBlock} blurLayer={this.props.blurLayer} closeAlert={()=>this.props.closeAlert(this)}  />
+                <Response alertMessage={this.props.alertMessage} alertBlock={this.props.alertBlock} blurLayer={this.props.blurLayer} closeAlert={() => this.props.closeAlert(this)} />
                 <div className="indexContainer">
                     <div className="leftSide">
                         <div className="mobile_user member" onClick={() => this.props.auth(this)}>

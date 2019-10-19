@@ -112,12 +112,12 @@
 .qres-button:active{
     background: #DBC05B;
 } 
-@keyframes popUp {  /*定义关键帧、scaleDrew是需要绑定到选择器的关键帧名称*/
+@keyframes popUp { 
     from { transform: scale(0) }
     to   {transform: scale(1)}
     }
 
-@keyframes closePopup {  /*定义关键帧、scaleDrew是需要绑定到选择器的关键帧名称*/
+@keyframes closePopup {
     from { transform: scale(1) }
     to   {transform: scale(0)}
     }
@@ -254,10 +254,10 @@
         transform: scale(1);  
     }
     30%{
-        transform: scale(2.5);
+        transform: scale(1.8);
     }  
     80%{
-        transform: scale(2.5);
+        transform: scale(1.8);
     }
     100%{
         transform: scale(1);        
