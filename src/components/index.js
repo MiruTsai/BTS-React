@@ -11,12 +11,23 @@ export const IndexPic = () => {
 }
 
 class Index extends Component {
+    state={
+        whiteMaskClass:"whiteMask"
+    }
+    componentDidMount=()=>{
+        setTimeout(()=>{
+            this.setState({
+                whiteMaskClass:"hide"
+            })
+        },1000)
+    }
     render() {
         return (
             <React.Fragment>
                 <Logo />
                 <Response alertMessage={this.props.alertMessage} alertBlock={this.props.alertBlock} blurLayer={this.props.blurLayer} closeAlert={() => this.props.closeAlert(this)} />
                 <div className="indexContainer">
+                <div className={this.state.whiteMaskClass}></div>
                     <div className="leftSide">
                         <div className="mobile_user member" onClick={() => this.props.auth(this)}>
                             <img src="img/user.svg" className="userIcon" />

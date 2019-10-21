@@ -24,9 +24,9 @@ class NewQuiz extends React.Component {
         if (TAG === "picture2") {
             quizTitle =
                 <div className="choice">
-                    <div className="text">題目</div>
+                    <div className="add_text">題目</div>
                     <input type="text" name="QUIZ" id="quizTitle" value={QUIZ} onChange={updateInput} />
-                    <div className="text">圖片網址</div>
+                    <div className="add_text">圖片網址</div>
                     <input type="text" name="QUIZPIC" id="quizTitle" value={QUIZPIC} onChange={updateInput} />
                 </div>
         } else {
@@ -72,7 +72,7 @@ class NewQuiz extends React.Component {
 
 class Addquiz extends React.Component {
     state = {
-        className1: "textZone",
+        textClass: "textZone",
         containerClass: "addContainer",
         ANSWER: "",
         QUIZ: "",
@@ -93,12 +93,12 @@ class Addquiz extends React.Component {
 
     showGuide = () => {
         this.setState({
-            className1: "textZoneVisible"
+            textClass: "textZoneVisible"
         })
     }
     hideGuide = () => {
         this.setState({
-            className1: "textZone",
+            textClass: "textZone",
         })
     }
     updateInput = (e) => {
@@ -110,20 +110,23 @@ class Addquiz extends React.Component {
         this.setState({ TAG: e.target.value });
     }
     statusChange = () => {
+        const { OPT1, OPT2, OPT3, OPT4, review } = this.state;
         this.setState({
-            OPTIONS: [this.state.OPT1, this.state.OPT2, this.state.OPT3, this.state.OPT4],
-            review: !this.state.review,
+            OPTIONS: [OPT1, OPT2, OPT3, OPT4],
+            review: !review,
             containerClass: "preAddContainer"
         })
     }
     backStatus = () => {
+        const { review } = this.state;
         this.setState({
-            review: !this.state.review,
+            review: !review,
             containerClass: "addContainer"
         })
     }
     sendQuiz = () => {
-        if (this.state.ANSWER === "" || this.state.QUIZ === "" || this.state.OPT1 === "" || this.state.OPT2 === "" || this.state.OPT3 === "" || this.state.OPT4 === "") {
+        const { OPT1, OPT2, OPT3, OPT4, ANSWER, QUIZ, QUIZPIC, TAG } = this.state;
+        if (ANSWER === "" || QUIZ === "" || OPT1 === "" || OPT2 === "" || OPT3 === "" || OPT4 === "") {
             this.setState({
                 alertMessage: "請填入完整題目訊息",
                 alertBlock: "alertBlock",
@@ -131,13 +134,13 @@ class Addquiz extends React.Component {
             });
             return;
         }
-        if (this.state.TAG === "picture2") {
+        if (TAG === "picture2") {
             fire.firestore().collection("QUIZS").doc().set({
-                ANSWER: this.state.ANSWER,
-                QUIZ: this.state.QUIZ,
-                QUIZPIC: this.state.QUIZPIC,
-                OPTIONS: [this.state.OPT1, this.state.OPT2, this.state.OPT3, this.state.OPT4],
-                TAG: this.state.TAG,
+                ANSWER: ANSWER,
+                QUIZ: QUIZ,
+                QUIZPIC: QUIZPIC,
+                OPTIONS: [OPT1, OPT2, OPT3, OPT4],
+                TAG: TAG,
                 rightCounter: 0,
                 wrongCounter: 0,
             }).catch(function (error) {
@@ -157,10 +160,10 @@ class Addquiz extends React.Component {
             });
         } else {
             fire.firestore().collection("QUIZS").doc().set({
-                ANSWER: this.state.ANSWER,
-                QUIZ: this.state.QUIZ,
-                OPTIONS: [this.state.OPT1, this.state.OPT2, this.state.OPT3, this.state.OPT4],
-                TAG: this.state.TAG,
+                ANSWER: ANSWER,
+                QUIZ: QUIZ,
+                OPTIONS: [OPT1, OPT2, OPT3, OPT4],
+                TAG: TAG,
                 rightCounter: 0,
                 wrongCounter: 0,
             }).catch(function (error) {
@@ -188,12 +191,12 @@ class Addquiz extends React.Component {
         })
     }
     render() {
-        const { ANSWER, QUIZ, QUIZPIC, OPTIONS, OPT1, OPT2, OPT3, OPT4, TAG, alertMessage, alertBlock, blurLayer, containerClass} = this.state;
+        const { review, ANSWER, QUIZ, QUIZPIC, textClass, OPTIONS, OPT1, OPT2, OPT3, OPT4, TAG, alertMessage, alertBlock, blurLayer, containerClass } = this.state;
         let board;
-        if (this.state.review === false) {
+        if (review === false) {
             board =
                 <React.Fragment>
-                    <div className={this.state.className1} onClick={this.hideGuide}>
+                    <div className={textClass} onClick={this.hideGuide}>
                         <ul>本站須知：
                                  <li>請選擇您想提供的題型，若您選擇的是圖片題，請確認是否侵害該圖片擁有者的智慧財產權，小編跟您都禁不起被吉的風險。</li>
                             <li>基於這是個共享的平台，禁止過度幻想文。EX:以下哪一張圖是<span className="notice">我老公Jimin的腹肌</span>。是會激起公憤的請注意。</li>

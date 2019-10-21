@@ -51,6 +51,9 @@ form{
     flex-direction: column; 
     margin: 10px 50px;
 }
+.add_text{
+    margin-top: 10px;
+}
 .answerZone{
     margin: 20px;
 }
@@ -77,7 +80,6 @@ form{
 .preview-button:active{
     background: #dfdcdd;
 }
-
 .backQuiz-button{
     background: #FFC6AD;
     margin: 0 auto;

@@ -1,6 +1,5 @@
 .indexContainer{
     box-shadow:2px 2px 2px rgba(20%,20%,40%,0.6),4px 4px 6px rgba(20%,20%,40%,0.4),6px 6px 12px rgba(20%,20%,40%,0.4);
-    animation: indexFadein 1s linear;
     height: 550px; 
     display: flex;
     width:70%;
@@ -11,13 +10,21 @@
     left:50%;
     transform: translateX(-50%) translateY(-50%);
 }
+.whiteMask{
+    animation: indexFadein 1s linear;
+    background: white;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 100;
+}
 /* anime */
 @keyframes indexFadein {
     0%{
-        opacity: 0;
+        opacity: 1;
     }
     100%{
-        opacity: 1;
+        opacity: 0;
     }
 } 
 

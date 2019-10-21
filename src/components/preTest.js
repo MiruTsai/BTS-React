@@ -35,12 +35,14 @@ class AnswerBlock extends Component {
         })
     }
     render() {
+        const { checkAnswer } = this.props;
+        const { ANSWER } = this.state;
         return (
             <React.Fragment>
                 <div className="answerBlock">
                     <div className="note">請在答案框輸入答案<br /> <span className="quiz-subtext">* 僅限半形數字，請勿填寫中文</span></div>
-                    <input type="text" name="ANSWER" className="quiz-answer" value={this.state.ANSWER} onChange={this.handleChange} />
-                    <button type="button" className="quiz-button" onClick={() => this.props.checkAnswer(this)}>確定</button>
+                    <input type="text" name="ANSWER" className="quiz-answer" value={ANSWER} onChange={this.handleChange} />
+                    <button type="button" className="quiz-button" onClick={() => checkAnswer(this)}>確定</button>
                 </div>
             </React.Fragment>
         )
@@ -48,8 +50,8 @@ class AnswerBlock extends Component {
 }
 
 class PreTest extends Component {
-    getSound = new Audio();
-    failSound = new Audio();
+    getSound = new Audio("../../source/get.mp3");
+    failSound = new Audio("../../source/fail.mp3");
     state = {
         quizs: this.props.quizs,
         loadingClass: "hideLoading",
@@ -62,8 +64,6 @@ class PreTest extends Component {
         guideClass: "guide"
     }
     componentDidMount = () => {
-        this.getSound.src = "../../source/get.mp3";
-        this.failSound.src = "../../source/fail.mp3";
         this.countDown = setInterval(() => {
             seconds++
         }, 1000);
@@ -152,7 +152,7 @@ class PreTest extends Component {
             }, randomTime)
             seconds = 0;
         }
-        e.state.ANSWER="";
+        e.state.ANSWER = "";
     }
     oneMoreTime = () => {
         this.setState({

@@ -7,8 +7,7 @@ import { Link } from "react-router-dom";
 import TextType from "./quizType/TextType";
 import PictureType from "./quizType/PictureType";
 import PictureType2 from "./quizType/PictureType2";
-let quizRightCounter;
-let quizWrongCounter;
+
 let quizIndex
 
 class AnswerBlock extends Component {
@@ -33,7 +32,7 @@ class AnswerBlock extends Component {
         })
     }
 
-    componentWillUnmount = ()=>{
+    componentWillUnmount = () => {
         window.removeEventListener("keydown", event => {
             if (event.keyCode === 13 || event.keyCode === 108) {
                 if (this.state.ANSWER === "") {
@@ -59,8 +58,11 @@ class AnswerBlock extends Component {
 }
 
 class QuizBoard extends React.Component {
-    rightResponse=["group_right_1.gif", "group_right_2.gif", "group_right_3.gif", "jhope_right_1.gif", "jimin_right_1.gif", "jin_right_1.gif", "jin_right_2.gif", "jk_right_1.gif", "jk_right_2.gif", "rm_right_1.gif", "rm_right_2.gif", "suga_right_1.gif", "suga_right_1.gif", "v_right_1.gif", "v_right_2.gif"];
-    wrongResponse=["group_wrong_1.gif", "group_wrong_2.gif", "jhope_wrong_1.gif", "jhope_wrong_3.gif", "jhope_wrong_4.gif", "jimin_wrong_1.gif", "jimin_wrong_2.gif", "jin_wrong_1.gif", "jin_wrong_2.gif", "jin_wrong_3.gif", "jk_wrong_1.gif", "suga_wrong_1.gif", "suga_wrong_2.gif", "rm_wrong_1.gif"];
+    wrongSound = new Audio("../../source/wrong.mp3");
+    rightSound = new Audio("../../source/right.mp3");
+    errorSound = new Audio("../../source/error.mp3");
+    rightResponse = ["group_right_1.gif", "group_right_2.gif", "group_right_3.gif", "jhope_right_1.gif", "jimin_right_1.gif", "jin_right_1.gif", "jin_right_2.gif", "jk_right_1.gif", "jk_right_2.gif", "rm_right_1.gif", "rm_right_2.gif", "suga_right_1.gif", "suga_right_1.gif", "v_right_1.gif", "v_right_2.gif"];
+    wrongResponse = ["group_wrong_1.gif", "group_wrong_2.gif", "jhope_wrong_1.gif", "jhope_wrong_3.gif", "jhope_wrong_4.gif", "jimin_wrong_1.gif", "jimin_wrong_2.gif", "jin_wrong_1.gif", "jin_wrong_2.gif", "jin_wrong_3.gif", "jk_wrong_1.gif", "suga_wrong_1.gif", "suga_wrong_2.gif", "rm_wrong_1.gif"];
     state = {
         wrongQuizs: [],
         rightQuizs: [],
@@ -75,12 +77,6 @@ class QuizBoard extends React.Component {
         scalper: "hide",
     }
     componentDidMount = () => {
-        this.wrongSound = new Audio();
-        this.wrongSound.src = "../../source/wrong.mp3";
-        this.rightSound = new Audio();
-        this.rightSound.src = "../../source/right.mp3";
-        this.errorSound = new Audio();
-        this.errorSound.src = "../../source/error.mp3";
         window.setTimeout(() => {
             this.setState({
                 animeClass: "hide",
@@ -102,9 +98,9 @@ class QuizBoard extends React.Component {
         })
     }
     checkAnswer = (e) => {
-        const { quizs } = this.state;
-        quizRightCounter = quizs[quizIndex].rightCounter;
-        quizWrongCounter = quizs[quizIndex].wrongCounter;
+        const { quizs, rightQuizs, wrongQuizs } = this.state;
+        let quizRightCounter = quizs[quizIndex].rightCounter;
+        let quizWrongCounter = quizs[quizIndex].wrongCounter;
         this.rightResIndex = Math.floor(Math.random() * this.rightResponse.length);
         this.wrongResIndex = Math.floor(Math.random() * this.wrongResponse.length);
         if (e.state.ANSWER === quizs[quizIndex].ANSWER) {
@@ -118,7 +114,7 @@ class QuizBoard extends React.Component {
                 }
                 this.setState((prevState) => ({
                     rightCounter: prevState.rightCounter + 1,
-                    rightQuizs: [...this.state.rightQuizs, quizs[quizIndex]],
+                    rightQuizs: [...rightQuizs, quizs[quizIndex]],
                     quizs: quizs.filter(p => p.QUIZ !== quizs[quizIndex].QUIZ),
                     res: "答對了！" + this.reply,
                     resBoardClass: "resBoard",
@@ -140,8 +136,8 @@ class QuizBoard extends React.Component {
                 }
                 this.setState((prevState) => ({
                     wrongCounter: prevState.wrongCounter + 1,
-                    wrongQuizs: [...this.state.wrongQuizs, quizs[quizIndex]],
-                    quizs: this.state.quizs.filter(p => p.QUIZ !== quizs[quizIndex].QUIZ),
+                    wrongQuizs: [...wrongQuizs, quizs[quizIndex]],
+                    quizs: quizs.filter(p => p.QUIZ !== quizs[quizIndex].QUIZ),
                     res: "答案是 " + quizs[quizIndex].ANSWER + "。" + this.reply,
                     resBoardClass: "resBoard",
                     resPic: "../../img/wrong/" + this.wrongResponse[this.wrongResIndex],
@@ -175,14 +171,14 @@ class QuizBoard extends React.Component {
     }
     render() {
         const { quizs, resBoardClass, res, resPic, blurLayer, scalper, animeClass, containerClass, rightQuizs, wrongQuizs } = this.state;
-            quizIndex = Math.floor(Math.random() * quizs.length)
-            if (quizs[quizIndex].TAG === "text") {
-                this.currentQuiz = <TextType quizs={quizs} index={quizIndex} />
-            } else if (quizs[quizIndex].TAG === "picture") {
-                this.currentQuiz = <PictureType quizs={quizs} index={quizIndex} />
-            } else {
-                this.currentQuiz = <PictureType2 quizs={quizs} index={quizIndex} />
-            }
+        quizIndex = Math.floor(Math.random() * quizs.length)
+        if (quizs[quizIndex].TAG === "text") {
+            this.currentQuiz = <TextType quizs={quizs} index={quizIndex} />
+        } else if (quizs[quizIndex].TAG === "picture") {
+            this.currentQuiz = <PictureType quizs={quizs} index={quizIndex} />
+        } else {
+            this.currentQuiz = <PictureType2 quizs={quizs} index={quizIndex} />
+        }
         return (
             <React.Fragment>
                 <div className={resBoardClass}>
