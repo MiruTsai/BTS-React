@@ -7,11 +7,10 @@ import PictureType from "./quizType/PictureType";
 import PictureType2 from "./quizType/PictureType2";
 let index;
 let currentQuiz;
-let seconds = 0;
 
 class AnswerBlock extends Component {
     state = {
-        ANSWER: "",
+        ANSWER: ""
     }
     handleChange = (e) => {
         this.setState({
@@ -34,7 +33,7 @@ class AnswerBlock extends Component {
             }
         })
     }
-    render() {
+    render () {
         const { checkAnswer } = this.props;
         const { ANSWER } = this.state;
         return (
@@ -50,24 +49,25 @@ class AnswerBlock extends Component {
 }
 
 class PreTest extends Component {
+    seconds = 0 ;
     getSound = new Audio("../../source/get.mp3");
     failSound = new Audio("../../source/fail.mp3");
     state = {
         quizs: this.props.quizs,
-        loadingClass: "hideLoading",
+        loadingClass: "hide",
         maskClass: "hideMask",
-        logoClass: "hideLogo",
+        logoClass: "hide",
         timerClass: "hideTimer",
-        containerClass: "hideContainer",
+        containerClass: "hide",
         resBoardClass: "hideResBoard",
-        alertBlockClass: "hideAlertBlock",
+        alertBlockClass: "hide",
         guideClass: "guide"
     }
     componentDidMount = () => {
         this.countDown = setInterval(() => {
-            seconds++
+            this.seconds++
         }, 1000);
-        seconds = 0;
+        this.seconds = 0;
     }
     componentWillUnmount = () => {
         clearInterval(this.countDown);
@@ -79,8 +79,8 @@ class PreTest extends Component {
     }
     closeGuide = () => {
         this.setState({
-            guideClass: "hideGuide",
-            timerClass: "timer",
+            guideClass: "hide",
+            timerClass: "timer"
         })
         setTimeout(() => {
             this.setState({
@@ -94,13 +94,13 @@ class PreTest extends Component {
         this.setState({ loadingClass: "preloading" });
         let randomTime = Math.floor(Math.random() * 10000);
         if (e.state.ANSWER === this.state.quizs[index].ANSWER) {
-            if (seconds < 5) {
+            if (this.seconds < 5) {
                 setTimeout(() => {
                     this.setState({
-                        logoClass: "hideLogo",
-                        loadingClass: "hideLoading",
+                        logoClass: "hide",
+                        loadingClass: "hide",
                         maskClass: "preTestMask",
-                        containerClass: "hideContainer",
+                        containerClass: "hide",
                         resPic: "../../img/concert2S.jpg",
                         resPicClass: "preResPic",
                         response: "",
@@ -114,10 +114,10 @@ class PreTest extends Component {
             } else {
                 setTimeout(() => {
                     this.setState({
-                        logoClass: "hideLogo",
-                        loadingClass: "hideLoading",
+                        logoClass: "hide",
+                        loadingClass: "hide",
                         maskClass: "preTestMask",
-                        containerClass: "hideContainer",
+                        containerClass: "hide",
                         resPicClass: "wrongResPic",
                         resPic: "../../img/fail.gif",
                         response: "手腳太慢被搶光了...",
@@ -126,7 +126,7 @@ class PreTest extends Component {
                     this.failSound.play();
                     setTimeout(() => {
                         this.setState({
-                            alertBlockClass: "alertBlock",
+                            alertBlockClass: "alertBlock"
                         })
                     }, 7000)
                 }, randomTime)
@@ -134,10 +134,10 @@ class PreTest extends Component {
         } else {
             setTimeout(() => {
                 this.setState({
-                    logoClass: "hideLogo",
-                    loadingClass: "hideLoading",
+                    logoClass: "hide",
+                    loadingClass: "hide",
                     maskClass: "preTestMask",
-                    containerClass: "hideContainer",
+                    containerClass: "hide",
                     resPic: "../../img/fail.gif",
                     resPicClass: "wrongResPic",
                     response: "答案錯囉...",
@@ -146,19 +146,19 @@ class PreTest extends Component {
                 this.failSound.play();
                 setTimeout(() => {
                     this.setState({
-                        alertBlockClass: "alertBlock",
+                        alertBlockClass: "alertBlock"
                     })
                 }, 7000)
             }, randomTime)
-            seconds = 0;
+            this.seconds = 0;
         }
         e.state.ANSWER = "";
     }
     oneMoreTime = () => {
         this.setState({
-            alertBlockClass: "hideAlertBlock",
+            alertBlockClass: "hide",
             timerClass: "timer",
-            containerClass: "hideContainer",
+            containerClass: "hide"
         })
         setTimeout(() => {
             this.setState({
@@ -166,14 +166,14 @@ class PreTest extends Component {
                 maskClass: "hideMask",
                 logoClass: "preTestlogo",
                 timerClass: "hideTimer",
-                resPicClass: "hideMask",
+                resPicClass: "hideMask"
             })
         }, 5000);
     }
     backToIndex = () => {
         this.props.history.push("/")
     }
-    render() {
+    render () {
         const { quizs } = this.state;
         index = Math.floor(Math.random() * quizs.length);
         if (quizs[index].TAG === "text") {
@@ -183,7 +183,7 @@ class PreTest extends Component {
         } else {
             currentQuiz = <PictureType2 quizs={quizs} index={index} />
         }
-        seconds = 0;
+        this.seconds = 0;
         return (
             <React.Fragment>
                 <Link to="/">

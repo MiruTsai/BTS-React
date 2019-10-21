@@ -9,12 +9,11 @@ import Profile from "./components/Profile";
 import PreTest from "./components/PreTest";
 import fire from "./Fire";
 import "../css/common.css";
-import "../css/hover-min.css";
-
+import "../css/index.css"
 const root = document.querySelector(".root");
 
 class App extends Component {
-    newquizs=[];
+    newquizs = [];
     state = {
         userUid: "",
         animeClass: "hide",
@@ -56,32 +55,25 @@ class App extends Component {
                 userRightCounter: 0,
                 userWrongCounter: 0,
                 animeClass: "anime fadeAnime",
-                loginContainerClass: "hideLoginContainer",
+                loginContainerClass: "hide"
             })
             fire.auth().currentUser.sendEmailVerification().then(() => {
                 fire.firestore().collection("QUIZS").get().then((querySnapshot) => {
-                querySnapshot.forEach(function (doc) {
-                    let x = doc.id;
-                    let y = doc.data();
-                    y.id = x;
-                    this.newquizs.push(y);
-                });
-            })
-            // fire.firestore().collection("QUIZS").get().then((querySnapshot) => {
-            //     querySnapshot.forEach(function (doc) {
-            //         let x = doc.id;
-            //         let y = doc.data();
-            //         y.id = x;
-            //         this.newquizs.push(y);
-            //     });
-                this.setState({
-                    Quizs: this.newquizs
-                })
-                fire.firestore().collection("MemberShip").doc(fire.auth().currentUser.uid).set({
-                    ID: e.state.email,
-                    NAME: e.state.userName,
-                    rightCounter: 0,
-                    wrongCounter: 0
+                    querySnapshot.forEach(function (doc) {
+                        let x = doc.id;
+                        let y = doc.data();
+                        y.id = x;
+                        this.newquizs.push(y);
+                    });
+                    this.setState({
+                        Quizs: this.newquizs
+                    })
+                    fire.firestore().collection("MemberShip").doc(fire.auth().currentUser.uid).set({
+                        ID: e.state.email,
+                        NAME: e.state.userName,
+                        rightCounter: 0,
+                        wrongCounter: 0
+                    })
                 })
             })
         }).catch((error) => {
@@ -112,10 +104,34 @@ class App extends Component {
                 alertMessage: "請輸入正確密碼",
                 alertBlock: "alertBlock",
                 blurLayer: "alertBlurlayer"
-            })
+            });
             return;
         }
-        fire.auth().signInWithEmailAndPassword(a.state.email, a.state.password).catch((error) => {
+        fire.auth().signInWithEmailAndPassword(a.state.email, a.state.password).then(() => {
+            let user = fire.auth().currentUser.uid;
+            if (!user) {
+                return
+            } else {
+                localStorage.setItem("uid", user);
+                this.setState({
+                    userUid: user,
+                    animeClass: "anime fadeAnime",
+                    loginContainerClass: "hide"
+                });
+                fire.firestore().collection("QUIZS").get().then((querySnapshot) => {
+                    querySnapshot.forEach((doc) => {
+                        let x = doc.id;
+                        let y = doc.data();
+                        y.id = x;
+                        this.newquizs.push(y);
+                    });
+                    this.setState({
+                        Quizs: this.newquizs
+                    });
+                })
+            }
+            setTimeout(() => { a.props.history.push("/") }, 5700)
+        }).catch((error) => {
             if (error.code.slice(5, error.code.length) === "wrong-password") {
                 this.setState({
                     alertMessage: "糟糕！密碼打錯囉",
@@ -129,42 +145,15 @@ class App extends Component {
                     blurLayer: "alertBlurlayer"
                 })
             }
-        }).then(() => {
-            let user = fire.auth().currentUser.uid;
-            if (!user) {
-                return
-            } else {
-                localStorage.setItem("uid", user);
-                this.setState({
-                    userUid: user,
-                    animeClass: "anime fadeAnime",
-                    loginContainerClass: "hideLoginContainer"
-                })
-                fire.firestore().collection("QUIZS").get().then((querySnapshot) => {
-                    querySnapshot.forEach((doc)=>{
-                        let x = doc.id;
-                        let y = doc.data();
-                        y.id = x;
-                        this.newquizs.push(y);
-                    });
-                    this.setState({
-                        Quizs: this.newquizs,
-                    });
-                })
-            }
-            setTimeout(() => { a.props.history.push("/") }, 5700)
         });
     }
-
     authListener = (e) => {
-        
         if (this.state.userUid === "") {
             e.props.history.push("/login")
         } else {
             e.props.history.push("/profile")
         }
     }
-
     quizEntry = (e) => {
         if (this.state.userUid === "") {
             this.setState({
@@ -187,7 +176,6 @@ class App extends Component {
             e.props.history.push("/preTest");
         }
     }
-
     closeAlert = (e) => {
         if (this.state.userUid === "") {
             e.props.history.push("/login");
@@ -204,7 +192,7 @@ class App extends Component {
             })
         }
     }
-    render() {
+    render () {
         const { alertMessage, alertBlock, userUid, Quizs, animeClass, blurLayer, loginContainerClass } = this.state;
         return (
             <BrowserRouter>
@@ -222,7 +210,6 @@ class App extends Component {
         )
     }
 }
-
 ReactDOM.render(
     <App />
     , root);

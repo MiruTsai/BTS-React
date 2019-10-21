@@ -12,7 +12,7 @@ let quizIndex
 
 class AnswerBlock extends Component {
     state = {
-        ANSWER: "",
+        ANSWER: ""
     }
     handleChange = (e) => {
         this.setState({
@@ -44,7 +44,7 @@ class AnswerBlock extends Component {
             }
         })
     }
-    render() {
+    render () {
         return (
             <React.Fragment>
                 <div className="answerBlock">
@@ -74,7 +74,7 @@ class QuizBoard extends React.Component {
         animeClass: "anime",
         blurLayer: "hide",
         res: "",
-        scalper: "hide",
+        scalper: "hide"
     }
     componentDidMount = () => {
         window.setTimeout(() => {
@@ -105,7 +105,7 @@ class QuizBoard extends React.Component {
         this.wrongResIndex = Math.floor(Math.random() * this.wrongResponse.length);
         if (e.state.ANSWER === quizs[quizIndex].ANSWER) {
             fire.firestore().collection("QUIZS").doc(quizs[quizIndex].id).update({
-                rightCounter: quizRightCounter + 1,
+                rightCounter: quizRightCounter + 1
             }).then(() => {
                 if (quizRightCounter + quizWrongCounter === 0) {
                     this.reply = "恭喜你是第一個答對的人！！"
@@ -126,7 +126,7 @@ class QuizBoard extends React.Component {
             })
         } else {
             fire.firestore().collection("QUIZS").doc(quizs[quizIndex].id).update({
-                wrongCounter: quizWrongCounter + 1,
+                wrongCounter: quizWrongCounter + 1
             }).then(() => {
                 if (quizRightCounter + quizWrongCounter === 0) {
                     this.reply = "你是第一個答錯的人 T T"
@@ -142,7 +142,7 @@ class QuizBoard extends React.Component {
                     resBoardClass: "resBoard",
                     resPic: "../../img/wrong/" + this.wrongResponse[this.wrongResIndex],
                     containerClass: "hideContainer",
-                    blurLayer: "blurLayer",
+                    blurLayer: "blurLayer"
                 })
                 )
                 this.wrongSound.play();
@@ -169,7 +169,7 @@ class QuizBoard extends React.Component {
             setTimeout(() => { this.props.history.push("/") }, 6000)
         }
     }
-    render() {
+    render () {
         const { quizs, resBoardClass, res, resPic, blurLayer, scalper, animeClass, containerClass, rightQuizs, wrongQuizs } = this.state;
         quizIndex = Math.floor(Math.random() * quizs.length)
         if (quizs[quizIndex].TAG === "text") {

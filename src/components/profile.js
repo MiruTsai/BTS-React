@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import "../../css/common.css";
-import "../../css/main.css";
+import "../../css/index.css";
 import fire from "../Fire";
 import Chart from "react-google-charts";
 
@@ -28,7 +28,7 @@ class Profile extends Component {
     })
   }
 
-  render() {
+  render () {
     const { userName, userID, userRightCounter, userWrongCounter } = this.state
     return (
 
@@ -44,7 +44,6 @@ class Profile extends Component {
               <div className="profile-text">帳號： {userID}</div>
               <div className="profile-text">累計答對： {userRightCounter}</div>
               <div className="profile-text">累計答錯： {userWrongCounter}</div>
-
               <Link to="/addquiz">
                 <button type="button" className="profile-btn hvr-push">我要出題</button>
               </Link>
@@ -61,7 +60,7 @@ class Profile extends Component {
                 ],
                 ["答錯",
                   userWrongCounter
-                ],
+                ]
               ]}
               options={{
                 title: "你的答題正確率",
@@ -72,15 +71,12 @@ class Profile extends Component {
                   easing: "out",
                   startup: true
                 },
-                enableInteractivity: false,
+                enableInteractivity: false
               }}
               chartEvents={[
                 {
-                  eventName: "animationfinish",
-                  callback: () => {
-                    console.log("Animation Finished")
-                  },
-                },
+                  eventName: "animationfinish"
+                }
               ]}
               rootProps={{ "data-testid": "2" }}
             />

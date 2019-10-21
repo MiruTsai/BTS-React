@@ -1,6 +1,7 @@
 *{
     box-sizing: border-box;  
     text-decoration: none;
+    font-family:"Noto Sans TC", "微軟正黑體", "新細明體", arial, sans-serif;
 }
 
 .container,.loginContainer,.quizContainer,.preContainer,.proContainer,.preAddContainer{
@@ -61,12 +62,7 @@ input[type=password]:focus{
 }
 
 /* alertboard */
-.hideBlurLayer{
-    display: none;
-}
-.hideAlertBlock{   
-    display: none;
-}
+
 .alertBlock{
     position: fixed;
     z-index: 1000;
@@ -82,7 +78,6 @@ input[type=password]:focus{
     background: rgba(20%,20%,40%,0.6);
     background: hsla(0,0%,100%,.8);
 }
-
 .alertBoard{
     background-color: white;
     z-index: 10000;
@@ -111,7 +106,9 @@ input[type=password]:focus{
     border-radius: 4px;
     text-shadow: 0 1px 0 rgba(0,0,0,0.15);
 }
-
+.hide{
+    display: none;
+}
 @media(max-width:800px){
     .logo{
         width:60px;

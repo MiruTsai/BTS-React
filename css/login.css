@@ -1,7 +1,3 @@
-*{
-    font-family:"Noto Sans TC", "微軟正黑體", "新細明體", arial, sans-serif;
-}
-
 .loginContainer{
     margin: 0 auto;
     width:50%;
@@ -12,9 +8,7 @@
     left:50%;
     transform: translateX(-50%) translateY(-50%);
 }
-.hideLoginContainer{
-    display: none;
-}
+
 .banner{
     margin:0 auto;
     width: 100%;

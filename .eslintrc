@@ -17,7 +17,12 @@
     },
     "rules": {
         "semi-style": ["error", "last"],
-        "quotes": [1, "double"]
+        "quotes": [1, "double"],
+        "camelcase": 2,
+        "comma-dangle": [2, "never"], 
+        "comma-spacing": [2, { "before": false, "after": true }],
+        "eqeqeq": [2, "allow-null"],
+        "space-before-function-paren": [2, "always"]
     },
     "env": {
         "browser": true,

@@ -20,9 +20,7 @@
     top:0;
     left: 0;
 }
-.hide{
-    display: none;
-}
+
 .top{
     flex-basis: 75%;
     display: flex;
@@ -124,6 +122,7 @@
 .optNum{
     font-size:14px;
     flex-basis:10%;
+    text-align: center;
 }
 .options{
     display: flex;
@@ -225,30 +224,29 @@
     stroke-width: 5;
     stroke-opacity: .5
   }
-  .cls-2 {
-      fill:none;
-      fill-rule: evenodd;
-      opacity: 1;
-      stroke:white;
-      stroke-dasharray: 85;
-      animation: dash 5s linear;
-      stroke-width: 5;
+.cls-2 {
+    fill:none;
+    fill-rule: evenodd;
+    opacity: 1;
+    stroke:white;
+    stroke-dasharray: 85;
+    animation: dash 5s linear;
+    stroke-width: 5;
     }
-    .cls-3 {
-        fill:none;
-        fill-rule: evenodd;
-        opacity: 1;
-        stroke:white;
-        stroke-dasharray: 90;
-        animation: dash 5s linear;
-        stroke-width: 5;
-      }
-
-    @keyframes dash {
-      to {
-        stroke-dashoffset: 1200;
-      }
+.cls-3 {
+    fill:none;
+    fill-rule: evenodd;
+    opacity: 1;
+    stroke:white;
+    stroke-dasharray: 90;
+    animation: dash 5s linear;
+    stroke-width: 5;
     }
+@keyframes dash {
+    to {
+    stroke-dashoffset: 1200;
+    }
+}
 @keyframes scaleDraw {  
     0%{
         transform: scale(1);  
@@ -267,7 +265,6 @@
     animation: scaleDraw 3s ease-in-out linear;
     object-fit: contain;
 }
-
 span{
     font-size: 10px;
 }
@@ -309,12 +306,12 @@ span{
     text-align: center;
 }
 @media(max-width:1200px){
-.quizContainer{
-    width:85%;
-}
-.optNum{
-    flex-basis:20%;
-}
+    .quizContainer{
+        width:85%;
+    }
+    .optNum{
+        flex-basis:20%;
+    }
 }
 @media(max-width:800px){
     .quizLogo{
@@ -323,7 +320,7 @@ span{
     .pic_quiz_img{
         max-height: 400px;
     }
-    .quizContainer,.hideContainer{
+    .quizContainer{
         width:80%;
         flex-wrap: wrap;
     }
@@ -355,7 +352,7 @@ span{
     .quiz,.pic_quiz_title{
         font-size: 1.5em;
     }
-    .quizContainer,.hideContainer{
+    .quizContainer{
         width: 100%;
         padding: 15px 30px;
         margin:0 auto;
@@ -389,7 +386,6 @@ span{
         object-fit:cover;
         border-radius: 8px;
     }
-    
     .quiz-button{
         margin: 10px auto;
     }
@@ -429,6 +425,4 @@ span{
     .quiz-button{
         flex-basis: 70%;
     }
-
-
 }

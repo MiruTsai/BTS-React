@@ -1,14 +1,14 @@
 var path = require("path");
 
 module.exports = {
-    mode: "development",
+    mode: "production",
     entry: "./src/app.js",
     output: {
         path: path.resolve(__dirname, "dist"),
         filename: "main.js"
     },
     devServer: {
-        contentBase: "./dist",
+        contentBase: "./dist"
     },
     module: {
         rules: [
@@ -32,6 +32,6 @@ module.exports = {
                 use: [{ loader: "file-loader" }]
             }
         ]
-    },
+    }
 
 };

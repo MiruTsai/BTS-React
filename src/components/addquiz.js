@@ -18,7 +18,7 @@ const Description = (props) => {
 }
 
 class NewQuiz extends React.Component {
-    render() {
+    render () {
         let quizTitle;
         const { TAG, QUIZ, OPT1, OPT2, OPT3, OPT4, ANSWER, QUIZPIC, updateInput, handleChange, sendQuiz, statusChange } = this.props;
         if (TAG === "picture2") {
@@ -87,8 +87,8 @@ class Addquiz extends React.Component {
         wrongCounter: 0,
         review: false,
         alertMessage: "",
-        alertBlock: "hideAlertBlock",
-        blurLayer: "hideblurLayer"
+        alertBlock: "hide",
+        blurLayer: "hide"
     }
 
     showGuide = () => {
@@ -98,7 +98,7 @@ class Addquiz extends React.Component {
     }
     hideGuide = () => {
         this.setState({
-            textClass: "textZone",
+            textClass: "textZone"
         })
     }
     updateInput = (e) => {
@@ -142,7 +142,7 @@ class Addquiz extends React.Component {
                 OPTIONS: [OPT1, OPT2, OPT3, OPT4],
                 TAG: TAG,
                 rightCounter: 0,
-                wrongCounter: 0,
+                wrongCounter: 0
             }).catch(function (error) {
                 console.error("Error writing document: ", error);
             });
@@ -156,7 +156,7 @@ class Addquiz extends React.Component {
                 OPT1: "",
                 OPT2: "",
                 OPT3: "",
-                OPT4: "",
+                OPT4: ""
             });
         } else {
             fire.firestore().collection("QUIZS").doc().set({
@@ -165,7 +165,7 @@ class Addquiz extends React.Component {
                 OPTIONS: [OPT1, OPT2, OPT3, OPT4],
                 TAG: TAG,
                 rightCounter: 0,
-                wrongCounter: 0,
+                wrongCounter: 0
             }).catch(function (error) {
                 console.error("Error writing document: ", error);
             });
@@ -179,18 +179,18 @@ class Addquiz extends React.Component {
                 OPT1: "",
                 OPT2: "",
                 OPT3: "",
-                OPT4: "",
+                OPT4: ""
             });
         }
     }
     closeBoard = () => {
         this.setState({
             alertMessage: "",
-            alertBlock: "hideAlertBlock",
-            blurLayer: "hideBlurLayer"
+            alertBlock: "hide",
+            blurLayer: "hide"
         })
     }
-    render() {
+    render () {
         const { review, ANSWER, QUIZ, QUIZPIC, textClass, OPTIONS, OPT1, OPT2, OPT3, OPT4, TAG, alertMessage, alertBlock, blurLayer, containerClass } = this.state;
         let board;
         if (review === false) {
