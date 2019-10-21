@@ -172,7 +172,7 @@ class QuizBoard extends React.Component {
         const { quizs, resBoardClass, res, resPic, blurLayer, scalper, animeClass, containerClass, rightQuizs, wrongQuizs } = this.state;
         quizIndex = Math.floor(Math.random() * quizs.length)
         return (
-            <React.Fragment>
+            <>
                 <div className={resBoardClass}>
                     <div className="board-Title">BTS-TMI</div>
                     <div className="layer">
@@ -202,7 +202,7 @@ class QuizBoard extends React.Component {
                         <div className="wrong">答錯：{wrongQuizs.length}</div>
                     </div>
                 </div>
-            </React.Fragment>
+            </>
         )
     }
 }

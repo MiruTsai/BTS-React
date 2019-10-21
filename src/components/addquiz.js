@@ -69,7 +69,6 @@ class NewQuiz extends React.Component {
         )
     }
 }
-
 class Addquiz extends React.Component {
     state = {
         textClass: "hide",
@@ -192,11 +191,15 @@ class Addquiz extends React.Component {
     }
     render () {
         const { review, ANSWER, QUIZ, QUIZPIC, textClass, OPTIONS, OPT1, OPT2, OPT3, OPT4, TAG, alertMessage, alertBlock, blurLayer, containerClass } = this.state;
-        let board;
-        if (review === false) {
-            board =
-                <React.Fragment>
-                    <div className={textClass} onClick={this.hideGuide}>
+        return (
+            <>
+                <Response alertMessage={alertMessage} alertBlock={alertBlock} blurLayer={blurLayer} closeAlert={this.closeBoard} />
+                <Logo />
+                <div className={containerClass}>
+                    {review ? (<PreviewQuiz QUIZ={QUIZ} OPTIONS={OPTIONS} OPT1={OPT1} OPT2={OPT2} OPT3={OPT3} OPT4={OPT4} QUIZPIC={QUIZPIC} 
+            TAG={TAG} backStatus={this.backStatus} />):
+                   (<>
+                     <div className={textClass} onClick={this.hideGuide}>
                         <ul>本站須知：
                                  <li>請選擇您想提供的題型，若您選擇的是圖片題，請確認是否侵害該圖片擁有者的智慧財產權，小編跟您都禁不起被吉的風險。</li>
                             <li>基於這是個共享的平台，禁止過度幻想文。EX:以下哪一張圖是<span className="notice">我老公Jimin的腹肌</span>。是會激起公憤的請注意。</li>
@@ -209,18 +212,9 @@ class Addquiz extends React.Component {
                         <NewQuiz handleChange={this.handleChange} updateInput={this.updateInput} sendQuiz={this.sendQuiz} statusChange={this.statusChange} ANSWER={ANSWER} QUIZ={QUIZ}
                             OPTIONS={OPTIONS} QUIZPIC={QUIZPIC} TAG={TAG} OPT1={OPT1} OPT2={OPT2} OPT3={OPT3} OPT4={OPT4} />
                     </div>
-                </React.Fragment>
-        } else {
-            board = <PreviewQuiz QUIZ={QUIZ} OPTIONS={OPTIONS} OPT1={OPT1} OPT2={OPT2} OPT3={OPT3} OPT4={OPT4} QUIZPIC={QUIZPIC} TAG={TAG} backStatus={this.backStatus} />
-        }
-        return (
-            <React.Fragment>
-                <Response alertMessage={alertMessage} alertBlock={alertBlock} blurLayer={blurLayer} closeAlert={this.closeBoard} />
-                <Logo />
-                <div className={containerClass}>
-                    {board}
+                </>)}
                 </div>
-            </React.Fragment>
+            </ >
         )
     }
 }

@@ -1,7 +1,5 @@
-/* installation: npm install firebase --save */
 import firebase from "firebase"
 
-/* replace config by your project config in firebase */
 var config = {
     apiKey: "AIzaSyDCN5ODp0N7HbpWAFasxhJcERrKL_dd0JY",
     authDomain: "btstmi.firebaseapp.com",

@@ -178,7 +178,7 @@ class PreTest extends Component {
         index = Math.floor(Math.random() * quizs.length);
         this.seconds = 0;
         return (
-            <React.Fragment>
+            <>
                 <Link to="/">
                     <img src="/../img/LOGO.png" className={logoClass} />
                 </Link>
@@ -208,7 +208,7 @@ class PreTest extends Component {
                         <AnswerBlock checkAnswer={this.checkAnswer} />
                     </div>
                 </div>
-            </React.Fragment>
+            </>
         )
     }
 }

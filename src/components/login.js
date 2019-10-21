@@ -30,10 +30,10 @@ class Login extends Component {
     }
 
     render () {
-        const { email, password } = this.state;
+        const { email, password, status } = this.state;
         const { alertMessage, alertBlock, blurLayer, closeAlert, signUP, login, animeClass, loginContainerClass } = this.props;
         let loginZone;
-        if (this.state.status === "signIn") {
+        if (status === "signIn") {
             loginZone = <div className="login">
                 <div className="loginZone">
                     <div className="loginText">會員登入</div>
@@ -59,7 +59,7 @@ class Login extends Component {
             </div >
         }
         return (
-            <React.Fragment>
+            <>
                 <Response alertMessage={alertMessage} alertBlock={alertBlock} blurLayer={blurLayer} closeAlert={() => closeAlert(this)} />
                 <SignInAnime animeClass={animeClass} />
                 <Link to="/">
@@ -72,7 +72,7 @@ class Login extends Component {
                     </div>
                     {loginZone}
                 </div>
-            </React.Fragment>
+            </>
         )
     }
 }

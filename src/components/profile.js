@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import "../../css/common.css";
 import "../../css/index.css";
+import QuizAnime from "../components/Quizanime";
 import fire from "../Fire";
 import Chart from "react-google-charts";
 
@@ -10,7 +11,9 @@ class Profile extends Component {
     userName: "",
     userID: "",
     userRightCounter: "",
-    userWrongCounter: ""
+    userWrongCounter: "",
+    animeClass:"anime",
+    proContainerClass:"hide"
   }
   componentDidMount = () => {
     fire.firestore().collection("MemberShip").doc(this.props.userUid).get().then((doc) => {
@@ -20,23 +23,24 @@ class Profile extends Component {
           userName: userInfo.NAME,
           userID: userInfo.ID,
           userRightCounter: userInfo.rightCounter,
-          userWrongCounter: userInfo.wrongCounter
+          userWrongCounter: userInfo.wrongCounter,
+          animeClass:"hide",
+          proContainerClass:"proContainer"
         })
       } else {
         return;
       }
     })
   }
-
   render () {
-    const { userName, userID, userRightCounter, userWrongCounter } = this.state
+    const { userName, userID, userRightCounter, userWrongCounter, animeClass, proContainerClass } = this.state
     return (
-
-      <React.Fragment>
+      <>
         <Link to="/">
           <img src="/../img/LOGO.png" className="profileLogo" />
         </Link>
-        <div className="proContainer">
+        <QuizAnime animeClass={animeClass} />
+        <div className={proContainerClass}>
           <div className="profile">
             <div className="profileZone">
               <div className="profile-header">會員資料</div>
@@ -82,9 +86,8 @@ class Profile extends Component {
             />
           </div>
         </div>
-      </React.Fragment>
+      </>
     )
   }
 }
-
 export default Profile;

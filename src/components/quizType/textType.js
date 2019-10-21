@@ -8,12 +8,12 @@ const TextType = (props) => {
         )
     })
     return (
-        <React.Fragment>
+        <>
             <div className="quiz">{props.quizs[props.index].QUIZ}</div>
             <div className="options">
                 {options}
             </div>
-        </React.Fragment>
+        </>
     )
 }
 

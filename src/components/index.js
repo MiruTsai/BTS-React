@@ -14,7 +14,7 @@ class Index extends Component {
     render () {
         const { alertMessage, alertBlock, blurLayer, closeAlert, auth, quizEntry, preTestEntry } = this.props
         return (
-            <React.Fragment>
+            <>
                 <Logo />
                 <Response alertMessage={alertMessage} alertBlock={alertBlock} blurLayer={blurLayer} closeAlert={() => closeAlert(this)} />
                 <div className="indexContainer">
@@ -44,7 +44,7 @@ class Index extends Component {
                         <img src="/img/user.svg" className="userIcon" />
                     </div>
                 </div>
-            </React.Fragment>
+            </>
         )
     }
 }

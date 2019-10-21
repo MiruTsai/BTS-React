@@ -17,34 +17,34 @@ const PreviewQuiz = (props) => {
     })
     if (TAG === "text") {
         preview =
-            <React.Fragment>
+            <>
                 <div className="quiz">{QUIZ}</div>
                 <div className="pre-options">
                     {previewOptions}
                 </div>
-            </React.Fragment>
+            </>
     } else if (TAG === "picture") {
         preview =
-            <React.Fragment>
+            <>
                 <div className="quiz">{QUIZ}</div>
                 <div className="options">
                     {picOption}
                 </div>
-            </React.Fragment>
+            </>
     } else {
         preview =
-            <React.Fragment>
+            <>
                 <div className="pic_quiz_title">{QUIZ}</div>
                 <img src={QUIZPIC} className="pic_quiz_img hvr-grow" />
                 <div className="pre-options">
                     {previewOptions}
                 </div>
-            </React.Fragment>
+            </>
     }
     return (
-        <React.Fragment>
+        <>
         <button type="button" className="backQuiz-button" onClick={props.backStatus} >返回</button>
         {preview}
-        </React.Fragment>
+        </>
 )}
 export default PreviewQuiz

@@ -9,12 +9,12 @@ const PictureType = (props) => {
         )
     })
     return (
-        <React.Fragment>
+        <>
             <div className="quiz">{props.quizs[props.index].QUIZ}</div>
             <div className="options">
                 {picOption}
             </div>
-        </React.Fragment>
+        </>
     )
 }
 
