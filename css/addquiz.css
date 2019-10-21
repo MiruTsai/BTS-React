@@ -54,7 +54,6 @@ form{
 .answerZone{
     margin: 20px;
 }
-
 .addquiz-button,.preview-button{
     width: 30%;
     margin: 0 auto;
@@ -138,17 +137,13 @@ li{
 .picSource{
     width:30%;
 }
-
-.textZone{
-    display: none;
-}
 .textZoneVisible{
     color:white;
     position: absolute;
     top:50%;
     left:50%;
     transform: translateX(-50%) translateY(-50%);
-    z-index:10000;
+    z-index:1000;
     width:100vw;
     height: 100vh;
     background-color: rgba(0,0,0,80%);
@@ -191,9 +186,6 @@ button{
 @media (max-width:1200px){
     .addContainer,.preAddContainer{
         width:90%;
-    }
-    .textZone{
-        left:2vw;
     }
 }
 @media (max-width:800px){ 

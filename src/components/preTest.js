@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import "../../css/preTest.css"
 import { Link } from "react-router-dom";
-import GetTicketGuide from "./Guide";
+import GetTicketGuide from "./GetTicketGuide";
 import TextType from "./quizType/TextType";
 import PictureType from "./quizType/PictureType";
 import PictureType2 from "./quizType/PictureType2";
 let index;
-let currentQuiz;
 
 class AnswerBlock extends Component {
     state = {
@@ -49,15 +48,15 @@ class AnswerBlock extends Component {
 }
 
 class PreTest extends Component {
-    seconds = 0 ;
+    seconds = 0;
     getSound = new Audio("../../source/get.mp3");
     failSound = new Audio("../../source/fail.mp3");
     state = {
         quizs: this.props.quizs,
         loadingClass: "hide",
-        maskClass: "hideMask",
+        maskClass: "hide",
         logoClass: "hide",
-        timerClass: "hideTimer",
+        timerClass: "hide",
         containerClass: "hide",
         resBoardClass: "hideResBoard",
         alertBlockClass: "hide",
@@ -86,7 +85,7 @@ class PreTest extends Component {
             this.setState({
                 containerClass: "preContainer",
                 logoClass: "logo",
-                timerClass: "hideTimer"
+                timerClass: "hide"
             })
         }, 5000);
     }
@@ -163,10 +162,10 @@ class PreTest extends Component {
         setTimeout(() => {
             this.setState({
                 containerClass: "preContainer",
-                maskClass: "hideMask",
+                maskClass: "hide",
                 logoClass: "preTestlogo",
-                timerClass: "hideTimer",
-                resPicClass: "hideMask"
+                timerClass: "hide",
+                resPicClass: "hide"
             })
         }, 5000);
     }
@@ -174,41 +173,37 @@ class PreTest extends Component {
         this.props.history.push("/")
     }
     render () {
-        const { quizs } = this.state;
+        const { quizs, alertBlockClass, guideClass, logoClass, loadingClass, maskClass, containerClass, timerClass,
+            resPic, resPicClass, resBoardClass, response } = this.state;
         index = Math.floor(Math.random() * quizs.length);
-        if (quizs[index].TAG === "text") {
-            currentQuiz = <TextType quizs={quizs} index={index} />
-        } else if (quizs[index].TAG === "picture") {
-            currentQuiz = <PictureType quizs={quizs} index={index} />
-        } else {
-            currentQuiz = <PictureType2 quizs={quizs} index={index} />
-        }
         this.seconds = 0;
         return (
             <React.Fragment>
                 <Link to="/">
-                    <img src="/../img/LOGO.png" className={this.state.logoClass} />
+                    <img src="/../img/LOGO.png" className={logoClass} />
                 </Link>
-                <GetTicketGuide closeGuide={this.closeGuide} guideClass={this.state.guideClass} />
-                <div className={this.state.alertBlockClass}>
+                <GetTicketGuide closeGuide={this.closeGuide} guideClass={guideClass} />
+                <div className={alertBlockClass}>
                     <div className="boardTitle">BTS-TMI</div>
                     <div className="pre-alertBoard">
                         <button type="button" className="preRes-button" onClick={() => this.oneMoreTime()}>再玩一次</button>
                         <button type="button" className="preRes-button" onClick={() => this.backToIndex()}>回首頁</button>
                     </div>
                 </div>
-                <div className={this.state.loadingClass}>
+                <div className={loadingClass}>
                     <img src="../../img/loading.gif" />
                 </div>
-                <div className={this.state.maskClass}>
-                    <img src={this.state.resPic} className={this.state.resPicClass} />
-                    <div className={this.state.resBoardClass}>{this.state.response}</div>
+                <div className={maskClass}>
+                    <img src={resPic} className={resPicClass} />
+                    <div className={resBoardClass}>{response}</div>
                 </div>
-                <div className={this.state.timerClass}>11:59</div>
-                <div className={this.state.containerClass}>
+                <div className={timerClass}>11:59</div>
+                <div className={containerClass}>
                     <div className="top">
                         <div className="quizBlock">
-                            {currentQuiz}
+                            {quizs[index].TAG === "text" ? (<TextType quizs={quizs} index={index} />) : 
+                            (quizs[index].TAG === "picture" ? (<PictureType quizs={quizs} index={index} />) : 
+                            <PictureType2 quizs={quizs} index={index} />)}
                         </div>
                         <AnswerBlock checkAnswer={this.checkAnswer} />
                     </div>

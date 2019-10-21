@@ -31,13 +31,6 @@
     max-width: 300px;
     flex-basis: 50%;
 }
-.arrow{
-    max-width: 150px;
-    transform: rotate(60deg);
-}
-.get,.fail{
-    filter: blur(15px);
-}
 .noteText{
     color:white;
     flex-basis: 30%;
@@ -94,9 +87,7 @@
     justify-content: center;
     align-items: center;
 }
-.hideResPic{
-    display: none;
-}
+
 span{
     font-size: 10px;
 }
@@ -123,9 +114,6 @@ span{
     align-items: center;
     justify-content: center;
 }
-.hideLoading{
-    display: none;
-}
 .preTestMask{
     background-color: black;
     position: fixed;
@@ -139,11 +127,6 @@ span{
     align-items: center;
     background-size:cover;
     background-repeat: no-repeat; 
-}
-.hideMask{
-    display: none;
-    position: fixed;
-    z-index: 1000;
 }
 .timer{
     font-family: Arial, Helvetica, sans-serif;
@@ -166,17 +149,8 @@ span{
     z-index: 1000;
     padding:5px 80px;
 }
-.hideTimer{
-    display: none;
-}
 .board{
     text-align: center;
-}
-.hideAgain{
-    display: none;
-}
-.again{
-    display: block;
 }
 .pre-alertBoard{
     display: flex;
@@ -207,8 +181,6 @@ span{
     left:50%;
     transform: translateX(-50%) translateY(-50%);
 }
-
-
 @media(max-width:800px){
     .preContainer{
         width:80%;
@@ -219,7 +191,6 @@ span{
         justify-content: flex-start;
     }
 }
-
 @media(max-width:640px){
     .top{
         flex-wrap: wrap;
@@ -250,7 +221,7 @@ span{
         flex-basis: 50%;
     }
     .loadingGif{
-    width: 150px;
-    padding: 10px; 
+        width: 150px;
+        padding: 10px; 
     }
 }

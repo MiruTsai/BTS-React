@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Logo from "./Logo";
 import Response from "./Response";
 
-export const IndexPic = () => {
+const IndexPic = () => {
     return (
         <div className="btspic">
             <img src="/img/group.jpg" className="indexPic" />
@@ -12,7 +12,7 @@ export const IndexPic = () => {
 
 class Index extends Component {
     render () {
-        const {alertMessage, alertBlock, blurLayer, closeAlert, auth, quizEntry, preTestEntry} = this.props
+        const { alertMessage, alertBlock, blurLayer, closeAlert, auth, quizEntry, preTestEntry } = this.props
         return (
             <React.Fragment>
                 <Logo />

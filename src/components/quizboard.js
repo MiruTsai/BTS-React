@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 import TextType from "./quizType/TextType";
 import PictureType from "./quizType/PictureType";
 import PictureType2 from "./quizType/PictureType2";
-
 let quizIndex
 
 class AnswerBlock extends Component {
@@ -172,13 +171,6 @@ class QuizBoard extends React.Component {
     render () {
         const { quizs, resBoardClass, res, resPic, blurLayer, scalper, animeClass, containerClass, rightQuizs, wrongQuizs } = this.state;
         quizIndex = Math.floor(Math.random() * quizs.length)
-        if (quizs[quizIndex].TAG === "text") {
-            this.currentQuiz = <TextType quizs={quizs} index={quizIndex} />
-        } else if (quizs[quizIndex].TAG === "picture") {
-            this.currentQuiz = <PictureType quizs={quizs} index={quizIndex} />
-        } else {
-            this.currentQuiz = <PictureType2 quizs={quizs} index={quizIndex} />
-        }
         return (
             <React.Fragment>
                 <div className={resBoardClass}>
@@ -199,7 +191,8 @@ class QuizBoard extends React.Component {
                 <div className={containerClass} >
                     <div className="top">
                         <div className="quizBlock">
-                            {this.currentQuiz}
+        {quizs[quizIndex].TAG === "text" ? (<TextType quizs={quizs} index={quizIndex} />) :
+         (quizs[quizIndex].TAG === "picture" ? (<PictureType quizs={quizs} index={quizIndex} />) : (<PictureType2 quizs={quizs} index={quizIndex} />))}
                         </div>
                         <AnswerBlock checkAnswer={this.checkAnswer} closeRes={this.closeRes} />
                     </div>

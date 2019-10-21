@@ -72,7 +72,7 @@ class NewQuiz extends React.Component {
 
 class Addquiz extends React.Component {
     state = {
-        textClass: "textZone",
+        textClass: "hide",
         containerClass: "addContainer",
         ANSWER: "",
         QUIZ: "",
@@ -98,7 +98,7 @@ class Addquiz extends React.Component {
     }
     hideGuide = () => {
         this.setState({
-            textClass: "textZone"
+            textClass: "hide"
         })
     }
     updateInput = (e) => {
