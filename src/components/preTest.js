@@ -5,7 +5,7 @@ import GetTicketGuide from "./GetTicketGuide";
 import TextType from "./quizType/TextType";
 import PictureType from "./quizType/PictureType";
 import PictureType2 from "./quizType/PictureType2";
-let index;
+let currentIndex;
 
 class AnswerBlock extends Component {
     state = {
@@ -16,41 +16,36 @@ class AnswerBlock extends Component {
             [e.target.name]: e.target.value
         })
     }
+    setKeyCode = (event) =>{
+        if (event.keyCode === 13 || event.keyCode === 108) {
+            this.props.checkAnswer(this);
+            this.setState({
+                ANSWER:""
+            })
+        }
+    }
     componentDidMount = () => {
-        window.addEventListener("keydown", event => {
-            if (event.keyCode === 13 || event.keyCode === 108) {
-                this.props.checkAnswer(this);
-                this.state.ANSWER = "";
-            }
-        })
+        window.addEventListener("keydown", this.setKeyCode)
     }
     componentWillUnmount = () => {
-        window.removeEventListener("keydown", event => {
-            if (event.keyCode === 13 || event.keyCode === 108) {
-                this.props.checkAnswer(this);
-                this.state.ANSWER = "";
-            }
-        })
+        window.removeEventListener("keydown", this.setKeyCode)
     }
     render () {
         const { checkAnswer } = this.props;
         const { ANSWER } = this.state;
         return (
-            <React.Fragment>
+            <>
                 <div className="answerBlock">
                     <div className="note">請在答案框輸入答案<br /> <span className="quiz-subtext">* 僅限半形數字，請勿填寫中文</span></div>
                     <input type="text" name="ANSWER" className="quiz-answer" value={ANSWER} onChange={this.handleChange} />
                     <button type="button" className="quiz-button" onClick={() => checkAnswer(this)}>確定</button>
                 </div>
-            </React.Fragment>
+            </>
         )
     }
 }
 
 class PreTest extends Component {
-    seconds = 0;
-    getSound = new Audio("../../source/get.mp3");
-    failSound = new Audio("../../source/fail.mp3");
     state = {
         quizs: this.props.quizs,
         loadingClass: "hide",
@@ -63,10 +58,12 @@ class PreTest extends Component {
         guideClass: "guide"
     }
     componentDidMount = () => {
+        this.seconds = 0;
+        this.getSound = new Audio("../../source/get.mp3");
+        this.failSound = new Audio("../../source/fail.mp3");
         this.countDown = setInterval(() => {
             this.seconds++
         }, 1000);
-        this.seconds = 0;
     }
     componentWillUnmount = () => {
         clearInterval(this.countDown);
@@ -90,9 +87,9 @@ class PreTest extends Component {
         }, 5000);
     }
     checkAnswer = (e) => {
-        this.setState({ loadingClass: "preloading" });
         let randomTime = Math.floor(Math.random() * 10000);
-        if (e.state.ANSWER === this.state.quizs[index].ANSWER) {
+        const { quizs } = this.state;
+        if (e.state.ANSWER === quizs[currentIndex].ANSWER) {
             if (this.seconds < 5) {
                 setTimeout(() => {
                     this.setState({
@@ -151,6 +148,7 @@ class PreTest extends Component {
             }, randomTime)
             this.seconds = 0;
         }
+        this.setState({ loadingClass: "preloading" });
         e.state.ANSWER = "";
     }
     oneMoreTime = () => {
@@ -173,9 +171,9 @@ class PreTest extends Component {
         this.props.history.push("/")
     }
     render () {
-        const { quizs, alertBlockClass, guideClass, logoClass, loadingClass, maskClass, containerClass, timerClass,
+        const { quizs, alertBlockClass, guideClass, logoClass, loadingClass, maskClass, containerClass, timerClass, 
             resPic, resPicClass, resBoardClass, response } = this.state;
-        index = Math.floor(Math.random() * quizs.length);
+        currentIndex = Math.floor(Math.random() * quizs.length);
         this.seconds = 0;
         return (
             <>
@@ -201,9 +199,9 @@ class PreTest extends Component {
                 <div className={containerClass}>
                     <div className="top">
                         <div className="quizBlock">
-                            {quizs[index].TAG === "text" ? (<TextType quizs={quizs} index={index} />) : 
-                            (quizs[index].TAG === "picture" ? (<PictureType quizs={quizs} index={index} />) : 
-                            <PictureType2 quizs={quizs} index={index} />)}
+                            {quizs[currentIndex].TAG === "text" ? (<TextType quizs={quizs} index={currentIndex} />) :
+                                (quizs[currentIndex].TAG === "picture" ? (<PictureType quizs={quizs} index={currentIndex} />) :
+                                    <PictureType2 quizs={quizs} index={currentIndex} />)}
                         </div>
                         <AnswerBlock checkAnswer={this.checkAnswer} />
                     </div>

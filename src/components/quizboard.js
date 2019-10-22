@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import TextType from "./quizType/TextType";
 import PictureType from "./quizType/PictureType";
 import PictureType2 from "./quizType/PictureType2";
-let quizIndex
+let quizIndex;
 
 class AnswerBlock extends Component {
     state = {
@@ -18,48 +18,38 @@ class AnswerBlock extends Component {
             [e.target.name]: e.target.value
         })
     }
-    componentDidMount = () => {
-        window.addEventListener("keydown", event => {
-            if (event.keyCode === 13 || event.keyCode === 108) {
-                if (this.state.ANSWER === "") {
-                    this.props.closeRes();
-                } else {
-                    this.props.checkAnswer(this);
-                    this.state.ANSWER = "";
-                }
+    setKeyCode = ()=>{
+        if (event.keyCode === 13 || event.keyCode === 108) {
+            if (this.state.ANSWER === "") {
+                this.props.closeRes();
+            } else {
+                this.props.checkAnswer(this);
+                this.setState({
+                    ANSWER : ""
+                })
             }
-        })
+        }
     }
-
+    componentDidMount = () => {
+        window.addEventListener("keydown", this.setKeyCode)
+    }
     componentWillUnmount = () => {
-        window.removeEventListener("keydown", event => {
-            if (event.keyCode === 13 || event.keyCode === 108) {
-                if (this.state.ANSWER === "") {
-                    this.props.closeRes();
-                } else {
-                    this.props.checkAnswer(this);
-                    this.state.ANSWER = "";
-                }
-            }
-        })
+        window.removeEventListener("keydown", this.setKeyCode)
     }
     render () {
         return (
-            <React.Fragment>
+            <>
                 <div className="answerBlock">
                     <div className="note">請在答案框輸入答案<br /> <span className="quiz-subtext">* 僅限半形數字，請勿填寫中文</span></div>
                     <input type="text" name="ANSWER" className="quiz-answer" value={this.state.ANSWER} onChange={this.handleChange} />
                     <button type="button" className="quiz-button" onClick={() => this.props.checkAnswer(this)}>確定</button>
                 </div>
-            </React.Fragment>
+            </>
         )
     }
 }
 
 class QuizBoard extends React.Component {
-    wrongSound = new Audio("../../source/wrong.mp3");
-    rightSound = new Audio("../../source/right.mp3");
-    errorSound = new Audio("../../source/error.mp3");
     rightResponse = ["group_right_1.gif", "group_right_2.gif", "group_right_3.gif", "jhope_right_1.gif", "jimin_right_1.gif", "jin_right_1.gif", "jin_right_2.gif", "jk_right_1.gif", "jk_right_2.gif", "rm_right_1.gif", "rm_right_2.gif", "suga_right_1.gif", "suga_right_1.gif", "v_right_1.gif", "v_right_2.gif"];
     wrongResponse = ["group_wrong_1.gif", "group_wrong_2.gif", "jhope_wrong_1.gif", "jhope_wrong_3.gif", "jhope_wrong_4.gif", "jimin_wrong_1.gif", "jimin_wrong_2.gif", "jin_wrong_1.gif", "jin_wrong_2.gif", "jin_wrong_3.gif", "jk_wrong_1.gif", "suga_wrong_1.gif", "suga_wrong_2.gif", "rm_wrong_1.gif"];
     state = {
@@ -76,6 +66,9 @@ class QuizBoard extends React.Component {
         scalper: "hide"
     }
     componentDidMount = () => {
+        this.wrongSound = new Audio("../../source/wrong.mp3");
+        this.rightSound = new Audio("../../source/right.mp3");
+        this.errorSound = new Audio("../../source/error.mp3");
         window.setTimeout(() => {
             this.setState({
                 animeClass: "hide",
@@ -95,6 +88,9 @@ class QuizBoard extends React.Component {
             rightCounter: this.userRightCounter + this.state.rightQuizs.length,
             wrongCounter: this.userWrongCounter + this.state.wrongQuizs.length
         })
+        this.wrongSound = "";
+        this.rightSound = "";
+        this.errorSound = "";
     }
     checkAnswer = (e) => {
         const { quizs, rightQuizs, wrongQuizs } = this.state;
@@ -191,8 +187,8 @@ class QuizBoard extends React.Component {
                 <div className={containerClass} >
                     <div className="top">
                         <div className="quizBlock">
-        {quizs[quizIndex].TAG === "text" ? (<TextType quizs={quizs} index={quizIndex} />) :
-         (quizs[quizIndex].TAG === "picture" ? (<PictureType quizs={quizs} index={quizIndex} />) : (<PictureType2 quizs={quizs} index={quizIndex} />))}
+                            {quizs[quizIndex].TAG === "text" ? (<TextType quizs={quizs} index={quizIndex} />) :
+                                (quizs[quizIndex].TAG === "picture" ? (<PictureType quizs={quizs} index={quizIndex} />) : (<PictureType2 quizs={quizs} index={quizIndex} />))}
                         </div>
                         <AnswerBlock checkAnswer={this.checkAnswer} closeRes={this.closeRes} />
                     </div>
