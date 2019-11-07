@@ -69,8 +69,8 @@ class QuizBoard extends React.Component {
             this.rightResponse = ["group_right_1.gif", "group_right_2.gif", "group_right_3.gif", "jhope_right_1.gif", "jimin_right_1.gif", "jin_right_1.gif", "jin_right_2.gif", "jk_right_1.gif", "jk_right_2.gif", "rm_right_1.gif", "rm_right_2.gif", "suga_right_1.gif", "suga_right_1.gif", "v_right_1.gif", "v_right_2.gif"];
             this.wrongResponse = ["group_wrong_1.gif", "group_wrong_2.gif", "jhope_wrong_1.gif", "jhope_wrong_3.gif", "jhope_wrong_4.gif", "jimin_wrong_1.gif", "jimin_wrong_2.gif", "jin_wrong_1.gif", "jin_wrong_2.gif", "jin_wrong_3.gif", "jk_wrong_1.gif", "suga_wrong_1.gif", "suga_wrong_2.gif", "rm_wrong_1.gif"];
         } else if (Group === "IZONE") {
-            this.rightResponse = ["chaewon_right_1.gif", "group_right_1.gif", "hitomi_right_1.gif", "hyewon_right_1.gif", "sakura_right_1.gif"];
-            this.wrongResponse = ["chaeyeon_wrong_1.gif", "hitomi_wrong_1.gif", "hyewon_wrong_1.gif", "minju_wrong_1.gif", "wonyoung_wrong_1.gif", "yena_wrong_1.gif", "yena_wrong_2.gif", "yuri_wrong_1.gif"];
+            this.rightResponse = ["chaewon_right_1.gif", "chaewon_right_2.gif", "group_right_1.gif", "group_right_2.gif", "hitomi_right_1.gif", "hyewon_right_1.gif", "nako_right_1.gif", "sakura_right_1.gif", "wonyoung_right_1.gif"];
+            this.wrongResponse = ["chaeyeon_wrong_1.gif", "hitomi_wrong_1.gif", "hyewon_wrong_1.gif", "minjoo_wrong_1.gif", "minjoo_wrong_2.gif", "wonyoung_wrong_1.gif", "yena_wrong_1.gif", "yena_wrong_2.gif", "yuri_wrong_1.gif"];
         } else {
             this.rightResponse = ["group_right_1.gif", "group_right_2.gif", "group_right_3.gif", "group_right_4.gif", "jeong_right_1.gif", "nayeon_right_1.gif", "nayeon_right_2.gif"];
             this.wrongResponse = ["chae_wrong_1.gif", "dahyun_wrong_1.gif", "group_wrong_1.gif", "mina_wrong_1.gif", "nayeon_wrong_1.gif", "sana_wrong_1.gif", "sana_wrong_2.gif", "tzuyu_wrong_1.gif"];
@@ -113,7 +113,6 @@ class QuizBoard extends React.Component {
         const { Group } = this.props;
         let quizRightCounter = quizs[qid].rightCounter;
         let quizWrongCounter = quizs[qid].wrongCounter;
-        console.log("aftercheck", qid)
         this.rightResIndex = Math.floor(Math.random() * this.rightResponse.length);
         this.wrongResIndex = Math.floor(Math.random() * this.wrongResponse.length);
         if (e.state.ANSWER === quizs[qid].ANSWER) {
@@ -166,7 +165,6 @@ class QuizBoard extends React.Component {
 
     closeRes = () => {
         const { quizs, wrongQuizs } = this.state
-        console.log("quizslength", quizs.length)
         if (quizs.length === 0) {
             this.props.history.push("/profile");
         };
@@ -198,7 +196,7 @@ class QuizBoard extends React.Component {
                     <div className="layer">
                         <img className="resPic" src={resPic} />
                         <div className="res">{res}</div>
-                        <button type="button" className="qres-button" onClick={this.closeRes}>知道了</button>
+                        <button type="button" className="qres-button" onClick={this.closeRes}>學起來</button>
                     </div>
                 </div>
                 <div className={blurLayer}>
