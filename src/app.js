@@ -76,7 +76,6 @@ class App extends Component {
                         quizs: this.newquizs,
                         userName: e.state.userName
                     })
-                    console.log(this.state.quizs)
                 })
             })
         }).catch((error) => {
@@ -212,7 +211,7 @@ class App extends Component {
             })
         }
     }
-    render () {
+    render() {
         const { Group, alertMessage, alertBlock, userUid, quizs, animeClass, blurLayer, loginContainerClass, userName } = this.state;
         return (
             <div className={Group + "layer"}>
