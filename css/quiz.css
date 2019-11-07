@@ -160,7 +160,7 @@
     border-radius: 8px;
 }
 .pic_quiz_img{
-    max-height: 500px;
+    max-height: 400px;
     max-width: 500px;
 }
 /*scalper*/
@@ -246,8 +246,8 @@
     width: 95%;
     fill:none;
     fill-rule: evenodd;
-    stroke: #cee5d5;
-    stroke-dasharray: 80;
+    stroke: #fee5d5;
+    stroke-dasharray: 450;
     transition-timing-function: linear;
     animation: dash 5s linear;
     stroke-width: 1;
@@ -258,7 +258,7 @@
     fill-rule: evenodd;
     opacity: 1;
     stroke:#f1d2e7;
-    stroke-dasharray: 155;
+    stroke-dasharray: 305;
     animation: dash 5s linear;
     stroke-width: 1;
     }
@@ -267,18 +267,10 @@
     fill-rule: evenodd;
     opacity: 1;
     stroke:white;
-    stroke-dasharray: 200;
+    stroke-dasharray: 350;
     animation: dash 5s linear;
     stroke-width: 1;
     }    
-@keyframes oxxo{
-    from{
-        right:0px;
-    }
-    to{
-        right:1000px;
-    }
-}
 @keyframes dash {
     to {
     stroke-dashoffset: 1200;
@@ -353,9 +345,6 @@ span{
 @media(max-width:800px){
     .quizLogo{
         width: 60px;
-    }
-    .pic_quiz_img{
-        max-height: 400px;
     }
     .quizContainer{
         width:80%;

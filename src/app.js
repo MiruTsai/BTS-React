@@ -211,7 +211,7 @@ class App extends Component {
             })
         }
     }
-    render() {
+    render () {
         const { Group, alertMessage, alertBlock, userUid, quizs, animeClass, blurLayer, loginContainerClass, userName } = this.state;
         return (
             <div className={Group + "layer"}>
