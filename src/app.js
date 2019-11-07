@@ -60,7 +60,7 @@ class App extends Component {
             fire.auth().currentUser.sendEmailVerification().then(() => {
                 fire.firestore().collection(this.state.Group + "QUIZS").get().then((querySnapshot) => {
                     this.newquizs = [];
-                    querySnapshot.forEach(function (doc) {
+                    querySnapshot.forEach((doc) => {
                         let x = doc.id;
                         let y = doc.data();
                         y.id = x;
@@ -76,6 +76,7 @@ class App extends Component {
                         quizs: this.newquizs,
                         userName: e.state.userName
                     })
+                    console.log(this.state.quizs)
                 })
             })
         }).catch((error) => {
