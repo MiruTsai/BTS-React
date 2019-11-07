@@ -47,6 +47,7 @@
 }
 .quizLogo{
     width: 70px;
+    margin:5px;
 }
 .quiz,.pic_quiz_title{
     font-size: 2em;
@@ -128,7 +129,7 @@
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
-    margin: 30px auto;
+    margin: 20px auto;
 }
 .option{
     flex-basis: 50%;
@@ -147,9 +148,8 @@
 }
 .picOption{
     flex-basis: 40%;
-    /* width:400px;*/
-    max-height:200px; 
-    margin: 20px;
+    max-height:250px; 
+    margin: 15px;
     object-fit:cover;
     border-radius: 8px;
 }
@@ -242,6 +242,43 @@
     animation: dash 5s linear;
     stroke-width: 5;
     }
+.Ils-1 {
+    width: 95%;
+    fill:none;
+    fill-rule: evenodd;
+    stroke: #cee5d5;
+    stroke-dasharray: 80;
+    transition-timing-function: linear;
+    animation: dash 5s linear;
+    stroke-width: 1;
+    stroke-opacity: .5
+    }
+.Ils-2 {
+    fill:none;
+    fill-rule: evenodd;
+    opacity: 1;
+    stroke:#f1d2e7;
+    stroke-dasharray: 155;
+    animation: dash 5s linear;
+    stroke-width: 1;
+    }
+.Ils-3 {
+    fill:none;
+    fill-rule: evenodd;
+    opacity: 1;
+    stroke:white;
+    stroke-dasharray: 200;
+    animation: dash 5s linear;
+    stroke-width: 1;
+    }    
+@keyframes oxxo{
+    from{
+        right:0px;
+    }
+    to{
+        right:1000px;
+    }
+}
 @keyframes dash {
     to {
     stroke-dashoffset: 1200;
@@ -356,9 +393,6 @@ span{
         width: 100%;
         padding: 15px 30px;
         margin:0 auto;
-    }
-    .options{
-        margin:30px auto; 
     }
     .option{
         font-size: 14px;

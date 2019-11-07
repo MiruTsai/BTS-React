@@ -3,51 +3,46 @@ import { Link } from "react-router-dom";
 import "../../css/common.css";
 import "../../css/index.css";
 import QuizAnime from "../components/Quizanime";
+import Groups from "../components/Groups";
 import fire from "../Fire";
 import Chart from "react-google-charts";
 
 class Profile extends Component {
   state = {
-    userName: "",
-    userID: "",
-    userRightCounter: "",
-    userWrongCounter: "",
     animeClass:"anime",
-    proContainerClass:"hide"
+    proContainerClass:"hide",
+    userInfo:""
   }
   componentDidMount = () => {
     fire.firestore().collection("MemberShip").doc(this.props.userUid).get().then((doc) => {
       if (doc.exists) {
-        let userInfo = doc.data()
-        this.setState({
-          userName: userInfo.NAME,
-          userID: userInfo.ID,
-          userRightCounter: userInfo.rightCounter,
-          userWrongCounter: userInfo.wrongCounter,
+        let userInfo = doc.data();
+        this.setState({ 
+          userInfo,
           animeClass:"hide",
           proContainerClass:"proContainer"
         })
-      } else {
-        return;
-      }
+      } 
     })
   }
   render () {
-    const { userName, userID, userRightCounter, userWrongCounter, animeClass, proContainerClass } = this.state
+    const { animeClass, proContainerClass, userInfo } = this.state;
+    const { Group, chooseGroup } = this.props;
     return (
       <>
         <Link to="/">
-          <img src="/../img/LOGO.png" className="profileLogo" />
+          <img src={"/../img/logo/" + Group + ".PNG"} className="profileLogo" />
         </Link>
-        <QuizAnime animeClass={animeClass} />
+        <QuizAnime animeClass={animeClass} Group={Group}/>
         <div className={proContainerClass}>
+        <Groups chooseGroup={chooseGroup} Group={Group}/>
           <div className="profile">
             <div className="profileZone">
               <div className="profile-header">會員資料</div>
-              <div className="profile-text">會員姓名： {userName}</div>
-              <div className="profile-text">帳號： {userID}</div>
-              <div className="profile-text">累計答對： {userRightCounter}</div>
-              <div className="profile-text">累計答錯： {userWrongCounter}</div>
+              <div className="profile-text">會員姓名： {userInfo["NAME"]}</div>
+              <div className="profile-text">帳號： {userInfo["ID"]}</div>
+              <div className="profile-text">累計答對： {userInfo[Group+"rightCounter"]}</div>
+              <div className="profile-text">累計答錯： {userInfo[Group+"wrongCounter"]}</div>
               <Link to="/addquiz">
                 <button type="button" className="profile-btn hvr-push">我要出題</button>
               </Link>
@@ -60,10 +55,10 @@ class Profile extends Component {
               data={[
                 ["Task", "Hours per Day"],
                 ["答對",
-                  userRightCounter
+                  userInfo[Group+"rightCounter"]
                 ],
                 ["答錯",
-                  userWrongCounter
+                userInfo[Group+"wrongCounter"]
                 ]
               ]}
               options={{

@@ -173,16 +173,17 @@ class PreTest extends Component {
     render () {
         const { quizs, alertBlockClass, guideClass, logoClass, loadingClass, maskClass, containerClass, timerClass, 
             resPic, resPicClass, resBoardClass, response } = this.state;
+        const { Group } = this.props;
         currentIndex = Math.floor(Math.random() * quizs.length);
         this.seconds = 0;
         return (
             <>
                 <Link to="/">
-                    <img src="/../img/LOGO.png" className={logoClass} />
+                    <img src={"/../img/logo/" + Group + ".PNG"} className={logoClass} />
                 </Link>
                 <GetTicketGuide closeGuide={this.closeGuide} guideClass={guideClass} />
                 <div className={alertBlockClass}>
-                    <div className="boardTitle">BTS-TMI</div>
+                    <div className="boardTitle">{Group}-TMI</div>
                     <div className="pre-alertBoard">
                         <button type="button" className="preRes-button" onClick={() => this.oneMoreTime()}>再玩一次</button>
                         <button type="button" className="preRes-button" onClick={() => this.backToIndex()}>回首頁</button>

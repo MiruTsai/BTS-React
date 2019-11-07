@@ -1,10 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Logo = () =>{
+const Logo = (props) =>{
+    let groupName;
+    if (props.Group === "IZ*ONE"){
+        groupName="IZONE"
+    }else{
+        groupName=props.Group
+    }
     return(
         <Link to="/">
-    <img src="/../img/LOGO.png" className="logo" />
+    <img src={"/../img/logo/"+groupName+".PNG"} className="logo" />
     </Link>)
 }
 

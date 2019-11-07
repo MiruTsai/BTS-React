@@ -17,9 +17,23 @@
       url("/source/Metropolis-Black.otf");
       font-display:block;
   } 
-body{
-    background: linear-gradient(135deg ,#fbc2eb, #a6c1ee );
+
+.BTSlayer,.TWICElayer,.IZONElayer{
+    width: 100vw;
+    height: 100vh;
+    margin: -8px;
     background-size: 400% 400%;
+}
+.BTSlayer{
+    background: linear-gradient(135deg ,#fbc2eb, #a6c1ee );
+    animation: bgGradient 10s ease infinite;
+}
+.TWICElayer{
+    background: linear-gradient(135deg ,#FCC89B, #FF5FA2 );
+    animation: bgGradient 10s ease infinite;
+}
+.IZONElayer{
+    background: linear-gradient(135deg ,#d9598c, #db706c,#f1d2e7,#f3aa51,#fcf695,#b7d3e9,#bbb0dc,#f1c3aa,#cee5d5,#ffffff,#a7e0e1,#567ace );
     animation: bgGradient 10s ease infinite;
 }
 @keyframes bgGradient{
@@ -35,6 +49,7 @@ body{
 }
 .logo{
     width:70px;
+    margin:5px;
 }
 button{
     margin: 0;

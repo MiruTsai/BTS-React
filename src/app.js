@@ -13,14 +13,14 @@ import "../css/index.css"
 const root = document.querySelector(".root");
 
 class App extends Component {
-    newquizs = [];
     state = {
         userUid: "",
         animeClass: "hide",
         loginContainerClass: "loginContainer",
         alertMessage: "",
         alertBlock: "hide",
-        blurLayer: "hide"
+        blurLayer: "hide",
+        Group: "BTS"
     }
     signUP = (e) => {
         if (e.state.email === "" || e.state.password === "") {
@@ -58,21 +58,23 @@ class App extends Component {
                 loginContainerClass: "hide"
             })
             fire.auth().currentUser.sendEmailVerification().then(() => {
-                fire.firestore().collection("QUIZS").get().then((querySnapshot) => {
+                fire.firestore().collection(this.state.Group + "QUIZS").get().then((querySnapshot) => {
+                    this.newquizs = [];
                     querySnapshot.forEach(function (doc) {
                         let x = doc.id;
                         let y = doc.data();
                         y.id = x;
                         this.newquizs.push(y);
                     });
-                    this.setState({
-                        Quizs: this.newquizs
-                    })
                     fire.firestore().collection("MemberShip").doc(fire.auth().currentUser.uid).set({
                         ID: e.state.email,
                         NAME: e.state.userName,
                         rightCounter: 0,
                         wrongCounter: 0
+                    })
+                    this.setState({
+                        quizs: this.newquizs,
+                        userName: e.state.userName
                     })
                 })
             })
@@ -108,28 +110,28 @@ class App extends Component {
             return;
         }
         fire.auth().signInWithEmailAndPassword(a.state.email, a.state.password).then(() => {
-            let user = fire.auth().currentUser.uid;
-            if (!user) {
-                return
-            } else {
-                localStorage.setItem("uid", user);
-                this.setState({
-                    userUid: user,
-                    animeClass: "anime fadeAnime",
-                    loginContainerClass: "hide"
+            fire.firestore().collection(this.state.Group + "QUIZS").get().then((querySnapshot) => {
+                let user = fire.auth().currentUser.uid;
+                this.newquizs = [];
+                querySnapshot.forEach((doc) => {
+                    let x = doc.id;
+                    let y = doc.data();
+                    y.id = x;
+                    this.newquizs.push(y);
                 });
-                fire.firestore().collection("QUIZS").get().then((querySnapshot) => {
-                    querySnapshot.forEach((doc) => {
-                        let x = doc.id;
-                        let y = doc.data();
-                        y.id = x;
-                        this.newquizs.push(y);
-                    });
-                    this.setState({
-                        Quizs: this.newquizs
-                    });
+                fire.firestore().collection("MemberShip").doc(user).get().then((doc) => {
+                    if (doc.exists) {
+                        let userInfo = doc.data()
+                        this.setState({
+                            quizs: this.newquizs,
+                            animeClass: "anime fadeAnime",
+                            loginContainerClass: "hide",
+                            userName: userInfo.NAME,
+                            userUid: user
+                        })
+                    }
                 })
-            }
+            })
             setTimeout(() => { a.props.history.push("/") }, 5700)
         }).catch((error) => {
             if (error.code.slice(5, error.code.length) === "wrong-password") {
@@ -146,6 +148,23 @@ class App extends Component {
                 })
             }
         });
+    }
+    chooseGroup = (e) => {
+        this.setState({
+            Group: e.target.value
+        });
+        fire.firestore().collection(e.target.value + "QUIZS").get().then((querySnapshot) => {
+            this.newquizs = [];
+            querySnapshot.forEach((doc) => {
+                let x = doc.id;
+                let y = doc.data();
+                y.id = x;
+                this.newquizs.push(y);
+            });
+            this.setState({
+                quizs: this.newquizs
+            });
+        })
     }
     authListener = (e) => {
         if (this.state.userUid === "") {
@@ -193,20 +212,23 @@ class App extends Component {
         }
     }
     render () {
-        const { alertMessage, alertBlock, userUid, Quizs, animeClass, blurLayer, loginContainerClass } = this.state;
+        const { Group, alertMessage, alertBlock, userUid, quizs, animeClass, blurLayer, loginContainerClass, userName } = this.state;
         return (
-            <BrowserRouter>
-                <Route exact path="/" render={(props) => <Index {...props} auth={this.authListener} quizEntry={this.quizEntry} preTestEntry={this.preTestEntry}
-                    alertMessage={alertMessage} alertBlock={alertBlock} blurLayer={blurLayer} closeAlert={this.closeAlert} />}
-                    userUid={userUid} />
-                <Route path="/login" render={(props) => <Login {...props} alertMessage={alertMessage} alertBlock={alertBlock} closeAlert={this.closeAlert}
-                    blurLayer={blurLayer} login={this.login} signUP={this.signUP} userUid={userUid} animeClass={animeClass}
-                    loginContainerClass={loginContainerClass} />} />
-                <Route path="/profile" render={(props) => <Profile {...props} userUid={userUid} logOut={this.logOut} />} />
-                <Route path="/quizboard" render={(props) => <QuizBoard {...props} quizs={Quizs} userUid={userUid} />} />
-                <Route path="/addquiz" component={Addquiz} closeAlert={this.closeAlert} />
-                <Route path="/preTest" render={(props) => <PreTest {...props} quizs={Quizs} closeAlert={this.closeAlert} />} />
-            </BrowserRouter>
+            <div className={Group + "layer"}>
+                <BrowserRouter>
+                    <Route exact path="/" render={(props) => <Index {...props} auth={this.authListener} quizEntry={this.quizEntry} preTestEntry={this.preTestEntry}
+                        alertMessage={alertMessage} alertBlock={alertBlock} blurLayer={blurLayer} closeAlert={this.closeAlert} userUid={userUid} chooseGroup={this.chooseGroup} Group={Group} />}
+                    />
+                    <Route path="/login" render={(props) => <Login {...props} alertMessage={alertMessage} alertBlock={alertBlock} closeAlert={this.closeAlert}
+                        blurLayer={blurLayer} login={this.login} signUP={this.signUP} userUid={userUid} animeClass={animeClass}
+                        loginContainerClass={loginContainerClass} Group={Group} />} />
+                    <Route path="/profile" render={(props) => <Profile {...props} userUid={userUid} logOut={this.logOut} Group={Group} chooseGroup={this.chooseGroup} />} />
+                    <Route path="/quizboard" render={(props) => <QuizBoard {...props} quizs={quizs} userUid={userUid} Group={Group} />} />
+                    <Route path="/addquiz" render={(props) => <Addquiz {...props} closeAlert={this.closeAlert} Group={Group} chooseGroup={this.chooseGroup} userName={userName} />} />
+                    <Route path="/preTest" render={(props) => <PreTest {...props} quizs={quizs} closeAlert={this.closeAlert} Group={Group} />} />
+
+                </BrowserRouter>
+            </div>
         )
     }
 }
