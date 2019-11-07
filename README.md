@@ -2,7 +2,7 @@
 ##### Web Link:   ![K-POP TMI](https://btstmi.firebaseapp.com/) 
 ### A test bank for dedicated K-POP fans to practice mock questions before snatching concert tickets. 
 
-![](/dist/img/readme/BTS.png)
+![](/dist/img/readme/BTS.PNG)
 
 ## Technologies
 * React
