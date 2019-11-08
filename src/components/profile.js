@@ -9,20 +9,20 @@ import Chart from "react-google-charts";
 
 class Profile extends Component {
   state = {
-    animeClass:"anime",
-    proContainerClass:"hide",
-    userInfo:""
+    animeClass: "anime",
+    proContainerClass: "hide",
+    userInfo: ""
   }
   componentDidMount = () => {
     fire.firestore().collection("MemberShip").doc(this.props.userUid).get().then((doc) => {
       if (doc.exists) {
         let userInfo = doc.data();
-        this.setState({ 
+        this.setState({
           userInfo,
-          animeClass:"hide",
-          proContainerClass:"proContainer"
+          animeClass: "hide",
+          proContainerClass: "proContainer"
         })
-      } 
+      }
     })
   }
   render () {
@@ -33,21 +33,23 @@ class Profile extends Component {
         <Link to="/">
           <img src={"/../img/logo/" + Group + ".PNG"} className="profileLogo" />
         </Link>
-        <QuizAnime animeClass={animeClass} Group={Group}/>
+        <QuizAnime animeClass={animeClass} Group={Group} />
         <div className={proContainerClass}>
-        <Groups chooseGroup={chooseGroup} Group={Group}/>
-          <div className="profile">
+        <Groups chooseGroup={chooseGroup} Group={Group} />
+          <div className="profile">            
             <div className="profileZone">
               <div className="profile-header">會員資料</div>
               <div className="profile-text">會員姓名： {userInfo["NAME"]}</div>
               <div className="profile-text">帳號： {userInfo["ID"]}</div>
-              <div className="profile-text">累計答對： {userInfo[Group+"rightCounter"]}</div>
-              <div className="profile-text">累計答錯： {userInfo[Group+"wrongCounter"]}</div>
+              <div className="profile-text">累計答對： {userInfo[Group + "rightCounter"]}</div>
+              <div className="profile-text">累計答錯： {userInfo[Group + "wrongCounter"]}</div>
               <Link to="/addquiz">
                 <button type="button" className="profile-btn hvr-push">我要出題</button>
               </Link>
             </div>
-            <Chart
+            
+          </div>
+          <Chart
               width={"500px"}
               height={"300px"}
               chartType="PieChart"
@@ -55,10 +57,10 @@ class Profile extends Component {
               data={[
                 ["Task", "Hours per Day"],
                 ["答對",
-                  userInfo[Group+"rightCounter"]
+                  userInfo[Group + "rightCounter"]
                 ],
                 ["答錯",
-                userInfo[Group+"wrongCounter"]
+                  userInfo[Group + "wrongCounter"]
                 ]
               ]}
               options={{
@@ -79,7 +81,6 @@ class Profile extends Component {
               ]}
               rootProps={{ "data-testid": "2" }}
             />
-          </div>
         </div>
       </>
     )

@@ -1,5 +1,5 @@
 import React from "react";
-import GetTicketGuide from "../src/components/guide";
+import GetTicketGuide from "../src/components/GetTicketGuide";
 import renderer from "react-test-renderer";
 
 it("renders correctly", () => {

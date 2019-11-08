@@ -212,7 +212,7 @@
     position: fixed;
     top:0;
     left:0;
-    z-index: 10000;
+    z-index: 1000;
 }
 .cls-1 {
     width: 95%;
@@ -395,10 +395,8 @@ span{
     }
     .anime{
         margin: 0 auto;
-        width: 100vw;
-        height:100vh;
     }
-    svg{
+    #BTSlogo{
         position: absolute;
         top:30%;
     }

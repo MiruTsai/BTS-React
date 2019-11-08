@@ -2,9 +2,12 @@
     box-sizing: border-box;  
     text-decoration: none;
     font-family:"Noto Sans TC", "微軟正黑體", "新細明體", arial, sans-serif;
+    
 }
-
-.container,.loginContainer,.quizContainer,.preContainer,.proContainer,.preAddContainer{
+body{
+    margin:auto;
+}
+.container,.loginContainer,.quizContainer,.preContainer,.preAddContainer{
     box-shadow:2px 2px 2px rgba(20%,20%,40%,0.6),4px 4px 6px rgba(20%,20%,40%,0.4),6px 6px 12px rgba(20%,20%,40%,0.4);
     position: absolute;
     top:50%;
@@ -21,7 +24,6 @@
 .BTSlayer,.TWICElayer,.IZONElayer{
     width: 100vw;
     height: 100vh;
-    margin: -8px;
     background-size: 400% 400%;
 }
 .BTSlayer{

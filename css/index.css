@@ -127,30 +127,34 @@ h3,h5,.title{
     width:70px;
     margin:5px;
 }
+.profile{
+    flex-basis: 45%;
+}
 .proContainer{
+    box-shadow:2px 2px 2px rgba(20%,20%,40%,0.6),4px 4px 6px rgba(20%,20%,40%,0.4),6px 6px 12px rgba(20%,20%,40%,0.4);
     background-color: white;
+    display: flex;
+    flex-wrap: wrap;
     margin: 0 auto;
-    width: 70%;
     position: absolute;
     top:50%;
     left:50%;
     transform: translateX(-50%) translateY(-50%);
 }
-
-.profile{
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    width: 100%;
-    flex-wrap: wrap;
+.quizSelect form{
+    margin: 0;
 }
+.quizSelect{
+    margin:30px;
+    width:100%;
+}
+
 .profileZone{
     display: flex;
     flex-direction: column;
     justify-content: "center";
     font-family:"Noto Sans TC", "微軟正黑體", "新細明體", arial, sans-serif;
-    margin: auto 50px; 
-    padding-top:30px;
+    margin: 0 50px 30px; 
     flex-basis: 30%;
 }
 .profile-text{
@@ -221,8 +225,16 @@ text{
     }
 }
 @media(max-width:640px){
+    .profile{
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        flex-basis: 100%;
+    }
     .proContainer{
-        width: 100%;
+        width: 100vw;
+        height: 100vh;
     }
     .logo,.user{
         display: none;
@@ -254,9 +266,7 @@ text{
         margin: 0 auto;
     }
     .profileZone{
-        margin: 0; 
-        margin-top:50px;
-        flex-basis: 80%;
+        flex-basis: 100%;
     }
 }
 @media(max-width:480px){
@@ -270,7 +280,6 @@ text{
         height:100vh;
         display: block;
         margin:0;
-        
     }
     .title{
         font-size: 40px;

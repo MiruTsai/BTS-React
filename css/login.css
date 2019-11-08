@@ -84,15 +84,14 @@
     padding:5px 15px;
 
 }
-
 .signButton:active{
     background: #DBC05B;
 }
 
 /* animation */
-.anime{
-    width: 100vh;
-    height:100vw;
+.signAnime{
+    width: 100vw;
+    height:100vh;
     position: fixed;
     top:0;
     left:0;
@@ -101,37 +100,31 @@
 .fadeAnime{
     animation: fadein 6s linear;
 }
-
-.hideAnime{
-    display: none;
+.loginls {
+    fill:none;
+    fill-rule: evenodd;
+    opacity: 1;
+    stroke:white;
+    stroke-dashoffset:2540;
+    stroke-dasharray:2540;
+    animation-delay: 1.2s;
+    animation: draw 6s linear;
+    stroke-width: 5;
 }
-  .loginls {
-      fill:none;
-      fill-rule: evenodd;
-      opacity: 1;
-      stroke:white;
-      stroke-dashoffset:2540;
-      stroke-dasharray:2540;
-      animation-delay: 1.2s;
-      animation: draw 6s linear;
-      stroke-width: 5;
+@keyframes fadein {
+    0%{
+        opacity: 0;
     }
-    
-    @keyframes fadein {
-        0%{
-            opacity: 0;
-        }
-        20%{
-            opacity: 1;
-        }
-        80%{
-            opacity: 1;
-        }
-        100%{
-            opacity: 0;
-        }
+    20%{
+        opacity: 1;
+    }
+    80%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }
 } 
-
 @keyframes draw {
         100% {
             stroke-dashoffset: 0;
@@ -153,6 +146,12 @@
     }
     .loginZone{
         width:80%
+    }
+}
+@media(max-width:640px){
+    .signAnime{
+        position: absolute;
+        top:30%;
     }
 }
 @media(max-width:480px){

@@ -54,7 +54,7 @@ class App extends Component {
                 userUid: user,
                 userRightCounter: 0,
                 userWrongCounter: 0,
-                animeClass: "anime fadeAnime",
+                animeClass: "signAnime fadeAnime",
                 loginContainerClass: "hide"
             })
             fire.auth().currentUser.sendEmailVerification().then(() => {
@@ -124,7 +124,7 @@ class App extends Component {
                         let userInfo = doc.data()
                         this.setState({
                             quizs: this.newquizs,
-                            animeClass: "anime fadeAnime",
+                            animeClass: "signAnime fadeAnime",
                             loginContainerClass: "hide",
                             userName: userInfo.NAME,
                             userUid: user
