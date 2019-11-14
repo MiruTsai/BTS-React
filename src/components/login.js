@@ -60,7 +60,7 @@ class Login extends Component {
         }
         return (
             <>
-                <Response alertMessage={alertMessage} alertBlock={alertBlock} blurLayer={blurLayer} closeAlert={() => closeAlert(this)} />
+                <Response Group={Group} alertMessage={alertMessage} alertBlock={alertBlock} blurLayer={blurLayer} closeAlert={() => closeAlert(this)} />
                 <SignInAnime animeClass={animeClass} />
                 <Link to="/">
                     <img src={"/../img/logo/"+Group+".PNG"} className="loginLogo" />

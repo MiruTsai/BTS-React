@@ -146,36 +146,35 @@ class QuizBoard extends React.Component {
                     this.reply = "沒關係有 " +
                         Math.floor(quizWrongCounter / (quizRightCounter + quizWrongCounter) * 100) + "% 的人沒答對。"
                 }
-                this.setState((prevState) => ({
-                    wrongCounter: prevState.wrongCounter + 1,
-                    wrongQuizs: [...wrongQuizs, quizs[qid]],
-                    quizs: quizs.filter(p => p.QUIZ !== quizs[qid].QUIZ),
-                    res: "答案是 " + quizs[qid].ANSWER + "。" + this.reply,
-                    resBoardClass: "resBoard",
-                    resPic: "../../img/wrong/" + Group + "/" + this.wrongResponse[this.wrongResIndex],
-                    containerClass: "hideContainer",
-                    blurLayer: "blurLayer"
-                })
-                )
-                this.wrongSound.play();
+                if ( wrongQuizs.length > 4) {
+                    this.setState({
+                        scalper: "scalper",
+                        containerClass: "hideContainer"
+                    })
+                    this.errorSound.play();
+                    setTimeout(() => { this.props.history.push("/") }, 6000)
+                } else {
+                    this.setState((prevState) => ({
+                        wrongCounter: prevState.wrongCounter + 1,
+                        wrongQuizs: [...wrongQuizs, quizs[qid]],
+                        quizs: quizs.filter(p => p.QUIZ !== quizs[qid].QUIZ),
+                        res: "答案是 " + quizs[qid].ANSWER + "。" + this.reply,
+                        resBoardClass: "resBoard",
+                        resPic: "../../img/wrong/" + Group + "/" + this.wrongResponse[this.wrongResIndex],
+                        containerClass: "hideContainer",
+                        blurLayer: "blurLayer"
+                    }))
+                    this.wrongSound.play();
+                }
             })
         };
         e.state.ANSWER = "";
     }
-
     closeRes = () => {
-        const { quizs, wrongQuizs } = this.state
+        const { quizs } = this.state
         if (quizs.length === 0) {
             this.props.history.push("/profile");
         };
-        if (wrongQuizs.length > 5) {
-            this.setState({
-                scalper: "scalper",
-                containerClass: "hideContainer"
-            })
-            this.errorSound.play();
-            setTimeout(() => { this.props.history.push("/") }, 6000)
-        }
         this.setState({
             resBoardClass: "hideResBoard",
             containerClass: "quizContainer",
@@ -188,7 +187,7 @@ class QuizBoard extends React.Component {
         const { Group } = this.props;
         qid = Math.floor(Math.random() * quizs.length);
         const renderQuiz = (quizs.length === 0) ? (null) : (<>{quizs[qid].TAG === "text" ? (<TextType quizs={quizs} index={qid} />) :
-                (quizs[qid].TAG === "picture" ? (<PictureType quizs={quizs} index={qid} />) : (<PictureType2 quizs={quizs} index={qid} />))}</>)
+            (quizs[qid].TAG === "picture" ? (<PictureType quizs={quizs} index={qid} />) : (<PictureType2 quizs={quizs} index={qid} />))}</>)
         return (
             <>
                 <div className={resBoardClass}>
