@@ -4,7 +4,6 @@ import Response from "./Response";
 import Groups from "./Groups";
 
 const IndexPic = (props) => {
-
     return (
         <div className="groupPic">
             <img src={"/img/group/" + props.Group + ".jpg"} className="indexPic" />

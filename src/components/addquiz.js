@@ -38,8 +38,8 @@ class NewQuiz extends React.Component {
                 </div>
         }
         return (
-            <form>
-            <Groups chooseGroup={chooseGroup} Group={Group}/>
+            <div>
+                <Groups chooseGroup={chooseGroup} Group={Group} />
                 <div className="quizSelect">
                     <div className="opt-name">題型</div>
                     <select id="quizType" name="TAG" value={TAG} onChange={handleChange}>
@@ -67,7 +67,7 @@ class NewQuiz extends React.Component {
                     <button type="button" className="addquiz-button" onClick={sendQuiz}>提交</button>
                     <button type="button" className="preview-button" onClick={statusChange}>預覽</button>
                 </div>
-            </form>
+            </div>
         )
     }
 }
@@ -92,7 +92,19 @@ class Addquiz extends React.Component {
         alertBlock: "hide",
         blurLayer: "hide"
     }
+    groupMember = [];
+    componentDidMount = () => {
+        fire.firestore().collection("GROUPMEMBER").where("GROUP", "==", this.props.Group).get()
+            .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    this.groupMember.push(doc.data())
+                });
+            })
+            .catch(function (error) {
+                console.log("Error getting documents: ", error);
+            });
 
+    }
     showGuide = () => {
         this.setState({
             textClass: "textZoneVisible"
@@ -126,9 +138,22 @@ class Addquiz extends React.Component {
             containerClass: "addContainer"
         })
     }
+    addPopularity = (QUIZ, correct) => {
+        for (let i = 0; i < this.groupMember.length; i++) {
+            for (let j = 0; j < this.groupMember[i].NICKNAME.length; j++) {
+                if (QUIZ.indexOf(this.groupMember[i].NICKNAME[j]) > -1 || correct.indexOf(this.groupMember[i].NICKNAME[j]) > -1) {
+                    fire.firestore().collection("GROUPMEMBER").doc(this.groupMember[i].NICKNAME[1]).update({
+                        POPULARITY: this.groupMember[i].POPULARITY + 1
+                    })
+                }
+            }
+        }
+    }
     sendQuiz = () => {
         const { OPT1, OPT2, OPT3, OPT4, ANSWER, QUIZ, QUIZPIC, TAG } = this.state;
-        const { Group, userName} = this.props;
+        const { Group, userName } = this.props;
+        let OPT = [OPT1, OPT2, OPT3, OPT4]
+        let correct = OPT[parseInt(ANSWER) - 1]
         if (ANSWER === "" || QUIZ === "" || OPT1 === "" || OPT2 === "" || OPT3 === "" || OPT4 === "") {
             this.setState({
                 alertMessage: "請填入完整題目訊息",
@@ -138,7 +163,8 @@ class Addquiz extends React.Component {
             return;
         }
         if (TAG === "picture2") {
-            fire.firestore().collection(Group+"QUIZS").doc().set({
+
+            fire.firestore().collection(Group + "QUIZS").doc().set({
                 ANSWER: ANSWER,
                 QUIZ: QUIZ,
                 QUIZPIC: QUIZPIC,
@@ -150,6 +176,8 @@ class Addquiz extends React.Component {
             }).catch(function (error) {
                 console.error("Error writing document: ", error);
             });
+            
+            this.addPopularity(QUIZ, correct)
             this.setState({
                 alertMessage: "感謝您的提供，祝您搶票順利，人品大爆發！",
                 alertBlock: "alertBlock",
@@ -163,7 +191,7 @@ class Addquiz extends React.Component {
                 OPT4: ""
             });
         } else {
-            fire.firestore().collection(Group+"QUIZS").doc().set({
+            fire.firestore().collection(Group + "QUIZS").doc().set({
                 ANSWER: ANSWER,
                 QUIZ: QUIZ,
                 OPTIONS: [OPT1, OPT2, OPT3, OPT4],
@@ -174,6 +202,8 @@ class Addquiz extends React.Component {
             }).catch(function (error) {
                 console.error("Error writing document: ", error);
             });
+
+            this.addPopularity(QUIZ, correct)
             this.setState({
                 alertMessage: "感謝您的提供，祝您搶票順利，人品大爆發！",
                 alertBlock: "alertBlock",
@@ -187,6 +217,7 @@ class Addquiz extends React.Component {
                 OPT4: ""
             });
         }
+
     }
     closeBoard = () => {
         this.setState({
@@ -200,26 +231,26 @@ class Addquiz extends React.Component {
         const { review, ANSWER, QUIZ, QUIZPIC, textClass, OPTIONS, OPT1, OPT2, OPT3, OPT4, TAG, alertMessage, alertBlock, blurLayer, containerClass } = this.state;
         return (
             <>
-                <Response alertMessage={alertMessage} alertBlock={alertBlock} blurLayer={blurLayer} closeAlert={this.closeBoard} Group={this.props.Group}/>
-                <Logo Group={Group}/>
+                <Response alertMessage={alertMessage} alertBlock={alertBlock} blurLayer={blurLayer} closeAlert={this.closeBoard} Group={this.props.Group} />
+                <Logo Group={Group} />
                 <div className={containerClass}>
-                    {review ? (<PreviewQuiz QUIZ={QUIZ} OPTIONS={OPTIONS} OPT1={OPT1} OPT2={OPT2} OPT3={OPT3} OPT4={OPT4} QUIZPIC={QUIZPIC} 
-            TAG={TAG} backStatus={this.backStatus} />):
-                   (<>
-                    <div className={textClass} onClick={this.hideGuide}>
-                        <ul>本站須知：
+                    {review ? (<PreviewQuiz QUIZ={QUIZ} OPTIONS={OPTIONS} OPT1={OPT1} OPT2={OPT2} OPT3={OPT3} OPT4={OPT4} QUIZPIC={QUIZPIC}
+                        TAG={TAG} backStatus={this.backStatus} />) :
+                        (<>
+                            <div className={textClass} onClick={this.hideGuide}>
+                                <ul>本站須知：
                             <li>請選擇您想提供的題型，若您選擇的是圖片題，請確認是否侵害該圖片擁有者的智慧財產權，小編跟您都禁不起被吉的風險。</li>
-                            <li>基於這是個共享的平台，禁止過度幻想文。EX:以下哪一張圖是<span className="notice">我老公Jimin的腹肌</span>。是會激起公憤的請注意。</li>
-                            <li>我們都知道愛到深處自然黑，但嚴禁使用過黑及有可能危及成員形象的黑圖。</li>
-                            <li>以上，希望大家都能喜歡這個網站，願搶票順利人品爆發。</li>
-                        </ul>
-                    </div>
-                    <Description showGuide={this.showGuide} Group={Group} />
-                    <div className="add-rightSide">
-                        <NewQuiz handleChange={this.handleChange} updateInput={this.updateInput} sendQuiz={this.sendQuiz} statusChange={this.statusChange} ANSWER={ANSWER} QUIZ={QUIZ}
-                            OPTIONS={OPTIONS} QUIZPIC={QUIZPIC} TAG={TAG} OPT1={OPT1} OPT2={OPT2} OPT3={OPT3} OPT4={OPT4} chooseGroup={chooseGroup} Group={Group}/>
-                    </div>
-                </>)}
+                                    <li>基於這是個共享的平台，禁止過度幻想文。EX:以下哪一張圖是<span className="notice">我老公Jimin的腹肌</span>。是會激起公憤的請注意。</li>
+                                    <li>我們都知道愛到深處自然黑，但嚴禁使用過黑及有可能危及成員形象的黑圖。</li>
+                                    <li>以上，希望大家都能喜歡這個網站，願搶票順利人品爆發。</li>
+                                </ul>
+                            </div>
+                            <Description showGuide={this.showGuide} Group={Group} />
+                            <div className="add-rightSide">
+                                <NewQuiz handleChange={this.handleChange} updateInput={this.updateInput} sendQuiz={this.sendQuiz} statusChange={this.statusChange} ANSWER={ANSWER} QUIZ={QUIZ}
+                                    OPTIONS={OPTIONS} QUIZPIC={QUIZPIC} TAG={TAG} OPT1={OPT1} OPT2={OPT2} OPT3={OPT3} OPT4={OPT4} chooseGroup={chooseGroup} Group={Group} />
+                            </div>
+                        </>)}
                 </div>
             </ >
         )
