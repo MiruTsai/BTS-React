@@ -63,16 +63,14 @@ h3,h5,.title{
     -webkit-transform:translateY(5px);
     transform:translateY(5px)
 }
-.icon{
-    width:30px;
-    margin-right: 20px;
-    color:#415159;
-}
-.userIcon{
-    width: 30px;
-    margin-top:20px;
+.indexContainer i{
+    font-size: 25px;
+    margin-right: 10px;
     color:#415159;
     cursor: pointer;
+}
+.indexContainer .fa-user{    
+    margin-top:20px;   
 }
 .user{
     flex-basis: 10%;
@@ -93,6 +91,7 @@ h3,h5,.title{
 }
 .iconZone{
     display: flex;
+    margin-bottom: 35px;
 }
 .iconText{
     font-size: 20px;
@@ -144,7 +143,7 @@ h3,h5,.title{
 .quizSelect form{
     margin: 0;
 }
-.quizSelect{
+.indexContainer .quizSelect{
     margin:30px;
     width:100%;
 }
@@ -290,6 +289,17 @@ text{
     }
     .leftSide{
         margin:0;
+    }
+    .proContainer{
+        box-shadow:2px 2px 2px rgba(20%,20%,40%,0.6),4px 4px 6px rgba(20%,20%,40%,0.4),6px 6px 12px rgba(20%,20%,40%,0.4);
+        background-color: white;
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 auto;
+        position: absolute;
+        top:50%;
+        left:50%;
+        transform: translateX(-50%) translateY(-50%);
     }
 }
 

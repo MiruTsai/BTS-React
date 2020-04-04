@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 const SignInAnime = (props)=>{
     return(
@@ -124,4 +124,4 @@ const SignInAnime = (props)=>{
     )
 }
 
-export default SignInAnime;
+export default SignInAnime

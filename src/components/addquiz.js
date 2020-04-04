@@ -1,8 +1,8 @@
-import "../../css/addquiz.css";
-import React from "react";
+import "../../css/addquiz.css"
+import React from "react"
 import fire from "../Fire"
-import PreviewQuiz from "./PreviewQuiz";
-import Logo from "./Logo";
+import PreviewQuiz from "./PreviewQuiz"
+import Logo from "./Logo"
 import Response from "./Response"
 import Groups from "./Groups"
 
@@ -33,8 +33,10 @@ class NewQuiz extends React.Component {
         } else {
             quizTitle =
                 <div className="choice">
-                    <div className="opt-name">題目</div>
-                    <input type="text" name="QUIZ" id="quizTitle" value={QUIZ} onChange={updateInput} />
+                    <div className="opt">
+                        <div className="opt-name">題目</div>
+                        <input type="text" name="QUIZ" id="quizTitle" value={QUIZ} onChange={updateInput} />
+                    </div>
                 </div>
         }
         return (
@@ -50,18 +52,31 @@ class NewQuiz extends React.Component {
                 </div>
                 {quizTitle}
                 <div className="choice">
-                    <div className="opt-name">選擇 1</div>
-                    <input type="text" name="OPT1" id="OPT1" value={OPT1} placeholder="請填入選項，如為圖片型-1請填入網址 ( 建議尺寸 200 x 200 以上 ) " onChange={updateInput} />
-                    <div className="opt-name">選擇 2</div>
-                    <input type="text" name="OPT2" id="OPT2" value={OPT2} placeholder="請填入選項，如為圖片型-1請填入網址 ( 建議尺寸 200 x 200 以上 ) " onChange={updateInput} />
-                    <div className="opt-name">選擇 3</div>
-                    <input type="text" name="OPT3" id="OPT3" value={OPT3} placeholder="請填入選項，如為圖片型-1請填入網址 ( 建議尺寸 200 x 200 以上 ) " onChange={updateInput} />
-                    <div className="opt-name">選擇 4</div>
-                    <input type="text" name="OPT4" id="OPT4" value={OPT4} placeholder="請填入選項，如為圖片型-1請填入網址 ( 建議尺寸 200 x 200 以上 ) " onChange={updateInput} />
+                    <div className="opt">
+                        <div className="desc">選項</div><i className="far fa-question-circle" data-descr="請填入選項，如為圖片型-1請填入網址 ( 建議尺寸 200 x 200 以上 ) "></i>
+                    </div>
+                    <div className="opt">
+                        <div className="opt-name">1.</div>
+                        <input type="text" name="OPT1" id="OPT1" value={OPT1} onChange={updateInput} />
+                    </div>
+                    <div className="opt">
+                        <div className="opt-name">2.</div>
+                        <input type="text" name="OPT2" id="OPT2" value={OPT2} onChange={updateInput} />
+                    </div>
+                    <div className="opt">
+                        <div className="opt-name">3.</div>
+                        <input type="text" name="OPT3" id="OPT3" value={OPT3} onChange={updateInput} />
+                    </div>
+                    <div className="opt">
+                        <div className="opt-name">4.</div>
+                        <input type="text" name="OPT4" id="OPT4" value={OPT4} onChange={updateInput} />
+                    </div>
                 </div>
                 <div className="choice answer_zone">
-                    <div className="opt-name">答案</div>
-                    <input type="text" name="ANSWER" id="answer" value={ANSWER} placeholder="請輸入半形數字，勿輸入中文、英文或其他特殊字" onChange={updateInput} />
+                    <div className="opt">
+                        <div className="opt-name">答案</div>
+                        <input type="text" name="ANSWER" id="answer" value={ANSWER} placeholder="請輸入半形數字，勿輸入中文、英文或其他特殊字" onChange={updateInput} />
+                    </div>
                 </div>
                 <div className="buttonBlock">
                     <button type="button" className="addquiz-button" onClick={sendQuiz}>提交</button>
@@ -92,19 +107,21 @@ class Addquiz extends React.Component {
         alertBlock: "hide",
         blurLayer: "hide"
     }
-    groupMember = [];
+    groupMember = []
+    currentQuizs = []
+
     componentDidMount = () => {
         fire.firestore().collection("GROUPMEMBER").where("GROUP", "==", this.props.Group).get()
             .then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
                     this.groupMember.push(doc.data())
-                });
+                })
             })
             .catch(function (error) {
                 console.log("Error getting documents: ", error);
-            });
-
+            })
     }
+    
     showGuide = () => {
         this.setState({
             textClass: "textZoneVisible"
@@ -142,8 +159,9 @@ class Addquiz extends React.Component {
         for (let i = 0; i < this.groupMember.length; i++) {
             for (let j = 0; j < this.groupMember[i].NICKNAME.length; j++) {
                 if (QUIZ.indexOf(this.groupMember[i].NICKNAME[j]) > -1 || correct.indexOf(this.groupMember[i].NICKNAME[j]) > -1) {
+                    this.groupMember[i].POPULARITY += 1
                     fire.firestore().collection("GROUPMEMBER").doc(this.groupMember[i].NICKNAME[1]).update({
-                        POPULARITY: this.groupMember[i].POPULARITY + 1
+                        POPULARITY: this.groupMember[i].POPULARITY
                     })
                 }
             }
@@ -153,6 +171,22 @@ class Addquiz extends React.Component {
         const { OPT1, OPT2, OPT3, OPT4, ANSWER, QUIZ, QUIZPIC, TAG } = this.state;
         const { Group, userName } = this.props;
         let OPT = [OPT1, OPT2, OPT3, OPT4]
+        if (this.checkDuplicateQuiz()) {
+            this.setState({
+                alertMessage: "題目重複囉！",
+                alertBlock: "alertBlock",
+                blurLayer: "alertBlurlayer"
+            });
+            return
+        }
+        if(this.checkDuplicateAns()){
+            this.setState({
+                alertMessage: "答案重複囉！",
+                alertBlock: "alertBlock",
+                blurLayer: "alertBlurlayer"
+            });
+            return
+        }
         let correct = OPT[parseInt(ANSWER) - 1]
         if (ANSWER === "" || QUIZ === "" || OPT1 === "" || OPT2 === "" || OPT3 === "" || OPT4 === "") {
             this.setState({
@@ -163,7 +197,6 @@ class Addquiz extends React.Component {
             return;
         }
         if (TAG === "picture2") {
-
             fire.firestore().collection(Group + "QUIZS").doc().set({
                 ANSWER: ANSWER,
                 QUIZ: QUIZ,
@@ -174,10 +207,8 @@ class Addquiz extends React.Component {
                 wrongCounter: 0,
                 author: userName
             }).catch(function (error) {
-                console.error("Error writing document: ", error);
-            });
-            
-            this.addPopularity(QUIZ, correct)
+                console.error("Error writing document: ", error)
+            })
             this.setState({
                 alertMessage: "感謝您的提供，祝您搶票順利，人品大爆發！",
                 alertBlock: "alertBlock",
@@ -189,7 +220,7 @@ class Addquiz extends React.Component {
                 OPT2: "",
                 OPT3: "",
                 OPT4: ""
-            });
+            })
         } else {
             fire.firestore().collection(Group + "QUIZS").doc().set({
                 ANSWER: ANSWER,
@@ -201,9 +232,7 @@ class Addquiz extends React.Component {
                 author: userName
             }).catch(function (error) {
                 console.error("Error writing document: ", error);
-            });
-
-            this.addPopularity(QUIZ, correct)
+            })
             this.setState({
                 alertMessage: "感謝您的提供，祝您搶票順利，人品大爆發！",
                 alertBlock: "alertBlock",
@@ -215,9 +244,10 @@ class Addquiz extends React.Component {
                 OPT2: "",
                 OPT3: "",
                 OPT4: ""
-            });
+            })
         }
-
+        this.addPopularity(QUIZ, correct)
+        this.currentQuizs.push(QUIZ)
     }
     closeBoard = () => {
         this.setState({
@@ -225,6 +255,26 @@ class Addquiz extends React.Component {
             alertBlock: "hide",
             blurLayer: "hide"
         })
+    }
+    checkDuplicateAns = (arr) => {
+        const { OPT1, OPT2, OPT3, OPT4 } = this.state
+        arr = [OPT1, OPT2, OPT3, OPT4]
+        return new Set(arr).size !== arr.length
+    }
+    checkDuplicateQuiz = () => {
+        const { quizs } = this.props
+        let ifDuplicate = false
+        quizs.forEach(q => {
+            if (q.QUIZ === this.state.QUIZ) {
+                ifDuplicate = true
+            }
+        })
+        this.currentQuizs.forEach(q => {
+            if (q === this.state.QUIZ) {
+                ifDuplicate = true
+            }
+        })
+        return ifDuplicate
     }
     render () {
         const { chooseGroup, Group } = this.props;

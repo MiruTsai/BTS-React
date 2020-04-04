@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import "../../css/common.css";
-import "../../css/index.css";
-import QuizAnime from "../components/Quizanime";
-import Groups from "../components/Groups";
-import fire from "../Fire";
-import Chart from "react-google-charts";
+import React, { Component } from "react"
+import { Link } from "react-router-dom"
+import "../../css/common.css"
+import "../../css/index.css"
+import QuizAnime from "../components/Quizanime"
+import Groups from "../components/Groups"
+import fire from "../Fire"
+import Chart from "react-google-charts"
 
 class Profile extends Component {
   state = {
@@ -26,8 +26,8 @@ class Profile extends Component {
     })
   }
   render () {
-    const { animeClass, proContainerClass, userInfo } = this.state;
-    const { Group, chooseGroup } = this.props;
+    const { animeClass, proContainerClass, userInfo } = this.state
+    const { Group, chooseGroup } = this.props
     return (
       <>
         <Link to="/">
@@ -42,10 +42,7 @@ class Profile extends Component {
               <div className="profile-text">會員姓名： {userInfo["NAME"]}</div>
               <div className="profile-text">帳號： {userInfo["ID"]}</div>
               <div className="profile-text">累計答對： {userInfo[Group + "rightCounter"]}</div>
-              <div className="profile-text">累計答錯： {userInfo[Group + "wrongCounter"]}</div>
-              <Link to="/addquiz">
-                <button type="button" className="profile-btn hvr-push">我要出題</button>
-              </Link>
+              <div className="profile-text">累計答錯： {userInfo[Group + "wrongCounter"]}</div>              
             </div>
             
           </div>
@@ -86,4 +83,4 @@ class Profile extends Component {
     )
   }
 }
-export default Profile;
+export default Profile

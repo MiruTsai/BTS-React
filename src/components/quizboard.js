@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import "../../css/quiz.css";
-import fire from "../Fire";
-import QuizAnime from "./Quizanime";
-import Scalper from "./Scalper";
-import { Link } from "react-router-dom";
-import TextType from "./quizType/TextType";
-import PictureType from "./quizType/PictureType";
-import PictureType2 from "./quizType/PictureType2";
+import React, { Component } from "react"
+import "../../css/quiz.css"
+import fire from "../Fire"
+import QuizAnime from "./Quizanime"
+import Scalper from "./Scalper"
+import { Link } from "react-router-dom"
+import TextType from "./quizType/TextType"
+import PictureType from "./quizType/PictureType"
+import PictureType2 from "./quizType/PictureType2"
 let qid;
 
 class AnswerBlock extends Component {
@@ -19,9 +19,9 @@ class AnswerBlock extends Component {
         })
     }
     setKeyCode = () => {
-        if (event.keyCode === 13 || event.keyCode === 108) {
+        if (event.keyCode === 13 || event.keyCode === 108) {            
             if (this.state.ANSWER === "") {
-                this.props.closeRes();
+                this.props.closeRes()
             } else {
                 this.props.checkAnswer(this);
                 this.setState({
@@ -31,10 +31,10 @@ class AnswerBlock extends Component {
         }
     }
     componentDidMount = () => {
-        window.addEventListener("keydown", this.setKeyCode);
+        window.addEventListener("keydown", this.setKeyCode)
     }
     componentWillUnmount = () => {
-        window.removeEventListener("keydown", this.setKeyCode);
+        window.removeEventListener("keydown", this.setKeyCode)
     }
     render () {
         return (
@@ -64,7 +64,7 @@ class QuizBoard extends React.Component {
         scalper: "hide"
     }
     componentDidMount = () => {
-        const { Group } = this.props;
+        const { Group } = this.props
         if (Group === "BTS") {
             this.rightResponse = ["group_right_1.gif", "group_right_2.gif", "group_right_3.gif", "jhope_right_1.gif", "jimin_right_1.gif", "jin_right_1.gif", "jin_right_2.gif", "jk_right_1.gif", "jk_right_2.gif", "rm_right_1.gif", "rm_right_2.gif", "suga_right_1.gif", "suga_right_1.gif", "v_right_1.gif", "v_right_2.gif"];
             this.wrongResponse = ["group_wrong_1.gif", "group_wrong_2.gif", "jhope_wrong_1.gif", "jhope_wrong_3.gif", "jhope_wrong_4.gif", "jimin_wrong_1.gif", "jimin_wrong_2.gif", "jin_wrong_1.gif", "jin_wrong_2.gif", "jin_wrong_3.gif", "jk_wrong_1.gif", "suga_wrong_1.gif", "suga_wrong_2.gif", "rm_wrong_1.gif"];
@@ -75,9 +75,9 @@ class QuizBoard extends React.Component {
             this.rightResponse = ["group_right_1.gif", "group_right_2.gif", "group_right_3.gif", "group_right_4.gif", "jeong_right_1.gif", "nayeon_right_1.gif", "nayeon_right_2.gif"];
             this.wrongResponse = ["chae_wrong_1.gif", "dahyun_wrong_1.gif", "group_wrong_1.gif", "mina_wrong_1.gif", "nayeon_wrong_1.gif", "sana_wrong_1.gif", "sana_wrong_2.gif", "tzuyu_wrong_1.gif"];
         }
-        this.wrongSound = new Audio("../../source/wrong.mp3");
-        this.rightSound = new Audio("../../source/right.mp3");
-        this.errorSound = new Audio("../../source/error.mp3");
+        this.wrongSound = new Audio("../../source/wrong.mp3")
+        this.rightSound = new Audio("../../source/right.mp3")
+        this.errorSound = new Audio("../../source/error.mp3")
 
         window.setTimeout(() => {
             this.setState({
@@ -87,16 +87,16 @@ class QuizBoard extends React.Component {
         }, 4000)
         fire.firestore().collection("MemberShip").doc(this.props.userUid).get().then((doc) => {
             if (doc.exists) {
-                let userInfo = doc.data();
+                let userInfo = doc.data()
                 if (!userInfo[Group + "rightCounter"]) {
-                    this.userRightCounter = 0;
+                    this.userRightCounter = 0
                 } else {
-                    this.userRightCounter = userInfo[Group + "rightCounter"];
+                    this.userRightCounter = userInfo[Group + "rightCounter"]
                 }
                 if (!userInfo[Group + "wrongCounter"]) {
-                    this.userWrongCounter = 0;
+                    this.userWrongCounter = 0
                 } else {
-                    this.userWrongCounter = userInfo[Group + "wrongCounter"];
+                    this.userWrongCounter = userInfo[Group + "wrongCounter"]
                 }
             }
         })
@@ -109,13 +109,16 @@ class QuizBoard extends React.Component {
         })
     }
     checkAnswer = (e) => {
-        const { quizs, rightQuizs, wrongQuizs } = this.state;
-        const { Group } = this.props;
-        let quizRightCounter = quizs[qid].rightCounter;
-        let quizWrongCounter = quizs[qid].wrongCounter;
-        this.rightResIndex = Math.floor(Math.random() * this.rightResponse.length);
-        this.wrongResIndex = Math.floor(Math.random() * this.wrongResponse.length);
-        if (e.state.ANSWER === quizs[qid].ANSWER) {
+        const { quizs, rightQuizs, wrongQuizs } = this.state
+        const { Group } = this.props
+        let quizRightCounter = quizs[qid].rightCounter
+        let quizWrongCounter = quizs[qid].wrongCounter
+        this.rightResIndex = Math.floor(Math.random() * this.rightResponse.length)
+        this.wrongResIndex = Math.floor(Math.random() * this.wrongResponse.length)
+        if(!e.state.ANSWER){
+            alert("請輸入答案")
+            return
+        } else if (e.state.ANSWER === quizs[qid].ANSWER) {
             fire.firestore().collection(Group + "QUIZS").doc(quizs[qid].id).update({
                 "rightCounter": quizRightCounter + 1
             }).then(() => {
@@ -134,7 +137,7 @@ class QuizBoard extends React.Component {
                     containerClass: "hideContainer",
                     blurLayer: "blurLayer"
                 }))
-                this.rightSound.play();
+                this.rightSound.play()
             })
         } else {
             fire.firestore().collection(Group + "QUIZS").doc(quizs[qid].id).update({
@@ -151,7 +154,7 @@ class QuizBoard extends React.Component {
                         scalper: "scalper",
                         containerClass: "hideContainer"
                     })
-                    this.errorSound.play();
+                    this.errorSound.play()
                     setTimeout(() => { this.props.history.push("/") }, 6000)
                 } else {
                     this.setState((prevState) => ({
@@ -168,12 +171,12 @@ class QuizBoard extends React.Component {
                 }
             })
         };
-        e.state.ANSWER = "";
+        e.state.ANSWER = ""
     }
     closeRes = () => {
         const { quizs } = this.state
         if (quizs.length === 0) {
-            this.props.history.push("/profile");
+            this.props.history.push("/profile")
         };
         this.setState({
             resBoardClass: "hideResBoard",
@@ -183,9 +186,9 @@ class QuizBoard extends React.Component {
         })
     }
     render () {
-        const { quizs, resBoardClass, res, resPic, blurLayer, scalper, animeClass, containerClass, rightQuizs, wrongQuizs } = this.state;
-        const { Group } = this.props;
-        qid = Math.floor(Math.random() * quizs.length);
+        const { quizs, resBoardClass, res, resPic, blurLayer, scalper, animeClass, containerClass, rightQuizs, wrongQuizs } = this.state
+        const { Group } = this.props
+        qid = Math.floor(Math.random() * quizs.length)
         const renderQuiz = (quizs.length === 0) ? (null) : (<>{quizs[qid].TAG === "text" ? (<TextType quizs={quizs} index={qid} />) :
             (quizs[qid].TAG === "picture" ? (<PictureType quizs={quizs} index={qid} />) : (<PictureType2 quizs={quizs} index={qid} />))}</>)
         return (
@@ -210,7 +213,7 @@ class QuizBoard extends React.Component {
                         <div className="quizBlock">
                             {renderQuiz}
                         </div>
-                        <AnswerBlock checkAnswer={this.checkAnswer} closeRes={this.closeRes} />
+                        <AnswerBlock checkAnswer={this.checkAnswer} closeRes={this.closeRes} resBoardStatus={this.state.resBoardClass}/>
                     </div>
                     <div className="counter">
                         <div className="all">還剩：{quizs.length}</div>
@@ -222,4 +225,4 @@ class QuizBoard extends React.Component {
         )
     }
 }
-export default QuizBoard;
+export default QuizBoard

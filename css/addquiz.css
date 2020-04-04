@@ -5,6 +5,7 @@
     align-content: flex-start;
     background: white;
     box-shadow:2px 2px 2px rgba(20%,20%,40%,0.6),4px 4px 6px rgba(20%,20%,40%,0.4),6px 6px 12px rgba(20%,20%,40%,0.4);
+    padding:20px 0;
 }
 .add-rightSide,.preview{
     display: flex;
@@ -12,9 +13,6 @@
     background-color:white;
     justify-content: center;
     flex-basis: 60%;
-}
-.add-rightSide{
-    color:#53C46D
 }
 .notice{
     color: red;
@@ -24,11 +22,9 @@
 form{
     margin: 30px 0;
 }
-.opt-name{
-    margin:1rem 0;
-}
 .quizSelect{
-    margin-left: 50px;
+    margin: 50px;
+    flex-basis: 100%;
 }
 #quizType{
     appearance:none;
@@ -46,8 +42,33 @@ form{
 .choice{
     display: flex;
     flex-direction: column; 
-    margin: 10px 50px;
+    margin: 30px 50px;
+    font-weight: bold;
 }
+.choice input{    
+    border:0;
+    border-bottom:1px solid #979797;
+    padding: 5px;
+}
+
+.choice i{
+    margin: 0 5px;
+    cursor: help;
+}
+.choice i:hover::after{
+    content: attr(data-descr);
+}
+
+.choice .opt{
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+.choice .opt-name{
+    flex-basis: 5%;
+    margin-right:5px ;
+}
+
 .add_text{
     margin-top: 10px;
 }
@@ -56,7 +77,7 @@ form{
 }
 .addquiz-button,.preview-button{
     width: 30%;
-    margin: 0 auto;
+    margin: 10px auto;
     padding: 10px 0;
     border: 1px solid rgba(0,0,0,0.21);
     border-bottom: 4px solid rgba(0,0,0,0.1);
@@ -115,7 +136,7 @@ li{
 }
 .description{
     flex-basis: 40%;
-    margin: 80px 0;
+    margin: 50px 0;
 }
 .info{
     display: flex;

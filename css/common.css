@@ -1,8 +1,7 @@
 *{
     box-sizing: border-box;  
     text-decoration: none;
-    font-family:"Noto Sans TC", "微軟正黑體", "新細明體", arial, sans-serif;
-    
+    font-family:"Noto Sans TC", "微軟正黑體", "新細明體", arial, sans-serif;    
 }
 body{
     margin:auto;
@@ -35,7 +34,7 @@ body{
     animation: bgGradient 10s ease infinite;
 }
 .IZONElayer{
-    background: linear-gradient(135deg ,#d9598c, #db706c,#f1d2e7,#f3aa51,#fcf695,#b7d3e9,#bbb0dc,#f1c3aa,#cee5d5,#ffffff,#a7e0e1,#567ace );
+    background: linear-gradient(135deg ,#d9598c, #f1d2e7);
     animation: bgGradient 10s ease infinite;
 }
 @keyframes bgGradient{
@@ -63,13 +62,14 @@ button{
 a{
     cursor: pointer;
 }
-input[type=text],
+
 input[type=password]{
     border:0;
     background:none;  
     outline:none;  
     border-bottom:1px solid #979797;
 }
+
 input[type=text]:focus,
 input[type=password]:focus{
     border-bottom: 2px solid navy ;

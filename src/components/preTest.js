@@ -1,10 +1,10 @@
-import React, { Component } from "react";
+import React, { Component } from "react"
 import "../../css/preTest.css"
-import { Link } from "react-router-dom";
-import GetTicketGuide from "./GetTicketGuide";
-import TextType from "./quizType/TextType";
-import PictureType from "./quizType/PictureType";
-import PictureType2 from "./quizType/PictureType2";
+import { Link } from "react-router-dom"
+import GetTicketGuide from "./GetTicketGuide"
+import TextType from "./quizType/TextType"
+import PictureType from "./quizType/PictureType"
+import PictureType2 from "./quizType/PictureType2"
 let currentIndex;
 
 class AnswerBlock extends Component {
@@ -18,7 +18,7 @@ class AnswerBlock extends Component {
     }
     setKeyCode = (event) =>{
         if (event.keyCode === 13 || event.keyCode === 108) {
-            this.props.checkAnswer(this);
+            this.props.checkAnswer(this)
             this.setState({
                 ANSWER:""
             })
@@ -31,8 +31,8 @@ class AnswerBlock extends Component {
         window.removeEventListener("keydown", this.setKeyCode)
     }
     render () {
-        const { checkAnswer } = this.props;
-        const { ANSWER } = this.state;
+        const { checkAnswer } = this.props
+        const { ANSWER } = this.state
         return (
             <>
                 <div className="answerBlock">
@@ -59,14 +59,14 @@ class PreTest extends Component {
     }
     componentDidMount = () => {
         this.seconds = 0;
-        this.getSound = new Audio("../../source/get.mp3");
-        this.failSound = new Audio("../../source/fail.mp3");
+        this.getSound = new Audio("../../source/get.mp3")
+        this.failSound = new Audio("../../source/fail.mp3")
         this.countDown = setInterval(() => {
             this.seconds++
         }, 1000);
     }
     componentWillUnmount = () => {
-        clearInterval(this.countDown);
+        clearInterval(this.countDown)
     }
     handleChange = (e) => {
         this.setState({
@@ -84,11 +84,11 @@ class PreTest extends Component {
                 logoClass: "logo",
                 timerClass: "hide"
             })
-        }, 5000);
+        }, 5000)
     }
     checkAnswer = (e) => {
-        let randomTime = Math.floor(Math.random() * 10000);
-        const { quizs } = this.state;
+        let randomTime = Math.floor(Math.random() * 10000)
+        const { quizs } = this.state
         if (e.state.ANSWER === quizs[currentIndex].ANSWER) {
             if (this.seconds < 5) {
                 setTimeout(() => {
@@ -102,7 +102,7 @@ class PreTest extends Component {
                         response: "",
                         resBoardClass: "hideResBoard"
                     })
-                    this.getSound.play();
+                    this.getSound.play()
                     setTimeout(() => {
                         this.props.history.push("/")
                     }, 7000)
@@ -139,17 +139,17 @@ class PreTest extends Component {
                     response: "答案錯囉...",
                     resBoardClass: "response"
                 })
-                this.failSound.play();
+                this.failSound.play()
                 setTimeout(() => {
                     this.setState({
                         alertBlockClass: "alertBlock"
                     })
                 }, 7000)
             }, randomTime)
-            this.seconds = 0;
+            this.seconds = 0
         }
         this.setState({ loadingClass: "preloading" });
-        e.state.ANSWER = "";
+        e.state.ANSWER = ""
     }
     oneMoreTime = () => {
         this.setState({
@@ -165,17 +165,17 @@ class PreTest extends Component {
                 timerClass: "hide",
                 resPicClass: "hide"
             })
-        }, 5000);
+        }, 5000)
     }
     backToIndex = () => {
         this.props.history.push("/")
     }
     render () {
         const { quizs, alertBlockClass, guideClass, logoClass, loadingClass, maskClass, containerClass, timerClass, 
-            resPic, resPicClass, resBoardClass, response } = this.state;
-        const { Group } = this.props;
-        currentIndex = Math.floor(Math.random() * quizs.length);
-        this.seconds = 0;
+            resPic, resPicClass, resBoardClass, response } = this.state
+        const { Group } = this.props
+        currentIndex = Math.floor(Math.random() * quizs.length)
+        this.seconds = 0
         return (
             <>
                 <Link to="/">
@@ -211,4 +211,4 @@ class PreTest extends Component {
         )
     }
 }
-export default PreTest;
+export default PreTest

@@ -145,6 +145,7 @@
 .answerValue{
     font-size: 22px;
     margin: 20px 0;
+    padding-left: 20px;
 }
 .picOption{
     flex-basis: 40%;
@@ -313,6 +314,13 @@ span{
     text-align: center;
     margin:20px;
     width:10%;
+    padding: 5px;
+    border-radius: 8px;
+    border:1px solid #979797;
+    font-size: 20px;
+}
+.quiz-answer:focus{
+    border:2px solid navy;
 }
 .mask{
     background-color: black;

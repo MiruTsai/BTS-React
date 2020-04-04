@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 const Scalper = (props) => {
     return (
@@ -11,4 +11,4 @@ const Scalper = (props) => {
     )
 }
 
-export default Scalper;
+export default Scalper

@@ -1,7 +1,8 @@
-import React from "react";
-let num=1;
-let preview;
+import React from "react"
+
 const PreviewQuiz = (props) => {
+   
+    let preview
     const { OPTIONS, QUIZ, QUIZPIC, TAG } = props
     const previewOptions = OPTIONS.map((option, num) => {
         return (
@@ -11,7 +12,7 @@ const PreviewQuiz = (props) => {
     const picOption = OPTIONS.map((option, num) => {
         return (
             <div className="picOption" key={Math.random()}> ( {num + 1} )
-            <img className="picSource" src={option} />
+                <img className="picSource" src={option} />
             </div>
         )
     })
@@ -43,8 +44,9 @@ const PreviewQuiz = (props) => {
     }
     return (
         <>
-        <button type="button" className="backQuiz-button" onClick={props.backStatus} >返回</button>
-        {preview}
+            <button type="button" className="backQuiz-button" onClick={props.backStatus} >返回</button>
+            {preview}
         </>
-)}
+    )
+}
 export default PreviewQuiz
