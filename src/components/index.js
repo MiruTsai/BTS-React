@@ -13,17 +13,17 @@ const IndexPic = (props) => {
 
 class Index extends Component {
     render () {
-        const { Group, chooseGroup, alertMessage, alertBlock, blurLayer, closeAlert, auth, quizEntry, preTestEntry, addQuizEntry } = this.props;
+        const { Group, chooseGroup, alertMessage, alertBlock, blurLayer, closeAlert, auth, quizEntry, preTestEntry, addQuizEntry } = this.props
         if (Group === "IZONE") {
             this.groupName = "IZ*ONE"
             this.mainDescribe = "Eyes On Me!"
             this.subDescribe = "Write it on the clouds, so it won't disappear."
         } else if (Group === "TWICE") {
-            this.groupName = "TWICE";
+            this.groupName = "TWICE"
             this.mainDescribe = "One In A Million! Hello, we are Twice!"
             this.subDescribe = "You make me feel special, no matter how the worlds brings me down."
         } else {
-            this.groupName = "BTS";
+            this.groupName = "BTS"
             this.mainDescribe = " Love yourself. Love myself. Peace! "
             this.subDescribe = "I have come to love myself for who I am, for who I was, and for who I hope to become."
         }

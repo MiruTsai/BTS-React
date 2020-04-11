@@ -7,7 +7,7 @@ import { Link } from "react-router-dom"
 import TextType from "./quizType/TextType"
 import PictureType from "./quizType/PictureType"
 import PictureType2 from "./quizType/PictureType2"
-let qid;
+let qid
 
 class AnswerBlock extends Component {
     state = {
@@ -23,7 +23,7 @@ class AnswerBlock extends Component {
             if (this.state.ANSWER === "") {
                 this.props.closeRes()
             } else {
-                this.props.checkAnswer(this);
+                this.props.checkAnswer(this)
                 this.setState({
                     ANSWER: ""
                 })
@@ -66,14 +66,14 @@ class QuizBoard extends React.Component {
     componentDidMount = () => {
         const { Group } = this.props
         if (Group === "BTS") {
-            this.rightResponse = ["group_right_1.gif", "group_right_2.gif", "group_right_3.gif", "jhope_right_1.gif", "jimin_right_1.gif", "jin_right_1.gif", "jin_right_2.gif", "jk_right_1.gif", "jk_right_2.gif", "rm_right_1.gif", "rm_right_2.gif", "suga_right_1.gif", "suga_right_1.gif", "v_right_1.gif", "v_right_2.gif"];
-            this.wrongResponse = ["group_wrong_1.gif", "group_wrong_2.gif", "jhope_wrong_1.gif", "jhope_wrong_3.gif", "jhope_wrong_4.gif", "jimin_wrong_1.gif", "jimin_wrong_2.gif", "jin_wrong_1.gif", "jin_wrong_2.gif", "jin_wrong_3.gif", "jk_wrong_1.gif", "suga_wrong_1.gif", "suga_wrong_2.gif", "rm_wrong_1.gif"];
+            this.rightResponse = ["group_right_1.gif", "group_right_2.gif", "group_right_3.gif", "jhope_right_1.gif", "jimin_right_1.gif", "jin_right_1.gif", "jin_right_2.gif", "jk_right_1.gif", "jk_right_2.gif", "rm_right_1.gif", "rm_right_2.gif", "suga_right_1.gif", "suga_right_1.gif", "v_right_1.gif", "v_right_2.gif"]
+            this.wrongResponse = ["group_wrong_1.gif", "group_wrong_2.gif", "jhope_wrong_1.gif", "jhope_wrong_3.gif", "jhope_wrong_4.gif", "jimin_wrong_1.gif", "jimin_wrong_2.gif", "jin_wrong_1.gif", "jin_wrong_2.gif", "jin_wrong_3.gif", "jk_wrong_1.gif", "suga_wrong_1.gif", "suga_wrong_2.gif", "rm_wrong_1.gif"]
         } else if (Group === "IZONE") {
-            this.rightResponse = ["chaewon_right_1.gif", "chaewon_right_2.gif", "group_right_1.gif", "group_right_2.gif", "hitomi_right_1.gif", "hyewon_right_1.gif", "nako_right_1.gif", "sakura_right_1.gif", "wonyoung_right_1.gif"];
-            this.wrongResponse = ["chaeyeon_wrong_1.gif", "hitomi_wrong_1.gif", "hyewon_wrong_1.gif", "minjoo_wrong_1.gif", "minjoo_wrong_2.gif", "wonyoung_wrong_1.gif", "yena_wrong_1.gif", "yena_wrong_2.gif", "yuri_wrong_1.gif"];
+            this.rightResponse = ["chaewon_right_1.gif", "chaewon_right_2.gif", "group_right_1.gif", "group_right_2.gif", "hitomi_right_1.gif", "hyewon_right_1.gif", "nako_right_1.gif", "sakura_right_1.gif", "wonyoung_right_1.gif"]
+            this.wrongResponse = ["chaeyeon_wrong_1.gif", "hitomi_wrong_1.gif", "hyewon_wrong_1.gif", "minjoo_wrong_1.gif", "minjoo_wrong_2.gif", "wonyoung_wrong_1.gif", "yena_wrong_1.gif", "yena_wrong_2.gif", "yuri_wrong_1.gif"]
         } else {
-            this.rightResponse = ["group_right_1.gif", "group_right_2.gif", "group_right_3.gif", "group_right_4.gif", "jeong_right_1.gif", "nayeon_right_1.gif", "nayeon_right_2.gif"];
-            this.wrongResponse = ["chae_wrong_1.gif", "dahyun_wrong_1.gif", "group_wrong_1.gif", "mina_wrong_1.gif", "nayeon_wrong_1.gif", "sana_wrong_1.gif", "sana_wrong_2.gif", "tzuyu_wrong_1.gif"];
+            this.rightResponse = ["group_right_1.gif", "group_right_2.gif", "group_right_3.gif", "group_right_4.gif", "jeong_right_1.gif", "nayeon_right_1.gif", "nayeon_right_2.gif"]
+            this.wrongResponse = ["chae_wrong_1.gif", "dahyun_wrong_1.gif", "group_wrong_1.gif", "mina_wrong_1.gif", "nayeon_wrong_1.gif", "sana_wrong_1.gif", "sana_wrong_2.gif", "tzuyu_wrong_1.gif"]
         }
         this.wrongSound = new Audio("../../source/wrong.mp3")
         this.rightSound = new Audio("../../source/right.mp3")
@@ -102,7 +102,7 @@ class QuizBoard extends React.Component {
         })
     }
     componentWillUnmount = () => {
-        const { Group } = this.props;
+        const { Group } = this.props
         fire.firestore().collection("MemberShip").doc(this.props.userUid).update({
             [Group + "rightCounter"]: this.userRightCounter + this.state.rightQuizs.length,
             [Group + "wrongCounter"]: this.userWrongCounter + this.state.wrongQuizs.length
@@ -167,17 +167,17 @@ class QuizBoard extends React.Component {
                         containerClass: "hideContainer",
                         blurLayer: "blurLayer"
                     }))
-                    this.wrongSound.play();
+                    this.wrongSound.play()
                 }
             })
-        };
+        }
         e.state.ANSWER = ""
     }
     closeRes = () => {
         const { quizs } = this.state
         if (quizs.length === 0) {
             this.props.history.push("/profile")
-        };
+        }
         this.setState({
             resBoardClass: "hideResBoard",
             containerClass: "quizContainer",

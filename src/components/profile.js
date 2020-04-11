@@ -16,7 +16,7 @@ class Profile extends Component {
   componentDidMount = () => {
     fire.firestore().collection("MemberShip").doc(this.props.userUid).get().then((doc) => {
       if (doc.exists) {
-        let userInfo = doc.data();
+        let userInfo = doc.data()
         this.setState({
           userInfo,
           animeClass: "hide",

@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import SignInAnime from "./SignInAnime";
-import Response from "./Response";
-import { Link } from "react-router-dom";
-import "../../css/login.css";
+import React, { Component } from "react"
+import SignInAnime from "./SignInAnime"
+import Response from "./Response"
+import { Link } from "react-router-dom"
+import "../../css/login.css"
 
 class Login extends Component {
     state = {
@@ -26,13 +26,13 @@ class Login extends Component {
     updateInput = (e) => {
         this.setState({
             [e.target.name]: e.target.value
-        });
+        })
     }
 
     render () {
-        const { email, password, status } = this.state;
-        const { Group, alertMessage, alertBlock, blurLayer, closeAlert, signUP, login, animeClass, loginContainerClass } = this.props;
-        let loginZone;
+        const { email, password, status } = this.state
+        const { Group, alertMessage, alertBlock, blurLayer, closeAlert, signUP, login, animeClass, loginContainerClass } = this.props
+        let loginZone
         if (status === "signIn") {
             loginZone = <div className="login">
                 <div className="loginZone">
@@ -77,4 +77,4 @@ class Login extends Component {
     }
 }
 
-export default Login;
+export default Login

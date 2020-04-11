@@ -5,7 +5,7 @@ import GetTicketGuide from "./GetTicketGuide"
 import TextType from "./quizType/TextType"
 import PictureType from "./quizType/PictureType"
 import PictureType2 from "./quizType/PictureType2"
-let currentIndex;
+let currentIndex
 
 class AnswerBlock extends Component {
     state = {
@@ -58,12 +58,12 @@ class PreTest extends Component {
         guideClass: "guide"
     }
     componentDidMount = () => {
-        this.seconds = 0;
+        this.seconds = 0
         this.getSound = new Audio("../../source/get.mp3")
         this.failSound = new Audio("../../source/fail.mp3")
         this.countDown = setInterval(() => {
             this.seconds++
-        }, 1000);
+        }, 1000)
     }
     componentWillUnmount = () => {
         clearInterval(this.countDown)
@@ -119,7 +119,7 @@ class PreTest extends Component {
                         response: "手腳太慢被搶光了...",
                         resBoardClass: "response"
                     })
-                    this.failSound.play();
+                    this.failSound.play()
                     setTimeout(() => {
                         this.setState({
                             alertBlockClass: "alertBlock"
@@ -148,7 +148,7 @@ class PreTest extends Component {
             }, randomTime)
             this.seconds = 0
         }
-        this.setState({ loadingClass: "preloading" });
+        this.setState({ loadingClass: "preloading" })
         e.state.ANSWER = ""
     }
     oneMoreTime = () => {

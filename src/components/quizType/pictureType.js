@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 const PictureType = (props) => {
     const picOption = props.quizs[props.index].OPTIONS.map((option, num) => {
@@ -18,4 +18,4 @@ const PictureType = (props) => {
     )
 }
 
-export default PictureType;
+export default PictureType

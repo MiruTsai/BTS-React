@@ -1,17 +1,17 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from "react"
+import { Link } from "react-router-dom"
 
-const Logo = (props) =>{
-    let groupName;
+const Logo = (props) =>{    
+    let groupName=""
     if (props.Group === "IZ*ONE"){
-        groupName="IZONE"
+        groupName = "IZONE"
     }else{
-        groupName=props.Group
+        groupName = props.Group
     }
     return(
         <Link to="/">
-    <img src={"/../img/logo/"+groupName+".PNG"} className="logo" />
+    <img src={ "/../img/logo/" + groupName + ".PNG" } className="logo" />
     </Link>)
 }
 
-export default Logo;
+export default Logo

@@ -20,8 +20,8 @@ const Description = (props) => {
 
 class NewQuiz extends React.Component {
     render () {
-        let quizTitle;
-        const { TAG, QUIZ, OPT1, OPT2, OPT3, OPT4, ANSWER, QUIZPIC, updateInput, handleChange, sendQuiz, statusChange, chooseGroup, Group } = this.props;
+        let quizTitle
+        const { TAG, QUIZ, OPT1, OPT2, OPT3, OPT4, ANSWER, QUIZPIC, updateInput, handleChange, sendQuiz, statusChange, chooseGroup, Group } = this.props
         if (TAG === "picture2") {
             quizTitle =
                 <div className="choice">
@@ -118,7 +118,7 @@ class Addquiz extends React.Component {
                 })
             })
             .catch(function (error) {
-                console.log("Error getting documents: ", error);
+                console.log("Error getting documents: ", error)
             })
     }
     
@@ -135,13 +135,13 @@ class Addquiz extends React.Component {
     updateInput = (e) => {
         this.setState({
             [e.target.name]: e.target.value
-        });
+        })
     }
     handleChange = (e) => {
-        this.setState({ TAG: e.target.value });
+        this.setState({ TAG: e.target.value })
     }
     statusChange = () => {
-        const { OPT1, OPT2, OPT3, OPT4, review } = this.state;
+        const { OPT1, OPT2, OPT3, OPT4, review } = this.state
         this.setState({
             OPTIONS: [OPT1, OPT2, OPT3, OPT4],
             review: !review,
@@ -149,16 +149,23 @@ class Addquiz extends React.Component {
         })
     }
     backStatus = () => {
-        const { review } = this.state;
+        const { review } = this.state
         this.setState({
             review: !review,
             containerClass: "addContainer"
         })
     }
     addPopularity = (QUIZ, correct) => {
+        QUIZ = QUIZ.toUpperCase()
+        correct = correct.toUpperCase() 
         for (let i = 0; i < this.groupMember.length; i++) {
             for (let j = 0; j < this.groupMember[i].NICKNAME.length; j++) {
-                if (QUIZ.indexOf(this.groupMember[i].NICKNAME[j]) > -1 || correct.indexOf(this.groupMember[i].NICKNAME[j]) > -1) {
+                if (QUIZ.indexOf(this.groupMember[i].NICKNAME[j]) > -1 ) {
+                    this.groupMember[i].POPULARITY += 1
+                    fire.firestore().collection("GROUPMEMBER").doc(this.groupMember[i].NICKNAME[1]).update({
+                        POPULARITY: this.groupMember[i].POPULARITY
+                    })
+                }else if(correct.indexOf(this.groupMember[i].NICKNAME[j]) > -1){
                     this.groupMember[i].POPULARITY += 1
                     fire.firestore().collection("GROUPMEMBER").doc(this.groupMember[i].NICKNAME[1]).update({
                         POPULARITY: this.groupMember[i].POPULARITY
@@ -168,15 +175,15 @@ class Addquiz extends React.Component {
         }
     }
     sendQuiz = () => {
-        const { OPT1, OPT2, OPT3, OPT4, ANSWER, QUIZ, QUIZPIC, TAG } = this.state;
-        const { Group, userName } = this.props;
+        const { OPT1, OPT2, OPT3, OPT4, ANSWER, QUIZ, QUIZPIC, TAG } = this.state
+        const { Group, userName } = this.props
         let OPT = [OPT1, OPT2, OPT3, OPT4]
         if (this.checkDuplicateQuiz()) {
             this.setState({
                 alertMessage: "題目重複囉！",
                 alertBlock: "alertBlock",
                 blurLayer: "alertBlurlayer"
-            });
+            })
             return
         }
         if(this.checkDuplicateAns()){
@@ -184,7 +191,7 @@ class Addquiz extends React.Component {
                 alertMessage: "答案重複囉！",
                 alertBlock: "alertBlock",
                 blurLayer: "alertBlurlayer"
-            });
+            })
             return
         }
         let correct = OPT[parseInt(ANSWER) - 1]
@@ -193,8 +200,8 @@ class Addquiz extends React.Component {
                 alertMessage: "請填入完整題目訊息",
                 alertBlock: "alertBlock",
                 blurLayer: "alertBlurlayer"
-            });
-            return;
+            })
+            return
         }
         if (TAG === "picture2") {
             fire.firestore().collection(Group + "QUIZS").doc().set({
@@ -231,7 +238,7 @@ class Addquiz extends React.Component {
                 wrongCounter: 0,
                 author: userName
             }).catch(function (error) {
-                console.error("Error writing document: ", error);
+                console.error("Error writing document: ", error)
             })
             this.setState({
                 alertMessage: "感謝您的提供，祝您搶票順利，人品大爆發！",
@@ -239,6 +246,7 @@ class Addquiz extends React.Component {
                 blurLayer: "alertBlurlayer",
                 ANSWER: "",
                 QUIZ: "",
+                QUIZPIC: "",
                 OPTIONS: [],
                 OPT1: "",
                 OPT2: "",
@@ -277,8 +285,8 @@ class Addquiz extends React.Component {
         return ifDuplicate
     }
     render () {
-        const { chooseGroup, Group } = this.props;
-        const { review, ANSWER, QUIZ, QUIZPIC, textClass, OPTIONS, OPT1, OPT2, OPT3, OPT4, TAG, alertMessage, alertBlock, blurLayer, containerClass } = this.state;
+        const { chooseGroup, Group } = this.props
+        const { review, ANSWER, QUIZ, QUIZPIC, textClass, OPTIONS, OPT1, OPT2, OPT3, OPT4, TAG, alertMessage, alertBlock, blurLayer, containerClass } = this.state
         return (
             <>
                 <Response alertMessage={alertMessage} alertBlock={alertBlock} blurLayer={blurLayer} closeAlert={this.closeBoard} Group={this.props.Group} />
@@ -307,4 +315,4 @@ class Addquiz extends React.Component {
     }
 }
 
-export default Addquiz;
+export default Addquiz

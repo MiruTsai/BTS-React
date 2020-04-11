@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 const GetTicketGuide = (props) => {
     return (
@@ -28,4 +28,4 @@ const GetTicketGuide = (props) => {
     )
 }
 
-export default GetTicketGuide;
+export default GetTicketGuide

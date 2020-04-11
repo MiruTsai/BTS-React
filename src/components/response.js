@@ -1,11 +1,11 @@
-import React from "react";
+import React from "react"
 
 const Response = (props) => {
-    let groupName;
+    let groupName
     if (props.Group === "IZONE") {
-        groupName = "IZ*ONE";
+        groupName = "IZ*ONE"
     } else {
-        groupName = props.Group;
+        groupName = props.Group
     }
     return (
         <>
@@ -20,4 +20,4 @@ const Response = (props) => {
         </>
     )
 }
-export default Response;
+export default Response

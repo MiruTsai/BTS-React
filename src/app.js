@@ -23,16 +23,16 @@ class App extends Component {
         Group: "BTS"
     }
     getQuizs = () => {
-        let newquizs = [];
+        this.newquizs = []
         fire.firestore().collection(this.state.Group + "QUIZS").get().then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
-                let x = doc.id;
+                let x = doc.id
                 let y = doc.data()
-                y.id = x;
-                newquizs.push(y)
-            });
+                y.id = x
+                this.newquizs.push(y)
+            })
         })
-        return newquizs
+        return this.newquizs
     }
     signUP = (e) => {
         if (e.state.email === "" || e.state.password === "") {
@@ -40,7 +40,7 @@ class App extends Component {
                 alertMessage: "請輸入正確申請資訊",
                 alertBlock: "alertBlock",
                 blurLayer: "alertBlurlayer"
-            });
+            })
             return
         }
         if (e.state.email.length < 4) {
@@ -48,19 +48,19 @@ class App extends Component {
                 alertMessage: "請輸入正確 E-mail 地址",
                 alertBlock: "alertBlock",
                 blurLayer: "alertBlurlayer"
-            });
-            return;
+            })
+            return
         }
         if (e.state.password.length < 6) {
             this.setState({
                 alertMessage: "請輸入大於六位數密碼",
                 alertBlock: "alertBlock",
                 blurLayer: "alertBlurlayer"
-            });
-            return;
+            })
+            return
         }
         fire.auth().createUserWithEmailAndPassword(e.state.email, e.state.password).then(() => {
-            this.user = fire.auth().currentUser.uid;
+            this.user = fire.auth().currentUser.uid
             this.newquizs = this.getQuizs()
             localStorage.setItem("uid", user)
             this.setState({
@@ -109,11 +109,11 @@ class App extends Component {
                 alertMessage: "請輸入正確密碼",
                 alertBlock: "alertBlock",
                 blurLayer: "alertBlurlayer"
-            });
+            })
             return
         }
         fire.auth().signInWithEmailAndPassword(a.state.email, a.state.password).then(() => {
-            this.user = fire.auth().currentUser.uid;
+            this.user = fire.auth().currentUser.uid
             this.newquizs = this.getQuizs()
             fire.firestore().collection("MemberShip").doc(this.user).get().then((doc) => {
                 if (doc.exists) {

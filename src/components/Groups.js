@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 const Groups = (props) => {
     return (
@@ -15,4 +15,4 @@ const Groups = (props) => {
     )
 }
 
-export default Groups;
+export default Groups
