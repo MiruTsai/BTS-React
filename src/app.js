@@ -22,6 +22,7 @@ class App extends Component {
         blurLayer: "hide",
         Group: "BTS"
     }
+    
     getQuizs = () => {
         this.newquizs = []
         fire.firestore().collection(this.state.Group + "QUIZS").get().then((querySnapshot) => {
@@ -34,6 +35,7 @@ class App extends Component {
         })
         return this.newquizs
     }
+
     signUP = (e) => {
         if (e.state.email === "" || e.state.password === "") {
             this.setState({
@@ -126,7 +128,7 @@ class App extends Component {
                     })
                 }
             })
-            setTimeout(() => { a.props.history.push("/") }, 5700)
+            setTimeout(() => { a.props.history.push("/") }, 3700)
         }).catch((error) => {
             if (error.code.slice(5, error.code.length) === "wrong-password") {
                 this.setState({

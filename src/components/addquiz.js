@@ -111,7 +111,7 @@ class Addquiz extends React.Component {
     currentQuizs = []
 
     componentDidMount = () => {
-        fire.firestore().collection("GROUPMEMBER").where("GROUP", "==", this.props.Group).get()
+        fire.firestore().collection("GROUPMEMBER").get()
             .then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
                     this.groupMember.push(doc.data())
@@ -121,7 +121,7 @@ class Addquiz extends React.Component {
                 console.log("Error getting documents: ", error)
             })
     }
-    
+
     showGuide = () => {
         this.setState({
             textClass: "textZoneVisible"
@@ -156,19 +156,27 @@ class Addquiz extends React.Component {
         })
     }
     addPopularity = (QUIZ, correct) => {
+        const { Group } = this.props
         QUIZ = QUIZ.toUpperCase()
-        correct = correct.toUpperCase() 
-        for (let i = 0; i < this.groupMember.length; i++) {
-            for (let j = 0; j < this.groupMember[i].NICKNAME.length; j++) {
-                if (QUIZ.indexOf(this.groupMember[i].NICKNAME[j]) > -1 ) {
-                    this.groupMember[i].POPULARITY += 1
-                    fire.firestore().collection("GROUPMEMBER").doc(this.groupMember[i].NICKNAME[1]).update({
-                        POPULARITY: this.groupMember[i].POPULARITY
+        correct = correct.toUpperCase()
+        this.currentGuoupMembers = []
+        this.groupMember.forEach(member => {
+            if (member.GROUP === Group) {
+                this.currentGuoupMembers.push(member)
+            }
+        })
+        for (let i = 0; i < this.currentGuoupMembers.length; i++) {
+            for (let j = 0; j < this.currentGuoupMembers[i].NICKNAME.length; j++) {
+                if (QUIZ.indexOf(this.currentGuoupMembers[i].NICKNAME[j]) > -1) {
+                    this.currentGuoupMembers[i].POPULARITY += 1
+                    fire.firestore().collection("GROUPMEMBER").doc(this.currentGuoupMembers[i].NICKNAME[1]).update({
+                        POPULARITY: this.currentGuoupMembers[i].POPULARITY
                     })
-                }else if(correct.indexOf(this.groupMember[i].NICKNAME[j]) > -1){
-                    this.groupMember[i].POPULARITY += 1
-                    fire.firestore().collection("GROUPMEMBER").doc(this.groupMember[i].NICKNAME[1]).update({
-                        POPULARITY: this.groupMember[i].POPULARITY
+                }
+                if (correct.indexOf(this.currentGuoupMembers[i].NICKNAME[j]) > -1) {
+                    this.currentGuoupMembers[i].POPULARITY += 1
+                    fire.firestore().collection("GROUPMEMBER").doc(this.currentGuoupMembers[i].NICKNAME[1]).update({
+                        POPULARITY: this.currentGuoupMembers[i].POPULARITY
                     })
                 }
             }
@@ -186,7 +194,7 @@ class Addquiz extends React.Component {
             })
             return
         }
-        if(this.checkDuplicateAns()){
+        if (this.checkDuplicateAns()) {
             this.setState({
                 alertMessage: "答案重複囉！",
                 alertBlock: "alertBlock",
@@ -222,6 +230,7 @@ class Addquiz extends React.Component {
                 blurLayer: "alertBlurlayer",
                 ANSWER: "",
                 QUIZ: "",
+                QUIZPIC:"",
                 OPTIONS: [],
                 OPT1: "",
                 OPT2: "",
@@ -240,13 +249,14 @@ class Addquiz extends React.Component {
             }).catch(function (error) {
                 console.error("Error writing document: ", error)
             })
+            this.addPopularity(QUIZ, correct)
+            this.currentQuizs.push(QUIZ)
             this.setState({
                 alertMessage: "感謝您的提供，祝您搶票順利，人品大爆發！",
                 alertBlock: "alertBlock",
                 blurLayer: "alertBlurlayer",
                 ANSWER: "",
                 QUIZ: "",
-                QUIZPIC: "",
                 OPTIONS: [],
                 OPT1: "",
                 OPT2: "",
@@ -254,8 +264,6 @@ class Addquiz extends React.Component {
                 OPT4: ""
             })
         }
-        this.addPopularity(QUIZ, correct)
-        this.currentQuizs.push(QUIZ)
     }
     closeBoard = () => {
         this.setState({
