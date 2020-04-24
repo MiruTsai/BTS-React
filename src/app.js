@@ -113,7 +113,7 @@ class App extends Component {
                 blurLayer: "alertBlurlayer"
             })
             return
-        }
+        }        
         fire.auth().signInWithEmailAndPassword(a.state.email, a.state.password).then(() => {
             this.user = fire.auth().currentUser.uid
             this.newquizs = this.getQuizs()
