@@ -31,8 +31,9 @@ class Login extends Component {
 
     render () {
         const { email, password, status } = this.state
-        const { Group, alertMessage, alertBlock, blurLayer, closeAlert, signUP, login, animeClass, loginContainerClass } = this.props
-        let loginZone
+        const { Group, alertMessage, alertBlock, signUP, login, animeClass, loginContainerClass } = this.props
+        let loginZone, groupName
+        Group === "IZ*ONE" ? groupName = "IZONE" : groupName = Group
         if (status === "signIn") {
             loginZone = <div className="login">
                 <div className="loginZone">
@@ -60,10 +61,10 @@ class Login extends Component {
         }
         return (
             <>
-                <Response Group={Group} alertMessage={alertMessage} alertBlock={alertBlock} blurLayer={blurLayer} closeAlert={() => closeAlert(this)} />
+                <Response Group={Group} alertMessage={alertMessage} alertBlock={alertBlock} switch={() => this.props.switch()} />
                 <SignInAnime animeClass={animeClass} />
                 <Link to="/">
-                    <img src={"/../img/logo/"+Group+".PNG"} className="loginLogo" />
+                    <img src={"/../img/logo/" + groupName + ".PNG"} className="loginLogo" />
                 </Link>
                 <div className={loginContainerClass}>
                     <div className="sign">

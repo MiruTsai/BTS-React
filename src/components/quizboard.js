@@ -19,7 +19,7 @@ class AnswerBlock extends Component {
         })
     }
     setKeyCode = () => {
-        if (event.keyCode === 13 || event.keyCode === 108) {            
+        if (event.keyCode === 13 || event.keyCode === 108) {
             if (this.state.ANSWER === "") {
                 this.props.closeRes()
             } else {
@@ -65,10 +65,12 @@ class QuizBoard extends React.Component {
     }
     componentDidMount = () => {
         const { Group } = this.props
+        let groupName = ""
+        Group === "IZ*ONE" ? groupName = "IZONE" : groupName = Group
         if (Group === "BTS") {
             this.rightResponse = ["group_right_1.gif", "group_right_2.gif", "group_right_3.gif", "jhope_right_1.gif", "jimin_right_1.gif", "jin_right_1.gif", "jin_right_2.gif", "jk_right_1.gif", "jk_right_2.gif", "rm_right_1.gif", "rm_right_2.gif", "suga_right_1.gif", "suga_right_1.gif", "v_right_1.gif", "v_right_2.gif"]
             this.wrongResponse = ["group_wrong_1.gif", "group_wrong_2.gif", "jhope_wrong_1.gif", "jhope_wrong_3.gif", "jhope_wrong_4.gif", "jimin_wrong_1.gif", "jimin_wrong_2.gif", "jin_wrong_1.gif", "jin_wrong_2.gif", "jin_wrong_3.gif", "jk_wrong_1.gif", "suga_wrong_1.gif", "suga_wrong_2.gif", "rm_wrong_1.gif"]
-        } else if (Group === "IZONE") {
+        } else if (Group === "IZ*ONE") {
             this.rightResponse = ["chaewon_right_1.gif", "chaewon_right_2.gif", "group_right_1.gif", "group_right_2.gif", "hitomi_right_1.gif", "hyewon_right_1.gif", "nako_right_1.gif", "sakura_right_1.gif", "wonyoung_right_1.gif"]
             this.wrongResponse = ["chaeyeon_wrong_1.gif", "hitomi_wrong_1.gif", "hyewon_wrong_1.gif", "minjoo_wrong_1.gif", "minjoo_wrong_2.gif", "wonyoung_wrong_1.gif", "yena_wrong_1.gif", "yena_wrong_2.gif", "yuri_wrong_1.gif"]
         } else {
@@ -88,38 +90,42 @@ class QuizBoard extends React.Component {
         fire.firestore().collection("MemberShip").doc(this.props.userUid).get().then((doc) => {
             if (doc.exists) {
                 let userInfo = doc.data()
-                if (!userInfo[Group + "rightCounter"]) {
+                if (!userInfo[groupName + "rightCounter"]) {
                     this.userRightCounter = 0
                 } else {
-                    this.userRightCounter = userInfo[Group + "rightCounter"]
+                    this.userRightCounter = userInfo[groupName + "rightCounter"]
                 }
-                if (!userInfo[Group + "wrongCounter"]) {
+                if (!userInfo[groupName + "wrongCounter"]) {
                     this.userWrongCounter = 0
                 } else {
-                    this.userWrongCounter = userInfo[Group + "wrongCounter"]
+                    this.userWrongCounter = userInfo[groupName + "wrongCounter"]
                 }
             }
         })
     }
     componentWillUnmount = () => {
         const { Group } = this.props
+        let groupName = ""
+        Group === "IZ*ONE" ? groupName = "IZONE" : groupName = Group
         fire.firestore().collection("MemberShip").doc(this.props.userUid).update({
-            [Group + "rightCounter"]: this.userRightCounter + this.state.rightQuizs.length,
-            [Group + "wrongCounter"]: this.userWrongCounter + this.state.wrongQuizs.length
+            [groupName + "rightCounter"]: this.userRightCounter + this.state.rightQuizs.length,
+            [groupName + "wrongCounter"]: this.userWrongCounter + this.state.wrongQuizs.length
         })
     }
     checkAnswer = (e) => {
         const { quizs, rightQuizs, wrongQuizs } = this.state
         const { Group } = this.props
+        let groupName = ""
+        Group === "IZ*ONE" ? groupName = "IZONE" : groupName = Group
         let quizRightCounter = quizs[qid].rightCounter
         let quizWrongCounter = quizs[qid].wrongCounter
         this.rightResIndex = Math.floor(Math.random() * this.rightResponse.length)
         this.wrongResIndex = Math.floor(Math.random() * this.wrongResponse.length)
-        if(!e.state.ANSWER){
+        if (!e.state.ANSWER) {
             alert("請輸入答案")
             return
         } else if (e.state.ANSWER === quizs[qid].ANSWER) {
-            fire.firestore().collection(Group + "QUIZS").doc(quizs[qid].id).update({
+            fire.firestore().collection(groupName + "QUIZS").doc(quizs[qid].id).update({
                 "rightCounter": quizRightCounter + 1
             }).then(() => {
                 if (quizRightCounter + quizWrongCounter === 0) {
@@ -133,14 +139,14 @@ class QuizBoard extends React.Component {
                     quizs: quizs.filter(p => p.QUIZ !== quizs[qid].QUIZ),
                     res: "答對了！" + this.reply,
                     resBoardClass: "resBoard",
-                    resPic: "../../img/right/" + Group + "/" + this.rightResponse[this.rightResIndex],
+                    resPic: "../../img/right/" + groupName + "/" + this.rightResponse[this.rightResIndex],
                     containerClass: "hideContainer",
                     blurLayer: "blurLayer"
                 }))
                 this.rightSound.play()
             })
         } else {
-            fire.firestore().collection(Group + "QUIZS").doc(quizs[qid].id).update({
+            fire.firestore().collection(groupName + "QUIZS").doc(quizs[qid].id).update({
                 "wrongCounter": quizWrongCounter + 1
             }).then(() => {
                 if (quizRightCounter + quizWrongCounter === 0) {
@@ -149,7 +155,7 @@ class QuizBoard extends React.Component {
                     this.reply = "沒關係有 " +
                         Math.floor(quizWrongCounter / (quizRightCounter + quizWrongCounter) * 100) + "% 的人沒答對。"
                 }
-                if ( wrongQuizs.length > 4) {
+                if (wrongQuizs.length > 4) {
                     this.setState({
                         scalper: "scalper",
                         containerClass: "hideContainer"
@@ -163,7 +169,7 @@ class QuizBoard extends React.Component {
                         quizs: quizs.filter(p => p.QUIZ !== quizs[qid].QUIZ),
                         res: "答案是 " + quizs[qid].ANSWER + "。" + this.reply,
                         resBoardClass: "resBoard",
-                        resPic: "../../img/wrong/" + Group + "/" + this.wrongResponse[this.wrongResIndex],
+                        resPic: "../../img/wrong/" + groupName + "/" + this.wrongResponse[this.wrongResIndex],
                         containerClass: "hideContainer",
                         blurLayer: "blurLayer"
                     }))
@@ -188,6 +194,8 @@ class QuizBoard extends React.Component {
     render () {
         const { quizs, resBoardClass, res, resPic, blurLayer, scalper, animeClass, containerClass, rightQuizs, wrongQuizs } = this.state
         const { Group } = this.props
+        let groupName = ""
+        Group === "IZ*ONE" ? groupName = "IZONE" : groupName = Group
         qid = Math.floor(Math.random() * quizs.length)
         const renderQuiz = (quizs.length === 0) ? (null) : (<>{quizs[qid].TAG === "text" ? (<TextType quizs={quizs} index={qid} />) :
             (quizs[qid].TAG === "picture" ? (<PictureType quizs={quizs} index={qid} />) : (<PictureType2 quizs={quizs} index={qid} />))}</>)
@@ -205,7 +213,7 @@ class QuizBoard extends React.Component {
                 </div>
                 <Scalper fake={scalper} />
                 <Link to="/">
-                    <img src={"/../img/logo/" + Group + ".PNG"} className="quizLogo" />
+                    <img src={"/../img/logo/" + groupName + ".PNG"} className="quizLogo" />
                 </Link>
                 <QuizAnime animeClass={animeClass} Group={Group} />
                 <div className={containerClass} >
@@ -213,7 +221,7 @@ class QuizBoard extends React.Component {
                         <div className="quizBlock">
                             {renderQuiz}
                         </div>
-                        <AnswerBlock checkAnswer={this.checkAnswer} closeRes={this.closeRes} resBoardStatus={this.state.resBoardClass}/>
+                        <AnswerBlock checkAnswer={this.checkAnswer} closeRes={this.closeRes} resBoardStatus={this.state.resBoardClass} />
                     </div>
                     <div className="counter">
                         <div className="all">還剩：{quizs.length}</div>

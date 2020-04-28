@@ -174,12 +174,14 @@ class PreTest extends Component {
         const { quizs, alertBlockClass, guideClass, logoClass, loadingClass, maskClass, containerClass, timerClass, 
             resPic, resPicClass, resBoardClass, response } = this.state
         const { Group } = this.props
+        let groupName = ""
+        Group === "IZ*ONE" ? groupName = "IZONE" : groupName = Group
         currentIndex = Math.floor(Math.random() * quizs.length)
         this.seconds = 0
         return (
             <>
                 <Link to="/">
-                    <img src={"/../img/logo/" + Group + ".PNG"} className={logoClass} />
+                    <img src={"/../img/logo/" + groupName + ".PNG"} className={logoClass} />
                 </Link>
                 <GetTicketGuide closeGuide={this.closeGuide} guideClass={guideClass} />
                 <div className={alertBlockClass}>

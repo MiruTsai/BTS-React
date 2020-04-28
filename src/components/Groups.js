@@ -7,7 +7,7 @@ const Groups = (props) => {
             <div className="selectText">想換別家</div>
                 <select id="quizType" name="groups" value={props.Group} onChange={props.chooseGroup}>
                     <option value="BTS">BTS</option>
-                    <option value="IZONE">IZ*ONE</option>
+                    <option value="IZ*ONE">IZ*ONE</option>
                     <option value="TWICE">TWICE</option>
                 </select>
             </form>

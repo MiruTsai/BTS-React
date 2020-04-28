@@ -7,6 +7,7 @@ import Addquiz from "./components/Addquiz"
 import QuizBoard from "./components/Quizboard"
 import Profile from "./components/Profile"
 import PreTest from "./components/PreTest"
+import Album from "./components/Album"
 import fire from "./Fire"
 import "../css/common.css"
 import "../css/index.css"
@@ -17,15 +18,15 @@ class App extends Component {
         userUid: "",
         animeClass: "hide",
         loginContainerClass: "loginContainer",
-        alertMessage: "",
-        alertBlock: "hide",
-        blurLayer: "hide",
-        Group: "BTS"
+        Group: "TWICE",
+        KKBOXtoken: "Eq5_jtTe3y3XYYWutk1C-g=="
     }
-    
+
     getQuizs = () => {
         this.newquizs = []
-        fire.firestore().collection(this.state.Group + "QUIZS").get().then((querySnapshot) => {
+        let groupName = ""
+        this.state.Group === "IZ*ONE" ? groupName = "IZONE" : groupName = this.state.Group
+        fire.firestore().collection(groupName + "QUIZS").get().then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
                 let x = doc.id
                 let y = doc.data()
@@ -40,33 +41,30 @@ class App extends Component {
         if (e.state.email === "" || e.state.password === "") {
             this.setState({
                 alertMessage: "請輸入正確申請資訊",
-                alertBlock: "alertBlock",
-                blurLayer: "alertBlurlayer"
+                alertBlock: "alertBlock"
             })
             return
         }
         if (e.state.email.length < 4) {
             this.setState({
                 alertMessage: "請輸入正確 E-mail 地址",
-                alertBlock: "alertBlock",
-                blurLayer: "alertBlurlayer"
+                alertBlock: "alertBlock"
             })
             return
         }
         if (e.state.password.length < 6) {
             this.setState({
                 alertMessage: "請輸入大於六位數密碼",
-                alertBlock: "alertBlock",
-                blurLayer: "alertBlurlayer"
+                alertBlock: "alertBlock"
             })
             return
         }
         fire.auth().createUserWithEmailAndPassword(e.state.email, e.state.password).then(() => {
-            this.user = fire.auth().currentUser.uid
+            let user = fire.auth().currentUser.uid
             this.newquizs = this.getQuizs()
-            localStorage.setItem("uid", user)
+            localStorage.setItem("uid", this.user)
             this.setState({
-                userUid: this.user,
+                userUid: user,
                 userRightCounter: 0,
                 userWrongCounter: 0,
                 animeClass: "signAnime fadeAnime",
@@ -81,7 +79,6 @@ class App extends Component {
                     rightCounter: 0,
                     wrongCounter: 0
                 })
-
             })
         }).catch((error) => {
             console.log("Error getting documents: ", error)
@@ -93,27 +90,24 @@ class App extends Component {
         if (a.state.email === "" || a.state.password === "") {
             this.setState({
                 alertMessage: "請輸入正確登入資訊",
-                alertBlock: "alertBlock",
-                blurLayer: "alertBlurlayer"
+                alertBlock: "alertBlock"
             })
             return
         }
         if (a.state.email.length < 4) {
             this.setState({
                 alertMessage: "請輸入正確 E-mail 地址",
-                alertBlock: "alertBlock",
-                blurLayer: "alertBlurlayer"
+                alertBlock: "alertBlock"
             })
             return
         }
         if (a.state.password.length < 6) {
             this.setState({
                 alertMessage: "請輸入正確密碼",
-                alertBlock: "alertBlock",
-                blurLayer: "alertBlurlayer"
+                alertBlock: "alertBlock"
             })
             return
-        }        
+        }
         fire.auth().signInWithEmailAndPassword(a.state.email, a.state.password).then(() => {
             this.user = fire.auth().currentUser.uid
             this.newquizs = this.getQuizs()
@@ -133,97 +127,54 @@ class App extends Component {
             if (error.code.slice(5, error.code.length) === "wrong-password") {
                 this.setState({
                     alertMessage: "糟糕！密碼打錯囉",
-                    alertBlock: "alertBlock",
-                    blurLayer: "alertBlurlayer"
+                    alertBlock: "alertBlock"
                 })
             } else {
                 this.setState({
                     alertMessage: "糟糕！沒有這個人喔",
-                    alertBlock: "alertBlock",
-                    blurLayer: "alertBlurlayer"
+                    alertBlock: "alertBlock"
                 })
             }
         })
     }
-    chooseGroup = (e) => {        
-        this.setState( {Group: e.target.value}, ()=>{
+    chooseGroup = (e) => {
+        this.setState({ Group: e.target.value }, () => {
             this.newquizs = this.getQuizs()
             this.setState({
                 quizs: this.newquizs
             })
-        })       
+        })
     }
-    authListener = (e) => {
-        if (this.state.userUid === "") {
-            e.props.history.push("/login")
-        } else {
-            e.props.history.push("/profile")
-        }
-    }
-    quizEntry = (e) => {
-        if (this.state.userUid === "") {
-            this.setState({
-                alertMessage: "請登入會員",
-                alertBlock: "alertBlock",
-                blurLayer: "alertBlurlayer"
-            })
-        } else {
-            e.props.history.push("/quizboard")
-        }
-    }
-    preTestEntry = (e) => {
-        if (this.state.userUid === "") {
-            this.setState({
-                alertMessage: "請登入會員",
-                alertBlock: "alertBlock",
-                blurLayer: "alertBlurlayer"
-            })
-        } else {
-            e.props.history.push("/preTest")
-        }
-    }
-    addQuizEntry = (e) => {
-        if (this.state.userUid === "") {
-            this.setState({
-                alertMessage: "請登入會員",
-                alertBlock: "alertBlock",
-                blurLayer: "alertBlurlayer"
-            })
-        } else {
-            e.props.history.push("/addquiz")
-        }
-    }
-    closeAlert = (e) => {
-        if (this.state.userUid === "") {
-            e.props.history.push("/login")
+    switch = () => {
+        if (this.props.userUid === "") {
+            this.props.history.push("/login")
             this.setState({
                 alertMessage: "",
-                alertBlock: "hide",
-                blurLayer: "hide"
+                alertBlock: !this.state.alertBlock
             })
         } else {
             this.setState({
                 alertMessage: "",
-                alertBlock: "hide",
-                blurLayer: "hide"
+                alertBlock: !this.state.alertBlock
             })
         }
     }
     render () {
-        const { Group, alertMessage, alertBlock, userUid, quizs, animeClass, blurLayer, loginContainerClass, userName } = this.state
+        const { Group, alertMessage, alertBlock, userUid, quizs, animeClass, loginContainerClass, userName, KKBOXtoken } = this.state
+        let groupName = ""
+        Group === "IZ*ONE" ? groupName = "IZONE" : groupName = Group
         return (
-            <div className={Group + "layer"}>
+            <div className={groupName + "layer"}>
                 <BrowserRouter>
-                    <Route exact path="/" render={(props) => <Index {...props} auth={this.authListener} quizEntry={this.quizEntry} preTestEntry={this.preTestEntry} addQuizEntry={this.addQuizEntry}
-                        alertMessage={alertMessage} alertBlock={alertBlock} blurLayer={blurLayer} closeAlert={this.closeAlert} userUid={userUid} chooseGroup={this.chooseGroup} Group={Group} />}
-                    />
-                    <Route path="/login" render={(props) => <Login {...props} alertMessage={alertMessage} alertBlock={alertBlock} closeAlert={this.closeAlert}
-                        blurLayer={blurLayer} login={this.login} signUP={this.signUP} userUid={userUid} animeClass={animeClass}
+                    <Route exact path="/" render={(props) => <Index {...props} userUid={userUid} chooseGroup={this.chooseGroup} Group={Group} />} />
+                    <Route path="/login" render={(props) => <Login {...props} alertMessage={alertMessage} alertBlock={alertBlock} switch={this.switch}
+                        login={this.login} signUP={this.signUP} userUid={userUid} animeClass={animeClass}
                         loginContainerClass={loginContainerClass} Group={Group} />} />
                     <Route path="/profile" render={(props) => <Profile {...props} userUid={userUid} logOut={this.logOut} Group={Group} chooseGroup={this.chooseGroup} />} />
                     <Route path="/quizboard" render={(props) => <QuizBoard {...props} quizs={quizs} userUid={userUid} Group={Group} />} />
-                    <Route path="/addquiz" render={(props) => <Addquiz {...props} quizs={quizs} closeAlert={this.closeAlert} Group={Group} chooseGroup={this.chooseGroup} userName={userName} />} />
-                    <Route path="/preTest" render={(props) => <PreTest {...props} quizs={quizs} closeAlert={this.closeAlert} Group={Group} />} />
+                    <Route path="/addquiz" render={(props) => <Addquiz {...props} quizs={quizs} Group={Group} chooseGroup={this.chooseGroup} userName={userName} />} />
+                    <Route path="/preTest" render={(props) => <PreTest {...props} quizs={quizs} switch={this.switch} Group={Group} />} />
+                    <Route path="/album" render={(props) => <Album {...props} token={KKBOXtoken} Group={Group} />}></Route>
                 </BrowserRouter>
             </div>
         )

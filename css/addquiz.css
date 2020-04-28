@@ -130,7 +130,7 @@ input{
 ul{
     margin: 30px 0;
 }
-li{
+.textZoneVisibl li{
     margin:10px 0;
     letter-spacing: 1px;
 }

@@ -6,7 +6,7 @@
 body{
     margin:auto;
 }
-.container,.loginContainer,.quizContainer,.preContainer,.preAddContainer{
+.container,.loginContainer,.quizContainer,.preContainer,.preAddContainer,.albumContainer{
     box-shadow:2px 2px 2px rgba(20%,20%,40%,0.6),4px 4px 6px rgba(20%,20%,40%,0.4),6px 6px 12px rgba(20%,20%,40%,0.4);
     position: absolute;
     top:50%;

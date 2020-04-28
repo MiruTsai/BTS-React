@@ -1,0 +1,53 @@
+.albumContainer{
+    width:85%;
+    background: white;
+    padding:20px 0 20px 0;
+    display: flex;
+    align-items: center;
+}
+a{
+    color: black;
+}
+.albumLists{
+    width:95%;
+    list-style-type: none;
+    margin: 0 auto;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;    
+}
+.albumList{    
+    display: flex;
+    flex-direction: column;
+    align-items: center;    
+    flex-basis: 12.5%;
+    margin: 5px 0;
+}
+.albumList:hover{
+    background-color: lightgoldenrodyellow;
+}
+.albumList .name{
+    font-size: 12px;
+    text-align: center;
+}
+.albumList .release{
+    margin-top: 5px;
+}
+.albumList img{
+    width: 120px;
+}
+.albumList .song{
+    margin-left: 10px;    
+    flex-basis: 80%;
+    font-size: 14px;
+}
+.albumList .artist{
+    flex-basis: 20%;
+    color:grey;
+}
+.source{
+    position: absolute;
+    font-size: 12px;
+    right: 10px;
+    bottom:5px;
+}

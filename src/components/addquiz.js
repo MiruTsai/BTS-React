@@ -7,9 +7,11 @@ import Response from "./Response"
 import Groups from "./Groups"
 
 const Description = (props) => {
+    let groupName = ""
+    props.Group === "IZ*ONE" ? groupName = "IZONE" : groupName = props.Group
     return (<div className="description">
         <div className="addpic">
-            <img className="group-pic" src={"img/group2/" + props.Group + ".png"} />
+            <img className="group-pic" src={"img/group2/" + groupName + ".png"} />
         </div>
         <div className="info">
             <p>親愛的，<br />在您貢獻題目前請先閱讀本站須知。</p>
@@ -104,8 +106,7 @@ class Addquiz extends React.Component {
         wrongCounter: 0,
         review: false,
         alertMessage: "",
-        alertBlock: "hide",
-        blurLayer: "hide"
+        alertBlock: false
     }
     groupMember = []
     currentQuizs = []
@@ -157,11 +158,13 @@ class Addquiz extends React.Component {
     }
     addPopularity = (QUIZ, correct) => {
         const { Group } = this.props
+        let groupName = ""
+        Group === "IZ*ONE" ? groupName = "IZONE" : groupName = Group
         QUIZ = QUIZ.toUpperCase()
         correct = correct.toUpperCase()
         this.currentGuoupMembers = []
         this.groupMember.forEach(member => {
-            if (member.GROUP === Group) {
+            if (member.GROUP === groupName) {
                 this.currentGuoupMembers.push(member)
             }
         })
@@ -185,20 +188,20 @@ class Addquiz extends React.Component {
     sendQuiz = () => {
         const { OPT1, OPT2, OPT3, OPT4, ANSWER, QUIZ, QUIZPIC, TAG } = this.state
         const { Group, userName } = this.props
+        let groupName = ""
+        Group === "IZ*ONE" ? groupName = "IZONE" : groupName = Group
         let OPT = [OPT1, OPT2, OPT3, OPT4]
         if (this.checkDuplicateQuiz()) {
             this.setState({
                 alertMessage: "題目重複囉！",
-                alertBlock: "alertBlock",
-                blurLayer: "alertBlurlayer"
+                alertBlock: true
             })
             return
         }
         if (this.checkDuplicateAns()) {
             this.setState({
                 alertMessage: "答案重複囉！",
-                alertBlock: "alertBlock",
-                blurLayer: "alertBlurlayer"
+                alertBlock: true
             })
             return
         }
@@ -206,13 +209,12 @@ class Addquiz extends React.Component {
         if (ANSWER === "" || QUIZ === "" || OPT1 === "" || OPT2 === "" || OPT3 === "" || OPT4 === "") {
             this.setState({
                 alertMessage: "請填入完整題目訊息",
-                alertBlock: "alertBlock",
-                blurLayer: "alertBlurlayer"
+                alertBlock: true
             })
             return
         }
         if (TAG === "picture2") {
-            fire.firestore().collection(Group + "QUIZS").doc().set({
+            fire.firestore().collection(groupName + "QUIZS").doc().set({
                 ANSWER: ANSWER,
                 QUIZ: QUIZ,
                 QUIZPIC: QUIZPIC,
@@ -226,11 +228,10 @@ class Addquiz extends React.Component {
             })
             this.setState({
                 alertMessage: "感謝您的提供，祝您搶票順利，人品大爆發！",
-                alertBlock: "alertBlock",
-                blurLayer: "alertBlurlayer",
+                alertBlock: true,
                 ANSWER: "",
                 QUIZ: "",
-                QUIZPIC:"",
+                QUIZPIC: "",
                 OPTIONS: [],
                 OPT1: "",
                 OPT2: "",
@@ -238,7 +239,7 @@ class Addquiz extends React.Component {
                 OPT4: ""
             })
         } else {
-            fire.firestore().collection(Group + "QUIZS").doc().set({
+            fire.firestore().collection(groupName + "QUIZS").doc().set({
                 ANSWER: ANSWER,
                 QUIZ: QUIZ,
                 OPTIONS: [OPT1, OPT2, OPT3, OPT4],
@@ -253,8 +254,7 @@ class Addquiz extends React.Component {
             this.currentQuizs.push(QUIZ)
             this.setState({
                 alertMessage: "感謝您的提供，祝您搶票順利，人品大爆發！",
-                alertBlock: "alertBlock",
-                blurLayer: "alertBlurlayer",
+                alertBlock: true,
                 ANSWER: "",
                 QUIZ: "",
                 OPTIONS: [],
@@ -265,13 +265,7 @@ class Addquiz extends React.Component {
             })
         }
     }
-    closeBoard = () => {
-        this.setState({
-            alertMessage: "",
-            alertBlock: "hide",
-            blurLayer: "hide"
-        })
-    }
+
     checkDuplicateAns = (arr) => {
         const { OPT1, OPT2, OPT3, OPT4 } = this.state
         arr = [OPT1, OPT2, OPT3, OPT4]
@@ -292,12 +286,26 @@ class Addquiz extends React.Component {
         })
         return ifDuplicate
     }
+    switch = () => {
+        if (this.props.userUid === "") {
+            this.props.history.push("/login")
+            this.setState({
+                alertMessage: "",
+                alertBlock: !this.state.alertBlock
+            })
+        } else {
+            this.setState({
+                alertMessage: "",
+                alertBlock: !this.state.alertBlock
+            })
+        }
+    }
     render () {
         const { chooseGroup, Group } = this.props
-        const { review, ANSWER, QUIZ, QUIZPIC, textClass, OPTIONS, OPT1, OPT2, OPT3, OPT4, TAG, alertMessage, alertBlock, blurLayer, containerClass } = this.state
+        const { review, ANSWER, QUIZ, QUIZPIC, textClass, OPTIONS, OPT1, OPT2, OPT3, OPT4, TAG, alertMessage, alertBlock, containerClass } = this.state
         return (
             <>
-                <Response alertMessage={alertMessage} alertBlock={alertBlock} blurLayer={blurLayer} closeAlert={this.closeBoard} Group={this.props.Group} />
+                <Response alertMessage={alertMessage} alertBlock={alertBlock} switch={this.switch} Group={Group} />
                 <Logo Group={Group} />
                 <div className={containerClass}>
                     {review ? (<PreviewQuiz QUIZ={QUIZ} OPTIONS={OPTIONS} OPT1={OPT1} OPT2={OPT2} OPT3={OPT3} OPT4={OPT4} QUIZPIC={QUIZPIC}

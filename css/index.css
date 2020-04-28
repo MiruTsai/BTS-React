@@ -79,7 +79,7 @@ h3,h5,.title{
 .indexIcon{
     display: flex;
     align-items: center;
-    margin: 20px 30px;
+    margin: 20px;
     font-family:"Noto Sans TC", "微軟正黑體", "新細明體", arial, sans-serif;
     color:#415159;
     padding: 10px;

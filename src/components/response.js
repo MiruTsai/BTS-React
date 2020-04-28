@@ -1,23 +1,20 @@
 import React from "react"
 
-const Response = (props) => {
-    let groupName
-    if (props.Group === "IZONE") {
-        groupName = "IZ*ONE"
-    } else {
-        groupName = props.Group
-    }
-    return (
-        <>
-            <div className={props.alertBlock}>
-                <div className="boardTitle">{groupName}-TMI</div>
+class Response extends React.Component {
+    render () {
+        const { Group, alertMessage } = this.props
+        let className = "", blurLayerClassName = ""
+        this.props.alertBlock ? (className = "alertBlock", blurLayerClassName = "blurLayer") : (className = "hide", blurLayerClassName = "hide")
+        return <>
+            <div className={className}>
+                <div className="boardTitle">{Group}-TMI</div>
                 <div className="alertBoard">
-                    <div className="alertText">{props.alertMessage}</div>
-                    <button type="button" className="res-button" onClick={() => props.closeAlert(this)}>OK</button>
+                    <div className="alertText">{alertMessage}</div>
+                    <button type="button" className="res-button" onClick={() => this.props.switch()}>OK</button>
                 </div>
             </div>
-            <div className={props.blurLayer}></div>
+            <div className={blurLayerClassName}></div>
         </>
-    )
+    }
 }
 export default Response
