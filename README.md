@@ -8,6 +8,8 @@
 * React
 * Router
 * Firebase
+* Google Charts
+* KKBOX OPEN API
 * Webpack
 * Babel
 * SVG Animation
@@ -31,6 +33,10 @@
 
 ![](/dist/img/readme/profile.PNG)
 
+* __Grabbed artists' album data from KKBOX OPEN API __
+
+![](/dist/img/album.png)
+
 * __Used SVG Animation for page loading to enhance users' experience__
 
 ![](/dist/img/readme/opening.gif)
@@ -38,4 +44,3 @@
 * __Established a mock ticketing queue for user to practice before snatching concert tickets__
 
 ![](/dist/img/readme/pretest.gif)
-
