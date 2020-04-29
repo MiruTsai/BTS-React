@@ -1,15 +1,31 @@
 .albumContainer{
     width:85%;
+    height: 550px;
     background: white;
-    padding:20px 0 20px 0;
-    display: flex;
-    align-items: center;
+    padding:20px 0 20px 0;    
+    align-items: center;    
 }
 a{
     color: black;
 }
+.albumContainer .box{
+    display: flex;
+}
+.albumContainer .btnBox{
+    display: flex;    
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+.albumContainer .btnBox button{
+    padding:5px;
+    margin: 5px;
+    background-color:white;
+    border:1px solid #979797
+}
 .albumLists{
-    width:95%;
+    width:90%;
     list-style-type: none;
     margin: 0 auto;
     padding: 0;
@@ -20,17 +36,18 @@ a{
     display: flex;
     flex-direction: column;
     align-items: center;    
-    flex-basis: 12.5%;
-    margin: 5px 0;
+    flex-basis: 20%;
+    margin-top: 25px;
 }
 .albumList:hover{
     background-color: lightgoldenrodyellow;
 }
 .albumList .name{
-    font-size: 12px;
+    font-size: 14px;
     text-align: center;
 }
 .albumList .release{
+    font-size: 12px;
     margin-top: 5px;
 }
 .albumList img{
@@ -46,6 +63,7 @@ a{
     color:grey;
 }
 .source{
+    text-align: center;
     position: absolute;
     font-size: 12px;
     right: 10px;

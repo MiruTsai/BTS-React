@@ -11,17 +11,9 @@ class Lists extends React.Component {
         return s4() + s4() + "-" + s4() + "-" + s4() + "-" + s4() + "-" + s4() + s4() + s4();
     }
     render () {
-        const { artistData, Group } = this.props
-        let albums = artistData.albums.data
-        albums.sort(function (a, b) {
-            a = new Date(a.release_date)
-            b = new Date(b.release_date)
-            return b - a
-        })
-        let filterAlbums = albums.filter(album => {
-            return album.artist.name.indexOf(Group) > -1 && album.available_territories.length > 0
-        })
-        const albumLists = filterAlbums.map(album => {
+        const { artistData, minData, maxData } = this.props
+        let albums = artistData.slice(minData, maxData)
+        const albumLists = albums.map(album => {
             return <li className="albumList" key={this.createGuid()}>
                 <a href={album.url} target="_blank"><img src={album.images[0].url} /></a>
                 <span className="name">{album.name}</span>
@@ -33,17 +25,37 @@ class Lists extends React.Component {
         </ul>
     }
 }
-
+class PageBtn extends React.Component {
+    render () {
+        return React.createElement("button", { onClick: () => { this.props.toPage(this.props.index) }, id: this.props.index, className: "hvr-push" }, this.props.index)
+    }
+}
+class Page extends React.Component {
+    render () {
+        const { pageTotal } = this.props
+        let pageBtns = []
+        let pageBtn
+        for (let i = 1; i < pageTotal + 1; i++) {
+            pageBtn = React.createElement(PageBtn, { index: i, toPage: this.props.toPage, key:Math.floor(Math.random()*1000) })
+            pageBtns.push(pageBtn)
+        }
+        return React.createElement("div", { className: "btnBox" }, pageBtns)
+    }
+}
 class Album extends React.Component {
     state = {
         animeClass: "anime",
-        artistData: ""
+        artistData: "",
+        currentPage: 1,
+        perpage: 10,
+        pageTotal: ""
     }
     componentDidMount = () => {
         this.getArtistDetail()
     }
     getArtistDetail = () => {
-        fetch("https://api.kkbox.com/v1.1/search?q=" + this.props.Group + "&type=album&limit=50&territory=TW", {
+        const { Group } = this.props
+        fetch("https://api.kkbox.com/v1.1/search?q=" + Group + "&type=album&limit=50&territory=TW", {
             method: "GET",
             headers: {
                 "authorization": "Bearer " + this.props.token
@@ -51,20 +63,45 @@ class Album extends React.Component {
         }).then((result) => {
             return result.json()
         }).then((data) => {
-            this.setState({
-                artistData: data
+            let albums = data.albums.data
+            albums.sort(function (a, b) {
+                a = new Date(a.release_date)
+                b = new Date(b.release_date)
+                return b - a
             })
+            let filterAlbums = albums.filter(album => {
+                return album.artist.name.indexOf(Group) > -1 && album.available_territories.length > 0
+            })
+            this.setState({
+                artistData: filterAlbums,
+                pageTotal: Math.ceil(filterAlbums.length / this.state.perpage)
+            })
+            this.toPage(1)
+        })
+    }
+
+    toPage = (currentPage) => {
+        const { perpage } = this.state
+        const maxData = currentPage * perpage
+        const minData = (currentPage * perpage) - perpage
+        this.setState({
+            currentPage: currentPage,
+            minData: minData,
+            maxData: maxData
         })
     }
     render () {
-        const { artistData } = this.state
+        const { artistData, pageTotal, minData, maxData } = this.state
         const { Group } = this.props
         return <>
             <Logo Group={Group} />
             {this.state.artistData === "" ? <QuizAnime animeClass={this.state.animeClass} Group={Group} /> :
                 <div className="albumContainer">
-                    <Lists artistData={artistData} Group={Group} />
-                    <span className="source">資料來源:KKBOX</span>
+                    <div className="box">
+                        <Lists artistData={artistData} Group={Group} minData={minData} maxData={maxData} />
+                    </div>
+                    <Page pageTotal={pageTotal} toPage={this.toPage} />
+                    <span className="source">資料來源:KKBOX<br />*此發行時間為台灣發行時間</span>
                 </div>}
         </>
     }
