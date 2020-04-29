@@ -27,19 +27,18 @@ class Lists extends React.Component {
 }
 class PageBtn extends React.Component {
     render () {
-        return React.createElement("button", { onClick: () => { this.props.toPage(this.props.index) }, id: this.props.index, className: "hvr-push" }, this.props.index)
+        const { index, toPage } = this.props
+        return <button onClick={() => { toPage(index) }}>{index}</button>
     }
 }
 class Page extends React.Component {
     render () {
         const { pageTotal } = this.props
-        let pageBtns = []
-        let pageBtn
-        for (let i = 1; i < pageTotal + 1; i++) {
-            pageBtn = React.createElement(PageBtn, { index: i, toPage: this.props.toPage, key:Math.floor(Math.random()*1000) })
-            pageBtns.push(pageBtn)
-        }
-        return React.createElement("div", { className: "btnBox" }, pageBtns)
+        return <div className="btnBox">
+            {Array(pageTotal).fill().map((_, index) => {
+                return <PageBtn index={index + 1} key={Math.floor(Math.random() * 1000)} />
+            })}
+        </div>        
     }
 }
 class Album extends React.Component {
