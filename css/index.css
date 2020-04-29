@@ -70,7 +70,8 @@ h3,h5,.title{
     cursor: pointer;
 }
 .indexContainer .fa-user{    
-    margin-top:20px;   
+    margin-top:20px;
+    margin-right: 0px;
 }
 .user{
     flex-basis: 10%;
@@ -88,6 +89,7 @@ h3,h5,.title{
     border-radius: 4px;
     text-shadow: 0 1px 0 rgba(0,0,0,0.15);
     cursor: pointer;
+    text-align: center;
 }
 .iconZone{
     display: flex;
@@ -191,12 +193,29 @@ text{
     }
     h3{
         margin-top: 20px;
+        font-size: 16px;
     }
-    
+    .logo{
+        width: 55px;
+    }
+    .indexIcon{
+        margin: 0 7px;
+        padding:5px
+    }
+    .iconText{
+        font-size: 14px;
+    }
+    .leftSide{
+        flex-basis: 66%;
+        margin-left: 25px;
+    }
+    .quizSelect form{
+        margin-left: -20px;
+    }
 }
 @media (max-width:800px){
     .indexContainer{
-        height: 350px;
+        width: 100%;        
     }
     .leftSide{
         margin-bottom: 20px;

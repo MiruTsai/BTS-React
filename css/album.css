@@ -69,3 +69,32 @@ a{
     right: 10px;
     bottom:5px;
 }
+@media(max-width:1025px){
+    .albumContainer{
+        height: 600px;
+    }
+}
+@media (max-width:769px){
+    .albumContainer{
+        width: 100%;
+    }
+}
+@media (max-width:420px){
+    .albumContainer{
+        position: static;
+        left: 50%;
+        transform: none;
+        height: auto;
+    }
+    .albumList{
+        flex-basis: 50%;
+    }
+    .albumContainer .btnBox{
+        position: static;
+        transform: none;
+        justify-content: center;
+    }
+    .albumContainer .source{
+        display: none;
+    }
+}
