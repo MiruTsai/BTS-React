@@ -112,7 +112,9 @@ class Index extends Component {
                             <div className="title">{this.groupName} Too Much Information</div>
                             <h5>{this.subDescribe}</h5>
                         </div>
+                        <div className="selectGroup">
                         <Groups chooseGroup={chooseGroup} Group={Group} />
+                        </div>
                         <div className="iconZone">
                             <div className="indexIcon hvr-push" onClick={() => this.quizEntry()}>
                                 <i className="far fa-edit" />

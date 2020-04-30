@@ -42,7 +42,7 @@ class NewQuiz extends React.Component {
                 </div>
         }
         return (
-            <div>
+            <>
                 <Groups chooseGroup={chooseGroup} Group={Group} />
                 <div className="quizSelect">
                     <div className="opt-name">題型</div>
@@ -84,7 +84,7 @@ class NewQuiz extends React.Component {
                     <button type="button" className="addquiz-button" onClick={sendQuiz}>提交</button>
                     <button type="button" className="preview-button" onClick={statusChange}>預覽</button>
                 </div>
-            </div>
+            </>
         )
     }
 }

@@ -142,9 +142,7 @@ h3,h5,.title{
     left:50%;
     transform: translateX(-50%) translateY(-50%);
 }
-.quizSelect form{
-    margin: 0;
-}
+
 .indexContainer .quizSelect{
     margin:30px;
     width:100%;
@@ -208,9 +206,6 @@ text{
     .leftSide{
         flex-basis: 66%;
         margin-left: 25px;
-    }
-    .quizSelect form{
-        margin-left: -20px;
     }
 }
 @media (max-width:800px){

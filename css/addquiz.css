@@ -23,7 +23,7 @@ form{
     margin: 30px 0;
 }
 .quizSelect{
-    margin: 50px;
+    margin-left: 50px;
     flex-basis: 100%;
 }
 #quizType{
@@ -208,6 +208,24 @@ button{
     .addContainer,.preAddContainer{
         width:90%;
     }
+    .add-rightSide{
+        margin:5px 50px;
+    }
+    .quizSelect form{
+        margin-top: 30px;
+    }
+    .addpic{
+        margin-top: 100px;
+    }
+    .group-pic{
+        width: 400px;
+    }
+    .choice{
+        margin: 10px 50px;
+    }
+    .choice .opt-name{
+        flex-basis: 11%;
+    }
 }
 @media (max-width:800px){ 
     .addContainer,.preAddContainer{
@@ -239,10 +257,25 @@ button{
     }
 }
 @media(max-width:480px){
+    .addContainer{
+        padding:0
+    }
     .description{
         margin: 10px 0;
     }
-    form{
-        margin: 10px 0;
+    .addpic{
+        margin-top: 0;
     }
+    .quizSelect{
+        margin-left: 10px;
+    }
+    .quizSelect form{
+        margin: 0;
+    }
+    #quizType{
+        margin: 10px 0;
+    }  
+    .add-rightSide{
+        margin: 5px;
+    }  
 }

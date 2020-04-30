@@ -214,6 +214,10 @@ span{
         position: static;
         transform: none;
     }
+    .guide{
+        position: static;
+        align-items: flex-start;
+    }
     .guideBoard{
         width:100%;
     }
