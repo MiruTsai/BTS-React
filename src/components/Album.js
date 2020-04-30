@@ -13,15 +13,16 @@ class Lists extends React.Component {
     render () {
         const { artistData, minData, maxData } = this.props
         let albums = artistData.slice(minData, maxData)
-        const albumLists = albums.map(album => {
-            return <li className="albumList" key={this.createGuid()}>
-                <a href={album.url} target="_blank"><img src={album.images[0].url} /></a>
-                <span className="name">{album.name}</span>
-                <span className="release">{album.release_date}</span>
-            </li>
-        })
         return <ul className="albumLists">
-            {albumLists}
+            {albums.map(album => {
+                return (
+                    <li className="albumList" key={this.createGuid()}>
+                        <a href={album.url} target="_blank"><img src={album.images[0].url} /></a>
+                        <span className="name">{album.name}</span>
+                        <span className="release">{album.release_date}</span>
+                    </li>
+                )
+            })}
         </ul>
     }
 }
@@ -33,12 +34,12 @@ class PageBtn extends React.Component {
 }
 class Page extends React.Component {
     render () {
-        const { pageTotal } = this.props
+        const { pageTotal, toPage } = this.props
         return <div className="btnBox">
             {Array(pageTotal).fill().map((_, index) => {
-                return <PageBtn index={index + 1} key={Math.floor(Math.random() * 1000)} />
+                return <PageBtn index={index + 1} key={Math.floor(Math.random() * 1000)} toPage={toPage} />
             })}
-        </div>        
+        </div>
     }
 }
 class Album extends React.Component {
@@ -78,7 +79,20 @@ class Album extends React.Component {
             this.toPage(1)
         })
     }
-
+    switch = () => {
+        if (this.props.userUid === "") {
+            this.props.history.push("/login")
+            this.setState({
+                alertMessage: "",
+                alertBlock: !this.state.alertBlock
+            })
+        } else {
+            this.setState({
+                alertMessage: "",
+                alertBlock: !this.state.alertBlock
+            })
+        }
+    }
     toPage = (currentPage) => {
         const { perpage } = this.state
         const maxData = currentPage * perpage

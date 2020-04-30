@@ -50,8 +50,7 @@ class Index extends Component {
             this.setState({
                 alertMessage: "請登入會員",
                 alertBlock: true
-            })
-            this.props.history.push("/login")
+            })            
         } else {
             this.props.history.push("/preTest")
         }
@@ -61,8 +60,7 @@ class Index extends Component {
             this.setState({
                 alertMessage: "請登入會員",
                 alertBlock: true
-            })
-            this.props.history.push("/login")
+            })            
         } else {
             this.props.history.push("/addquiz")
         }
@@ -72,8 +70,7 @@ class Index extends Component {
             this.setState({
                 alertMessage: "請登入會員",
                 alertBlock: true
-            })
-            this.props.history.push("/login")
+            })            
         } else {
             this.props.history.push("/album")
         }
@@ -126,7 +123,7 @@ class Index extends Component {
                                 <div className="iconText">模擬搶票</div>
                             </div>
                             <div className="indexIcon hvr-push" onClick={() => this.addQuizEntry()}>
-                                <i className="far fa-file-alt" />
+                            <i className="far fa-list-alt" />
                                 <div className="iconText">我要出題</div>
                             </div>
                             <div className="indexIcon hvr-push" onClick={() => this.albumEntry()}>

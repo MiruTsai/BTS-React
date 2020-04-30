@@ -6,7 +6,7 @@
 body{
     margin:auto;
 }
-.container,.loginContainer,.quizContainer,.preContainer,.preAddContainer,.albumContainer{
+.container,.preAddContainer,.albumContainer{
     box-shadow:2px 2px 2px rgba(20%,20%,40%,0.6),4px 4px 6px rgba(20%,20%,40%,0.4),6px 6px 12px rgba(20%,20%,40%,0.4);
     position: absolute;
     top:50%;
@@ -129,12 +129,7 @@ input[type=password]:focus{
 @media(max-width:800px){
     .logo{
         width:60px;
-    }
-    .quizContainer,.preContainer{
-        top:100px;
-        left:50%;
-        transform: translateX(-50%);
-    }
+    }    
 }
 
 @media(max-width:400px){

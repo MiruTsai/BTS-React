@@ -302,9 +302,16 @@ text{
     .title{
         font-size: 40px;
     }
+    .index-textZone{
+        margin-left: 10px;
+    }
     .iconZone{
-        justify-content: space-around;
-        margin: 15px 0;
+        flex-wrap:wrap;
+        margin-bottom: 10px;
+    }
+    .indexIcon{
+        flex-basis: 45%;
+        margin: 5px 8px;
     }
     .leftSide{
         margin:0;
