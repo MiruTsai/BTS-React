@@ -1,9 +1,9 @@
-import React from "react"
+import React, { Component } from "react"
 import QuizAnime from "./Quizanime"
 import Logo from "./Logo"
 import "../../css/album.css"
 
-class Lists extends React.Component {
+class Lists extends Component {
     createGuid = () => {
         function s4 () {
             return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
@@ -26,7 +26,7 @@ class Lists extends React.Component {
         </ul>
     }
 }
-class PageBtn extends React.Component {
+class PageBtn extends Component {
     render () {
         const { index, toPage } = this.props
         return <button onClick={() => { toPage(index) }}>{index}</button>
@@ -42,7 +42,7 @@ class Page extends React.Component {
         </div>
     }
 }
-class Album extends React.Component {
+class Album extends Component {
     state = {
         animeClass: "anime",
         artistData: "",

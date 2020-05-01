@@ -49,7 +49,7 @@ class AnswerBlock extends Component {
     }
 }
 
-class QuizBoard extends React.Component {
+class QuizBoard extends Component {
     state = {
         wrongQuizs: [],
         rightQuizs: [],
@@ -80,7 +80,6 @@ class QuizBoard extends React.Component {
         this.wrongSound = new Audio("../../source/wrong.mp3")
         this.rightSound = new Audio("../../source/right.mp3")
         this.errorSound = new Audio("../../source/error.mp3")
-
         window.setTimeout(() => {
             this.setState({
                 animeClass: "hide",
@@ -119,8 +118,8 @@ class QuizBoard extends React.Component {
         Group === "IZ*ONE" ? groupName = "IZONE" : groupName = Group
         let quizRightCounter = quizs[qid].rightCounter
         let quizWrongCounter = quizs[qid].wrongCounter
-        this.rightResIndex = Math.floor(Math.random() * this.rightResponse.length)
-        this.wrongResIndex = Math.floor(Math.random() * this.wrongResponse.length)
+        let rightResIndex = Math.floor(Math.random() * this.rightResponse.length)
+        let wrongResIndex = Math.floor(Math.random() * this.wrongResponse.length)
         if (!e.state.ANSWER) {
             alert("請輸入答案")
             return
@@ -139,7 +138,7 @@ class QuizBoard extends React.Component {
                     quizs: quizs.filter(p => p.QUIZ !== quizs[qid].QUIZ),
                     res: "答對了！" + this.reply,
                     resBoardClass: "resBoard",
-                    resPic: "../../img/right/" + groupName + "/" + this.rightResponse[this.rightResIndex],
+                    resPic: "../../img/right/" + groupName + "/" + this.rightResponse[rightResIndex],
                     containerClass: "hideContainer",
                     blurLayer: "blurLayer"
                 }))
@@ -169,7 +168,7 @@ class QuizBoard extends React.Component {
                         quizs: quizs.filter(p => p.QUIZ !== quizs[qid].QUIZ),
                         res: "答案是 " + quizs[qid].ANSWER + "。" + this.reply,
                         resBoardClass: "resBoard",
-                        resPic: "../../img/wrong/" + groupName + "/" + this.wrongResponse[this.wrongResIndex],
+                        resPic: "../../img/wrong/" + groupName + "/" + this.wrongResponse[wrongResIndex],
                         containerClass: "hideContainer",
                         blurLayer: "blurLayer"
                     }))

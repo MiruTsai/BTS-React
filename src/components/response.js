@@ -1,6 +1,6 @@
-import React from "react"
+import React, { Component } from "react"
 
-class Response extends React.Component {
+class Response extends Component {
     render () {
         const { Group, alertMessage } = this.props
         let className = "", blurLayerClassName = ""

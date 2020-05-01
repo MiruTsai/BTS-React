@@ -225,8 +225,9 @@
     fill:none;
     fill-rule: evenodd;
     stroke:lightskyblue;
-    stroke-dasharray: 80;
+    stroke-dasharray: 100;
     transition-timing-function: linear;
+    animation: dash 9s linear;
     stroke-width: 5;
     stroke-opacity: .5
   }
@@ -235,8 +236,8 @@
     fill-rule: evenodd;
     opacity: 1;
     stroke:white;
-    stroke-dasharray: 85;
-    animation: dash 5s linear;
+    stroke-dasharray: 80;
+    animation: dash 9s linear;
     stroke-width: 5;
     }
 .cls-3 {
@@ -244,8 +245,8 @@
     fill-rule: evenodd;
     opacity: 1;
     stroke:white;
-    stroke-dasharray: 90;
-    animation: dash 5s linear;
+    stroke-dasharray: 30;
+    animation: dash 9s linear;
     stroke-width: 5;
     }
 .Ils-1 {
@@ -253,9 +254,9 @@
     fill:none;
     fill-rule: evenodd;
     stroke: #fee5d5;
-    stroke-dasharray: 450;
+    stroke-dasharray: 150;
     transition-timing-function: linear;
-    animation: dash 5s linear;
+    animation: dash 10s linear;
     stroke-width: 1;
     stroke-opacity: .5
     }
@@ -264,8 +265,8 @@
     fill-rule: evenodd;
     opacity: 1;
     stroke:#f1d2e7;
-    stroke-dasharray: 305;
-    animation: dash 5s linear;
+    stroke-dasharray: 155;
+    animation: dash 10s linear;
     stroke-width: 1;
     }
 .Ils-3 {
@@ -273,8 +274,8 @@
     fill-rule: evenodd;
     opacity: 1;
     stroke:white;
-    stroke-dasharray: 350;
-    animation: dash 5s linear;
+    stroke-dasharray: 120;
+    animation: dash 10s linear;
     stroke-width: 1;
     }    
 @keyframes dash {

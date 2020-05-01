@@ -1,5 +1,5 @@
 import "../../css/addquiz.css"
-import React from "react"
+import React, {Component} from "react"
 import fire from "../Fire"
 import PreviewQuiz from "./PreviewQuiz"
 import Logo from "./Logo"
@@ -20,7 +20,7 @@ const Description = (props) => {
     </div>)
 }
 
-class NewQuiz extends React.Component {
+class NewQuiz extends Component {
     render () {
         let quizTitle
         const { TAG, QUIZ, OPT1, OPT2, OPT3, OPT4, ANSWER, QUIZPIC, updateInput, handleChange, sendQuiz, statusChange, chooseGroup, Group } = this.props
@@ -89,7 +89,7 @@ class NewQuiz extends React.Component {
     }
 }
 
-class Addquiz extends React.Component {
+class Addquiz extends Component {
     state = {
         textClass: "hide",
         containerClass: "addContainer",
