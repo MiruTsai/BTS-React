@@ -29,7 +29,7 @@
     "eslint-plugin-react": "^7.19.0",
     "file-loader": "^4.3.0",
     "firebase": "^6.6.2",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "normalize.css": "^8.0.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
