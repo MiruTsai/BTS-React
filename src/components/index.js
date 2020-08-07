@@ -128,10 +128,10 @@ class Index extends Component {
                             <i className="far fa-list-alt" />
                                 <div className="iconText">我要出題</div>
                             </div>
-                            <div className="indexIcon hvr-push" onClick={() => this.albumEntry()}>
+                            {/* <div className="indexIcon hvr-push" onClick={() => this.albumEntry()}>
                             <i className="fas fa-music"></i>
                                 <div className="iconText">歷年專輯</div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                     <IndexPic Group={Group} />
