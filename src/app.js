@@ -20,8 +20,29 @@ class App extends Component {
         animeClass: "hide",
         loginClass: "hide",
         loginContainerClass: "loginContainer",
-        Group: "TWICE",
-        KKBOXtoken: "Eq5_jtTe3y3XYYWutk1C-g=="
+        Group: "BTS",
+        KKBOXtoken: "Eq5_jtTe3y3XYYWutk1C-g==",
+        groupInfo:{
+            BTS: {
+                    name:  "BTS",
+                    mainDesc: "Love yourself. Love myself. Peace!",
+                    subDesc: "I have come to love myself for who I am, for who I was, and for who I hope to become."
+                }
+        }
+    }
+    componentDidMount = () => {        
+        const user = JSON.parse(localStorage.getItem("user"))
+        if (user) {
+            this.setState({
+                userUid: user.uid,
+                userName: user.name
+            })            
+            this.settingStateUserInfo(user.uid, user.name)
+        }
+        this.getGroupInfo();
+    }
+    componentWillUnmount = () => {
+        localStorage.clear();
     }
     getQuizs = () => {
         let newquizs = []
@@ -37,6 +58,18 @@ class App extends Component {
         })
         return newquizs
     }
+    getGroupInfo = () => {
+        let groupInfo = {}
+        fire.firestore().collection("GroupInfo").get().then((item) => {
+            item.forEach((doc) => {
+                groupInfo[doc.data().name] = doc.data()
+            })
+        }).then(() => {
+            this.setState({
+                groupInfo: groupInfo
+            })
+        })        
+    }
     settingFirebaseUserInfo = (uid, email, name) => {
         fire.firestore().collection("MemberShip").doc(uid).set({
             ID: email,
@@ -46,7 +79,8 @@ class App extends Component {
             TWICErightCounter: 0,
             TWICEwrongCounter: 0,
             IZONErightCounter: 0,
-            IZONEwrongCounter: 0
+            IZONEwrongCounter: 0,
+            createdDate: new Date()
         })
     }
     settingStateUserInfo = (uid, name) => {
@@ -93,12 +127,13 @@ class App extends Component {
             loginClass: "anime",
             loginContainerClass: "hide"
         })
+        let userUid;
         fire.auth().createUserWithEmailAndPassword(e.state.email, e.state.password).then(() => {
-            let userUid = fire.auth().currentUser.uid
-            localStorage.setItem("uid", userUid)
+            userUid = fire.auth().currentUser.uid
+            localStorage.setItem("user", JSON.stringify({uid: userUid, userName: e.state.userName}))
             this.settingStateUserInfo(userUid, e.state.userName)
         }).then(() => {
-            let userUid = fire.auth().currentUser.uid
+            userUid = fire.auth().currentUser.uid
             this.settingFirebaseUserInfo(userUid, e.state.email, e.state.userName)
         }).then(() => {
             fire.auth().currentUser.sendEmailVerification()
@@ -122,6 +157,7 @@ class App extends Component {
             fire.firestore().collection("MemberShip").doc(userUid).get().then((doc) => {
                 if (doc.exists) {
                     this.settingStateUserInfo(userUid, doc.data().NAME)
+                    localStorage.setItem("user", JSON.stringify({uid: userUid, userName: doc.data().NAME}))
                 }
             })
         }).then(() => {
@@ -156,6 +192,7 @@ class App extends Component {
             fire.firestore().collection("MemberShip").doc(user.uid).get().then((doc) => {
                 if (doc.exists) {
                     this.settingStateUserInfo(user.uid, doc.data().NAME)
+                    localStorage.setItem("user", JSON.stringify({uid: user.uid, userName: doc.data().NAME}))
                 } else {
                     this.settingFirebaseUserInfo(user.uid, user.email, user.displayName)
                     this.settingStateUserInfo(user.uid, user.displayName)
@@ -188,19 +225,19 @@ class App extends Component {
         }
     }
     render () {
-        const { Group, alertMessage, alertBlock, userUid, quizs, animeClass, loginClass, loginContainerClass, userName, KKBOXtoken } = this.state
+        const { Group, alertMessage, alertBlock, userUid, quizs, animeClass, loginClass, loginContainerClass, userName, KKBOXtoken, groupInfo } = this.state
         let groupName = ""
         Group === "IZ*ONE" ? groupName = "IZONE" : groupName = Group
         return (
             <div className={groupName + "layer"}>
                 <BrowserRouter>
-                    <Route exact path="/" render={(props) => <Index {...props} userUid={userUid} chooseGroup={this.chooseGroup} Group={Group} />} />
+                    <Route exact path="/" render={(props) => <Index {...props} userUid={userUid} chooseGroup={this.chooseGroup} Group={Group} groupInfo={groupInfo}/>} />
                     <Route path="/login" render={(props) => <Login {...props} alertMessage={alertMessage} alertBlock={alertBlock} switch={this.switch}
                         login={this.login} signUP={this.signUP} userUid={userUid} animeClass={animeClass} loginClass={loginClass}
                         loginContainerClass={loginContainerClass} Group={Group} googleLogin={this.googleLogin} />} />
                     <Route path="/profile" render={(props) => <Profile {...props} userUid={userUid} logOut={this.logOut} Group={Group} chooseGroup={this.chooseGroup} />} />
-                    <Route path="/quizboard" render={(props) => <QuizBoard {...props} quizs={quizs} userUid={userUid} Group={Group} />} />
-                    <Route path="/addquiz" render={(props) => <Addquiz {...props} quizs={quizs} Group={Group} chooseGroup={this.chooseGroup} userName={userName} />} />
+                    <Route path="/quizBoard" render={(props) => <QuizBoard {...props} quizs={quizs} userUid={userUid} Group={Group} />} />
+                    <Route path="/addQuiz" render={(props) => <Addquiz {...props} quizs={quizs} Group={Group} chooseGroup={this.chooseGroup} userName={userName} />} />
                     <Route path="/preTest" render={(props) => <PreTest {...props} quizs={quizs} switch={this.switch} Group={Group} />} />
                     <Route path="/album" render={(props) => <Album {...props} token={KKBOXtoken} Group={Group} />}></Route>
                 </BrowserRouter>

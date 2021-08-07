@@ -34,44 +34,33 @@ class Index extends Component {
             })
         }
     }
-
-    quizEntry = () => {
+    checkIfLogin = () => {
         if (this.props.userUid === "") {
             this.setState({
                 alertMessage: "請登入會員",
                 alertBlock: true
             })
-        } else {
-            this.props.history.push("/quizboard")
+            return false;
+        }
+        return true;
+    }
+    quizEntry = () => {
+        if (this.checkIfLogin()){
+            this.props.history.push("/quizBoard")
         }
     }
     preTestEntry = () => {
-        if (this.props.userUid === "") {
-            this.setState({
-                alertMessage: "請登入會員",
-                alertBlock: true
-            })            
-        } else {
+        if (this.checkIfLogin()){
             this.props.history.push("/preTest")
         }
     }
     addQuizEntry = () => {
-        if (this.props.userUid === "") {
-            this.setState({
-                alertMessage: "請登入會員",
-                alertBlock: true
-            })            
-        } else {
-            this.props.history.push("/addquiz")
+        if (this.checkIfLogin()){
+            this.props.history.push("/addQuiz")
         }
     }
     albumEntry = () => {
-        if (this.props.userUid === "") {
-            this.setState({
-                alertMessage: "請登入會員",
-                alertBlock: true
-            })            
-        } else {
+        if (this.checkIfLogin()){
             this.props.history.push("/album")
         }
     }
@@ -81,23 +70,10 @@ class Index extends Component {
         } else {
             this.props.history.push("/profile")
         }
-    }
+    }    
     render () {
-        const { Group, chooseGroup } = this.props
+        const { Group, chooseGroup, groupInfo } = this.props
         const { alertMessage, alertBlock } = this.state
-        if (Group === "IZ*ONE") {
-            this.groupName = "IZ*ONE"
-            this.mainDescribe = "Eyes On Me!"
-            this.subDescribe = "Write it on the clouds, so it won't disappear."
-        } else if (Group === "TWICE") {
-            this.groupName = "TWICE"
-            this.mainDescribe = "One In A Million! Hello, we are Twice!"
-            this.subDescribe = "You make me feel special, no matter how the worlds brings me down."
-        } else {
-            this.groupName = "BTS"
-            this.mainDescribe = " Love yourself. Love myself. Peace! "
-            this.subDescribe = "I have come to love myself for who I am, for who I was, and for who I hope to become."
-        }
         return (
             <>
                 <Logo Group={Group} />
@@ -107,10 +83,10 @@ class Index extends Component {
                         <div className="mobile_user member" onClick={() => this.authListener()}>
                             <i className="fas fa-user"></i>
                         </div>
-                        <div className="index-textZone">
-                            <h3>{this.mainDescribe}</h3>
-                            <div className="title">{this.groupName} Too Much Information</div>
-                            <h5>{this.subDescribe}</h5>
+                        <div className="index-textZone">                            
+                            <h3>{groupInfo[Group].mainDesc}</h3>
+                            <div className="title">{groupInfo[Group].name} Too Much Information</div>
+                            <h5>{groupInfo[Group].subDesc}</h5>
                         </div>
                         <div className="selectGroup">
                         <Groups chooseGroup={chooseGroup} Group={Group} />
@@ -132,6 +108,10 @@ class Index extends Component {
                             <i className="fas fa-music"></i>
                                 <div className="iconText">歷年專輯</div>
                             </div> */}
+                            <div className="indexIcon hvr-push">
+                            <i className="far fa-envelope" />
+                                <div className="iconText"><a href="mailto:zct398@gmail.com">聯絡我</a></div>
+                            </div>
                         </div>
                     </div>
                     <IndexPic Group={Group} />

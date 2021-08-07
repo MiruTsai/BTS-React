@@ -91,6 +91,9 @@ h3,h5,.title{
     cursor: pointer;
     text-align: center;
 }
+.indexIcon a{
+    color:#415159;
+}
 .iconZone{
     display: flex;
     margin-bottom: 35px;

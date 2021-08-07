@@ -222,7 +222,8 @@ class Addquiz extends Component {
                 TAG: TAG,
                 rightCounter: 0,
                 wrongCounter: 0,
-                author: userName
+                author: userName,
+                createdDate: new Date()
             }).catch(function (error) {
                 console.error("Error writing document: ", error)
             })
@@ -246,7 +247,8 @@ class Addquiz extends Component {
                 TAG: TAG,
                 rightCounter: 0,
                 wrongCounter: 0,
-                author: userName
+                author: userName,
+                createdDate: new Date()
             }).catch(function (error) {
                 console.error("Error writing document: ", error)
             })
