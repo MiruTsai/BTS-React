@@ -17,7 +17,7 @@
     },
     "rules": {
         "semi-style": ["error", "last"],
-        "quotes": [1, "double"],
+        "quotes": [1, "single"],
         "camelcase": 2,
         "comma-dangle": [2, "never"], 
         "comma-spacing": [2, { "before": false, "after": true }],

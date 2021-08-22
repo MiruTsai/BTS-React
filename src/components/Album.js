@@ -1,25 +1,24 @@
-import React, { Component } from "react"
-import QuizAnime from "./Quizanime"
-import Logo from "./Logo"
-import "../../css/album.css"
+import React, { Component } from 'react'
+import QuizAnime from './Quizanime'
+import '../../css/album.css'
 
 class Lists extends Component {
     createGuid = () => {
         function s4 () {
             return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
         }
-        return s4() + s4() + "-" + s4() + "-" + s4() + "-" + s4() + "-" + s4() + s4() + s4();
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
     }
     render () {
         const { artistData, minData, maxData } = this.props
         let albums = artistData.slice(minData, maxData)
-        return <ul className="albumLists">
+        return <ul className='albumLists'>
             {albums.map(album => {
                 return (
-                    <li className="albumList" key={this.createGuid()}>
-                        <a href={album.url} target="_blank"><img src={album.images[0].url} /></a>
-                        <span className="name">{album.name}</span>
-                        <span className="release">{album.release_date}</span>
+                    <li className='albumList' key={this.createGuid()}>
+                        <a href={album.url} target='_blank'><img src={album.images[0].url} /></a>
+                        <span className='name'>{album.name}</span>
+                        <span className='release'>{album.release_date}</span>
                     </li>
                 )
             })}
@@ -35,7 +34,7 @@ class PageBtn extends Component {
 class Page extends React.Component {
     render () {
         const { pageTotal, toPage } = this.props
-        return <div className="btnBox">
+        return <div className='btnBox'>
             {Array(pageTotal).fill().map((_, index) => {
                 return <PageBtn index={index + 1} key={Math.floor(Math.random() * 1000)} toPage={toPage} />
             })}
@@ -44,21 +43,21 @@ class Page extends React.Component {
 }
 class Album extends Component {
     state = {
-        animeClass: "anime",
-        artistData: "",
+        animeClass: 'anime',
+        artistData: '',
         currentPage: 1,
         perpage: 10,
-        pageTotal: ""
+        pageTotal: ''
     }
     componentDidMount = () => {
         this.getArtistDetail()
     }
     getArtistDetail = () => {
         const { Group } = this.props
-        fetch("https://api.kkbox.com/v1.1/search?q=" + Group + "&type=album&limit=50&territory=TW", {
-            method: "GET",
+        fetch('https://api.kkbox.com/v1.1/search?q=' + Group + '&type=album&limit=50&territory=TW', {
+            method: 'GET',
             headers: {
-                "authorization": "Bearer " + this.props.token
+                'authorization': 'Bearer ' + this.props.token
             }
         }).then((result) => {
             return result.json()
@@ -79,16 +78,16 @@ class Album extends Component {
             this.toPage(1)
         })
     }
-    switch = () => {
-        if (this.props.userUid === "") {
-            this.props.history.push("/login")
+    switchTo = () => {
+        if (this.props.userUid === '') {
+            this.props.history.push('/LoginPage')
             this.setState({
-                alertMessage: "",
+                alertMessage: '',
                 alertBlock: !this.state.alertBlock
             })
         } else {
             this.setState({
-                alertMessage: "",
+                alertMessage: '',
                 alertBlock: !this.state.alertBlock
             })
         }
@@ -107,14 +106,13 @@ class Album extends Component {
         const { artistData, pageTotal, minData, maxData } = this.state
         const { Group } = this.props
         return <>
-            <Logo Group={Group} />
-            {this.state.artistData === "" ? <QuizAnime animeClass={this.state.animeClass} Group={Group} /> :
-                <div className="albumContainer">
-                    <div className="box">
+            {this.state.artistData === '' ? <QuizAnime animeClass={this.state.animeClass} Group={Group} /> :
+                <div className='albumContainer'>
+                    <div className='box'>
                         <Lists artistData={artistData} Group={Group} minData={minData} maxData={maxData} />
                     </div>
                     <Page pageTotal={pageTotal} toPage={this.toPage} />
-                    <span className="source">資料來源:KKBOX<br />*此發行時間為台灣發行時間</span>
+                    <span className='source'>資料來源:KKBOX<br />*此發行時間為台灣發行時間</span>
                 </div>}
         </>
     }

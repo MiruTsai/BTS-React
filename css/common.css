@@ -21,6 +21,9 @@ body{
   } 
 
 .BTSlayer,.TWICElayer,.IZONElayer{
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100vw;
     height: 100vh;
     background-size: 400% 400%;
@@ -51,6 +54,8 @@ body{
 .logo{
     width:70px;
     margin:5px;
+    position: absolute;
+    z-index: 100;
 }
 button{
     margin: 0;
