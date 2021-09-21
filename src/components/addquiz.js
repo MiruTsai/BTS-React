@@ -1,336 +1,234 @@
-import "../../css/addquiz.css"
-import React, {Component} from "react"
-import fire from "../Fire"
-import PreviewQuiz from "./PreviewQuiz"
-import Logo from "./Logo"
-import Response from "./Response"
-import Groups from "./Groups"
+import '../../css/addquiz.css'
+import React, { useState, useContext, useEffect } from 'react'
+import { GroupContext } from '../contexts/GroupContext'
+import { FireContext } from '../contexts/FireContext'
+import { AlertContext } from '../contexts/AlertContext'
+import fire from '../Fire'
+import PreviewQuiz from './PreviewQuiz'
+import Groups from './Groups'
+import { UserAuthContext } from '../contexts/UserAuthContext'
+
 
 const Description = (props) => {
-    let groupName = ""
-    props.Group === "IZ*ONE" ? groupName = "IZONE" : groupName = props.Group
-    return (<div className="description">
-        <div className="addpic">
-            <img className="group-pic" src={"img/group2/" + groupName + ".png"} />
+    const { groupName } = useContext(GroupContext)
+    return (
+        <div className='description'>
+            <div className='addpic'>
+                <img className='group-pic' src={'img/group2/' + groupName + '.png'} />
+            </div>
+            <div className='info'>
+                <p>親愛的，<br />在您貢獻題目前請先閱讀本站須知。</p>
+                <button id='guide' className='addquiz-button' onClick={()=>props.setShowGuide(!showGuide)}>本站須知</button>
+            </div>
         </div>
-        <div className="info">
-            <p>親愛的，<br />在您貢獻題目前請先閱讀本站須知。</p>
-            <button id="guide" className="addquiz-button" onClick={props.showGuide}>本站須知</button>
-        </div>
-    </div>)
+    )
 }
 
-class NewQuiz extends Component {
-    render () {
-        let quizTitle
-        const { TAG, QUIZ, OPT1, OPT2, OPT3, OPT4, ANSWER, QUIZPIC, updateInput, handleChange, sendQuiz, statusChange, chooseGroup, Group } = this.props
-        if (TAG === "picture2") {
-            quizTitle =
-                <div className="choice">
-                    <div className="add_text">題目</div>
-                    <input type="text" name="QUIZ" id="quizTitle" value={QUIZ} onChange={updateInput} />
-                    <div className="add_text">圖片網址</div>
-                    <input type="text" name="QUIZPIC" id="quizTitle" value={QUIZPIC} onChange={updateInput} />
-                </div>
-        } else {
-            quizTitle =
-                <div className="choice">
-                    <div className="opt">
-                        <div className="opt-name">題目</div>
-                        <input type="text" name="QUIZ" id="quizTitle" value={QUIZ} onChange={updateInput} />
-                    </div>
-                </div>
-        }
-        return (
-            <>
-                <Groups chooseGroup={chooseGroup} Group={Group} />
-                <div className="quizSelect">
-                    <div className="opt-name">題型</div>
-                    <select id="quizType" name="TAG" value={TAG} onChange={handleChange}>
-                        <option value="text">文字型</option>
-                        <option value="picture">圖片型-1</option>
-                        <option value="picture2">圖片型-2</option>
-                    </select>
-                </div>
-                {quizTitle}
-                <div className="choice">
-                    <div className="opt">
-                        <div className="desc">選項</div><i className="far fa-question-circle" data-descr="請填入選項，如為圖片型-1請填入網址 ( 建議尺寸 200 x 200 以上 ) "></i>
-                    </div>
-                    <div className="opt">
-                        <div className="opt-name">1.</div>
-                        <input type="text" name="OPT1" id="OPT1" value={OPT1} onChange={updateInput} />
-                    </div>
-                    <div className="opt">
-                        <div className="opt-name">2.</div>
-                        <input type="text" name="OPT2" id="OPT2" value={OPT2} onChange={updateInput} />
-                    </div>
-                    <div className="opt">
-                        <div className="opt-name">3.</div>
-                        <input type="text" name="OPT3" id="OPT3" value={OPT3} onChange={updateInput} />
-                    </div>
-                    <div className="opt">
-                        <div className="opt-name">4.</div>
-                        <input type="text" name="OPT4" id="OPT4" value={OPT4} onChange={updateInput} />
-                    </div>
-                </div>
-                <div className="choice answer_zone">
-                    <div className="opt">
-                        <div className="opt-name">答案</div>
-                        <input type="text" name="ANSWER" id="answer" value={ANSWER} placeholder="請輸入半形數字，勿輸入中文、英文或其他特殊字" onChange={updateInput} />
-                    </div>
-                </div>
-                <div className="buttonBlock">
-                    <button type="button" className="addquiz-button" onClick={sendQuiz}>提交</button>
-                    <button type="button" className="preview-button" onClick={statusChange}>預覽</button>
-                </div>
-            </>
-        )
-    }
-}
-
-class Addquiz extends Component {
-    state = {
-        textClass: "hide",
-        containerClass: "addContainer",
-        ANSWER: "",
-        QUIZ: "",
-        OPTIONS: [],
-        OPT1: "",
-        OPT2: "",
-        OPT3: "",
-        OPT4: "",
-        QUIZPIC: "",
-        TAG: "text",
-        rightCounter: 0,
-        wrongCounter: 0,
-        review: false,
-        alertMessage: "",
-        alertBlock: false
-    }
-    groupMember = []
-    currentQuizs = []
-
-    componentDidMount = () => {
-        fire.firestore().collection("GROUPMEMBER").get()
-            .then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    this.groupMember.push(doc.data())
-                })
-            })
-            .catch(function (error) {
-                console.log("Error getting documents: ", error)
-            })
-    }
-
-    showGuide = () => {
-        this.setState({
-            textClass: "textZoneVisible"
-        })
-    }
-    hideGuide = () => {
-        this.setState({
-            textClass: "hide"
-        })
-    }
-    updateInput = (e) => {
-        this.setState({
-            [e.target.name]: e.target.value
-        })
-    }
-    handleChange = (e) => {
-        this.setState({ TAG: e.target.value })
-    }
-    statusChange = () => {
-        const { OPT1, OPT2, OPT3, OPT4, review } = this.state
-        this.setState({
-            OPTIONS: [OPT1, OPT2, OPT3, OPT4],
-            review: !review,
-            containerClass: "preAddContainer"
-        })
-    }
-    backStatus = () => {
-        const { review } = this.state
-        this.setState({
-            review: !review,
-            containerClass: "addContainer"
-        })
-    }
-    addPopularity = (QUIZ, correct) => {
-        const { Group } = this.props
-        let groupName = ""
-        Group === "IZ*ONE" ? groupName = "IZONE" : groupName = Group
-        QUIZ = QUIZ.toUpperCase()
-        correct = correct.toUpperCase()
-        this.currentGuoupMembers = []
-        this.groupMember.forEach(member => {
-            if (member.GROUP === groupName) {
-                this.currentGuoupMembers.push(member)
-            }
-        })
-        for (let i = 0; i < this.currentGuoupMembers.length; i++) {
-            for (let j = 0; j < this.currentGuoupMembers[i].NICKNAME.length; j++) {
-                if (QUIZ.indexOf(this.currentGuoupMembers[i].NICKNAME[j]) > -1) {
-                    this.currentGuoupMembers[i].POPULARITY += 1
-                    fire.firestore().collection("GROUPMEMBER").doc(this.currentGuoupMembers[i].NICKNAME[1]).update({
-                        POPULARITY: this.currentGuoupMembers[i].POPULARITY
-                    })
-                }
-                if (correct.indexOf(this.currentGuoupMembers[i].NICKNAME[j]) > -1) {
-                    this.currentGuoupMembers[i].POPULARITY += 1
-                    fire.firestore().collection("GROUPMEMBER").doc(this.currentGuoupMembers[i].NICKNAME[1]).update({
-                        POPULARITY: this.currentGuoupMembers[i].POPULARITY
-                    })
-                }
-            }
-        }
-    }
-    sendQuiz = () => {
-        const { OPT1, OPT2, OPT3, OPT4, ANSWER, QUIZ, QUIZPIC, TAG } = this.state
-        const { Group, userName } = this.props
-        let groupName = ""
-        Group === "IZ*ONE" ? groupName = "IZONE" : groupName = Group
-        let OPT = [OPT1, OPT2, OPT3, OPT4]
-        if (this.checkDuplicateQuiz()) {
-            this.setState({
-                alertMessage: "題目重複囉！",
-                alertBlock: true
-            })
-            return
-        }
-        if (this.checkDuplicateAns()) {
-            this.setState({
-                alertMessage: "答案重複囉！",
-                alertBlock: true
-            })
-            return
-        }
-        let correct = OPT[parseInt(ANSWER) - 1]
-        if (ANSWER === "" || QUIZ === "" || OPT1 === "" || OPT2 === "" || OPT3 === "" || OPT4 === "") {
-            this.setState({
-                alertMessage: "請填入完整題目訊息",
-                alertBlock: true
-            })
-            return
-        }
-        if (TAG === "picture2") {
-            fire.firestore().collection(groupName + "QUIZS").doc().set({
-                ANSWER: ANSWER,
-                QUIZ: QUIZ,
-                QUIZPIC: QUIZPIC,
-                OPTIONS: [OPT1, OPT2, OPT3, OPT4],
-                TAG: TAG,
-                rightCounter: 0,
-                wrongCounter: 0,
-                author: userName,
-                createdDate: new Date()
-            }).catch(function (error) {
-                console.error("Error writing document: ", error)
-            })
-            this.setState({
-                alertMessage: "感謝您的提供，祝您搶票順利，人品大爆發！",
-                alertBlock: true,
-                ANSWER: "",
-                QUIZ: "",
-                QUIZPIC: "",
-                OPTIONS: [],
-                OPT1: "",
-                OPT2: "",
-                OPT3: "",
-                OPT4: ""
-            })
-        } else {
-            fire.firestore().collection(groupName + "QUIZS").doc().set({
-                ANSWER: ANSWER,
-                QUIZ: QUIZ,
-                OPTIONS: [OPT1, OPT2, OPT3, OPT4],
-                TAG: TAG,
-                rightCounter: 0,
-                wrongCounter: 0,
-                author: userName,
-                createdDate: new Date()
-            }).catch(function (error) {
-                console.error("Error writing document: ", error)
-            })
-            this.addPopularity(QUIZ, correct)
-            this.currentQuizs.push(QUIZ)
-            this.setState({
-                alertMessage: "感謝您的提供，祝您搶票順利，人品大爆發！",
-                alertBlock: true,
-                ANSWER: "",
-                QUIZ: "",
-                OPTIONS: [],
-                OPT1: "",
-                OPT2: "",
-                OPT3: "",
-                OPT4: ""
-            })
-        }
-    }
-
-    checkDuplicateAns = (arr) => {
-        const { OPT1, OPT2, OPT3, OPT4 } = this.state
-        arr = [OPT1, OPT2, OPT3, OPT4]
+const NewQuiz = (props) => {
+    const { quizs, setQuizs, groupName } = useContext(GroupContext)
+    const { updateAlertMsg } = useContext(AlertContext)
+    const { addQuiz, getGroupMemberPopulation } = useContext(FireContext)
+    const { opt1, setOpt1, opt2, setOpt2, opt3, setOpt3, opt4, setOpt4, quizPic, setQuizPic, quiz, setQuiz, answer, setAnswer, tag, setTag, statusChange, resetState } = props
+    const [groupMemberPopulation, setGroupMemberPopulation] = useState([])
+    const [currentGuoupMembers, setCurrentGuoupMembers] = useState([])
+    useEffect(()=> {
+        let data = getGroupMemberPopulation()
+        setGroupMemberPopulation(data)
+        const arr = groupMemberPopulation.filter(elem => elem.GROUP === groupName)
+        setCurrentGuoupMembers(arr)
+    }, [])
+    useEffect(()=> {
+        const arr = groupMemberPopulation.filter(elem => elem.GROUP === groupName)
+        setCurrentGuoupMembers(arr)
+    }, [groupName])
+    const checkDuplicateOpt = () => {
+        let arr = [opt1, opt2, opt3, opt4]
         return new Set(arr).size !== arr.length
     }
-    checkDuplicateQuiz = () => {
-        const { quizs } = this.props
+    const checkDuplicateQuiz = () => {
         let ifDuplicate = false
         quizs.forEach(q => {
-            if (q.QUIZ === this.state.QUIZ) {
-                ifDuplicate = true
-            }
-        })
-        this.currentQuizs.forEach(q => {
-            if (q === this.state.QUIZ) {
+            if (q.quiz === quiz) {
                 ifDuplicate = true
             }
         })
         return ifDuplicate
     }
-    switch = () => {
-        if (this.props.userUid === "") {
-            this.props.history.push("/login")
-            this.setState({
-                alertMessage: "",
-                alertBlock: !this.state.alertBlock
-            })
-        } else {
-            this.setState({
-                alertMessage: "",
-                alertBlock: !this.state.alertBlock
-            })
+    const addPopularity = (quiz, correct) => {
+        // 成員英文姓名有可能出現在題目或答案中故都大寫處理好比對
+        quiz = quiz.toUpperCase()
+        correct = correct.toUpperCase()
+     
+        for (let i = 0; i < currentGuoupMembers.length; i++) {
+            for (let j = 0; j < currentGuoupMembers[i].NICKNAME.length; j++) {
+                if (quiz.indexOf(currentGuoupMembers[i].NICKNAME[j]) > -1) {
+                    currentGuoupMembers[i].POPULARITY += 1
+                    fire.firestore().collection('GROUPMEMBER').doc(currentGuoupMembers[i].id).update({
+                        POPULARITY: currentGuoupMembers[i].POPULARITY
+                    })
+                }
+                if (correct.indexOf(currentGuoupMembers[i].NICKNAME[j]) > -1) {
+                    currentGuoupMembers[i].POPULARITY += 1
+                    fire.firestore().collection('GROUPMEMBER').doc(currentGuoupMembers[i].id).update({
+                        POPULARITY: currentGuoupMembers[i].POPULARITY
+                    })
+                }
+            }
         }
     }
-    render () {
-        const { chooseGroup, Group } = this.props
-        const { review, ANSWER, QUIZ, QUIZPIC, textClass, OPTIONS, OPT1, OPT2, OPT3, OPT4, TAG, alertMessage, alertBlock, containerClass } = this.state
-        return (
-            <>
-                <Response alertMessage={alertMessage} alertBlock={alertBlock} switch={this.switch} Group={Group} />
-                <Logo Group={Group} />
-                <div className={containerClass}>
-                    {review ? (<PreviewQuiz QUIZ={QUIZ} OPTIONS={OPTIONS} OPT1={OPT1} OPT2={OPT2} OPT3={OPT3} OPT4={OPT4} QUIZPIC={QUIZPIC}
-                        TAG={TAG} backStatus={this.backStatus} />) :
-                        (<>
-                            <div className={textClass} onClick={this.hideGuide}>
-                                <ul>本站須知：
-                            <li>請選擇您想提供的題型，若您選擇的是圖片題，請確認是否侵害該圖片擁有者的智慧財產權，小編跟您都禁不起被吉的風險。</li>
-                                    <li>基於這是個共享的平台，禁止過度幻想文。EX:以下哪一張圖是<span className="notice">我老公Jimin的腹肌</span>。是會激起公憤的請注意。</li>
-                                    <li>我們都知道愛到深處自然黑，但嚴禁使用過黑及有可能危及成員形象的黑圖。</li>
-                                    <li>以上，希望大家都能喜歡這個網站，願搶票順利人品爆發。</li>
-                                </ul>
-                            </div>
-                            <Description showGuide={this.showGuide} Group={Group} />
-                            <div className="add-rightSide">
-                                <NewQuiz handleChange={this.handleChange} updateInput={this.updateInput} sendQuiz={this.sendQuiz} statusChange={this.statusChange} ANSWER={ANSWER} QUIZ={QUIZ}
-                                    OPTIONS={OPTIONS} QUIZPIC={QUIZPIC} TAG={TAG} OPT1={OPT1} OPT2={OPT2} OPT3={OPT3} OPT4={OPT4} chooseGroup={chooseGroup} Group={Group} />
-                            </div>
-                        </>)}
-                </div>
-            </ >
-        )
+    const sendQuiz = () => {        
+        let OPT = [opt1, opt2, opt3, opt4]
+        if (checkDuplicateQuiz()) {
+            updateAlertMsg('題目重複囉！')
+            return
+        }
+        if (checkDuplicateOpt()) {
+            updateAlertMsg('答案重複囉！')
+            return
+        }
+        let correct = OPT[parseInt(answer) - 1]
+        if (answer === '' || quiz === '' || opt1 === '' || opt2 === '' || opt3 === '' || opt4 === '') {
+            updateAlertMsg('請填入完整題目訊息')
+            return
+        }        
+        if (tag === 'picture2') {
+            addQuiz({
+                ANSWER: answer,
+                QUIZ: quiz,
+                QUIZPIC: quizPic,
+                OPTIONS: [opt1, opt2, opt3, opt4],
+                TAG: tag
+            })
+        } else {
+            addQuiz({
+                ANSWER: answer,
+                QUIZ: quiz,
+                OPTIONS: [opt1, opt2, opt3, opt4],
+                TAG: tag
+            })
+        }
+        resetState()
+        addPopularity(quiz, correct)
+        setQuizs(prev=>{
+            return {...prev, ...quiz}
+        })
+        updateAlertMsg('感謝您的提供，祝您搶票順利，人品大爆發！')
     }
+    
+    return (
+        <>
+            <Groups />
+            <div className='quizSelect'>
+                <div className='opt-name'>題型</div>
+                <select id='quizType' name='tag' value={tag} onChange={(e)=>setTag(e.target.value)}>
+                    <option value='text'>文字型</option>
+                    <option value='picture'>圖片型-1</option>
+                    <option value='picture2'>圖片型-2</option>
+                </select>
+            </div>
+            {tag === 'picture2' ? 
+            <div className='choice'>
+                <div className='add_text'>題目</div>
+                <input type='text' name='quiz' id='quizTitle' value={quiz} onChange={(e)=>setQuiz(e.target.value)} />
+                <div className='add_text'>圖片網址</div>
+                <input type='text' name='quizPic' id='quizTitle' value={quizPic} onChange={(e)=>setQuizPic(e.target.value)} />
+            </div>:
+            <div className='choice'>
+                <div className='opt'>
+                    <div className='opt-name'>題目</div>
+                    <input type='text' name='quiz' id='quizTitle' value={quiz} onChange={(e)=>setQuiz(e.target.value)} />
+                </div>
+            </div>}
+            <div className='choice'>
+                <div className='opt'>
+                    <div className='desc'>選項</div><i className='far fa-question-circle' data-descr='請填入選項，如為圖片型-1請填入網址 ( 建議尺寸 200 x 200 以上 ) '></i>
+                </div>
+                <div className='opt'>
+                    <div className='opt-name'>1.</div>
+                    <input type='text' value={opt1} onChange={(e)=>setOpt1(e.target.value)} />
+                </div>
+                <div className='opt'>
+                    <div className='opt-name'>2.</div>
+                    <input type='text' value={opt2} onChange={(e)=>setOpt2(e.target.value)} />
+                </div>
+                <div className='opt'>
+                    <div className='opt-name'>3.</div>
+                    <input type='text' value={opt3} onChange={(e)=>setOpt3(e.target.value)} />
+                </div>
+                <div className='opt'>
+                    <div className='opt-name'>4.</div>
+                    <input type='text' value={opt4} onChange={(e)=>setOpt4(e.target.value)} />
+                </div>
+            </div>
+            <div className='choice answer_zone'>
+                <div className='opt'>
+                    <div className='opt-name'>答案</div>
+                    <input type='text' id='answer' value={answer} placeholder='請輸入半形數字，勿輸入中文、英文或其他特殊字' onChange={(e)=>setAnswer(e.target.value)} />
+                </div>
+            </div>
+            <div className='buttonBlock'>
+                <button type='button' className='addquiz-button' onClick={sendQuiz}>提交</button>
+                <button type='button' className='preview-button' onClick={statusChange}>預覽</button>
+            </div>
+        </>
+    )
 }
 
-export default Addquiz
+const AddQuiz = () => {
+    const { groupName } = useContext(GroupContext)
+    
+    const [tag, setTag] = useState('text')
+    const [answer, setAnswer] = useState('')    
+    const [quizPic, setQuizPic] = useState('')
+    const [quiz, setQuiz] = useState('')
+    const [opt1, setOpt1] = useState('')
+    const [opt2, setOpt2] = useState('')
+    const [opt3, setOpt3] = useState('')
+    const [opt4, setOpt4] = useState('')
+    const [options, setOptions] = useState([])
+    
+    const [review, setReview] = useState(false)    
+    const [showGuide, setShowGuide] = useState(false)    
+    const resetState = () => {
+        setOpt1('')
+        setOpt2('')
+        setOpt3('')
+        setOpt4('')
+        setQuiz('')
+        setQuizPic('')
+        setAnswer('')
+    }
+    
+    
+    const statusChange = () => {
+        setOptions([opt1, opt2, opt3, opt4])
+        setReview(!review)
+    }
+    
+    return (
+        <>                          
+            <div className={review ? 'preAddContainer container' : 'addContainer container'}>
+                {review ? (<PreviewQuiz quiz={quiz} options={options} quizPic={quizPic}
+                    tag={tag} review={review} setReview={setReview} />) :
+                    (<>
+                        <div className={showGuide ? 'textZoneVisible' : 'hide'} onClick={()=>setShowGuide(!showGuide)}>
+                            <ul>本站須知：
+                                <li>請選擇您想提供的題型，若您選擇的是圖片題，請確認是否侵害該圖片擁有者的智慧財產權，小編跟您都禁不起被吉的風險。</li>
+                                <li>基於這是個共享的平台，禁止過度幻想文。EX:以下哪一張圖是<span className='notice'>我老公Jimin的腹肌</span>。是會激起公憤的請注意。</li>
+                                <li>我們都知道愛到深處自然黑，但嚴禁使用過黑及有可能危及成員形象的黑圖。</li>
+                                <li>以上，希望大家都能喜歡這個網站，願搶票順利人品爆發。</li>
+                            </ul>
+                        </div>
+                        <Description showGuide={showGuide} setShowGuide={setShowGuide} />
+                        <div className='add-rightSide'>
+                            <NewQuiz statusChange={statusChange} answer={answer} setAnswer={setAnswer} quiz={quiz} setQuiz={setQuiz} quizPic={quizPic} setQuizPic={setQuizPic} 
+                            tag={tag} setTag={setTag} opt1={opt1} setOpt1={setOpt1} opt2={opt2} setOpt2={setOpt2} opt3={opt3} setOpt3={setOpt3} 
+                            opt4={opt4} setOpt4={setOpt4} resetState={resetState} />
+                        </div>
+                    </>)}
+            </div>
+        </>
+    )
+}
+
+export default AddQuiz

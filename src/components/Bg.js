@@ -3,9 +3,7 @@ import { GroupContext } from '../contexts/GroupContext'
 const BackGround = () => {
     const { groupName } = useContext(GroupContext)
     return (
-        <div className={groupName+'layer'}>
-
-        </div>
+        <div className={groupName+'layer'} />
     )
 }
 

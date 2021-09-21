@@ -2,7 +2,7 @@ import React from 'react'
 
 const GetTicketGuide = (props) => {
     return (
-        <div className={props.guideClass}>
+        <div className={props.showGuide ? 'guide' : 'hide'}>
             <div className='guideBoard'>
                 <div className='tips'>模擬搶票說明</div>
                 <div className='row'>
@@ -21,7 +21,7 @@ const GetTicketGuide = (props) => {
                     </div>
                 </div>
                 <div className='noteFinish'>說明到此結束，準備好了嗎？
-                <button className='preGuideButton' onClick={props.closeGuide}>準備好了</button>
+                <button className='preGuideButton' onClick={props.setShowGuide}>準備好了</button>
                 </div>
             </div>
         </div> 

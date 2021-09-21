@@ -1,15 +1,8 @@
-.indexContainer{
-    box-shadow:2px 2px 2px rgba(20%,20%,40%,0.6),4px 4px 6px rgba(20%,20%,40%,0.4),6px 6px 12px rgba(20%,20%,40%,0.4);
+.indexContainer{    
     height: 550px; 
     animation: indexFadein 1s linear;
     display: flex;
-    width:70%;
     align-content: flex-start;
-    background: white;
-    position: absolute;
-    top:50%;
-    left:50%;
-    transform: translateX(-50%) translateY(-50%);
 }
 
 /* anime */

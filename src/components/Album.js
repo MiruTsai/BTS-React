@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import QuizAnime from './Quizanime'
+import QuizAnime from './QuizAnime'
 import '../../css/album.css'
 
 class Lists extends Component {
@@ -107,7 +107,7 @@ class Album extends Component {
         const { Group } = this.props
         return <>
             {this.state.artistData === '' ? <QuizAnime animeClass={this.state.animeClass} Group={Group} /> :
-                <div className='albumContainer'>
+                <div className='albumContainer container'>
                     <div className='box'>
                         <Lists artistData={artistData} Group={Group} minData={minData} maxData={maxData} />
                     </div>
