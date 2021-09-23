@@ -1,11 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react'
 import '../../css/quiz.css'
 import QuizAnime from './QuizAnime'
+import SideBar  from './SideBar'
 import Scalper from './Scalper'
 import TextType from './QuizType/TextType'
 import PictureType from './QuizType/PictureType'
 import PictureType2 from './QuizType/PictureType2'
 import ResBoard from './ResBoard'
+import ConfirmBoard from './ConfirmBoard'
 import { GroupContext } from '../contexts/GroupContext'
 import { FireContext } from '../contexts/FireContext'
 import { UserAuthContext } from '../contexts/UserAuthContext'
@@ -28,6 +30,7 @@ const QuizBoard = (props) => {
     const [scalper, setScalper] = useState(false)
     const [quizIndex, setQuizIndex] = useState(0)
     const [answer, setAnswer] = useState('')
+    const [route, setRoute] = useState('')
     const closeRes = () => {
         if (quizs.length === 0) {
             props.history.push('/profile')
@@ -94,6 +97,22 @@ const QuizBoard = (props) => {
         }
         setAnswer('')
     }
+    const entrySwitch = (entryPoint) => {
+        switch (entryPoint) {
+            case 'profile':
+                props.history.push('/profile')
+                break
+            case 'album':
+                props.history.push('/album')
+                break
+            case 'addQuiz':
+                props.history.push('/addQuiz')
+                break
+            case 'preTest':
+                props.history.push('/preTest')
+                break
+        }
+    }
     return (
         <>
             <ResBoard show={showRes} res={response} status={status} closeRes={closeRes} />
@@ -101,6 +120,8 @@ const QuizBoard = (props) => {
             </div>
             <Scalper fake={scalper} />
             <QuizAnime animeClass={loading ? 'anime' : 'hide'} />
+            <SideBar {...props} setRoute={setRoute} />
+            <ConfirmBoard entrySwitch={entrySwitch} route={route} />
             <div className={loading || scalper || showRes ? 'hide' : 'quizContainer container'}>
                 <div className='top'>
                     <div className='quizBlock'>

@@ -5,6 +5,7 @@
 }
 body{
     margin:auto;
+    overflow: hidden;
 }
 
 .container{
@@ -131,6 +132,44 @@ input[type=password]:focus{
     border-bottom: 4px solid rgba(0,0,0,0.1);
     border-radius: 4px;
     text-shadow: 0 1px 0 rgba(0,0,0,0.15);
+}
+.sideBarBtn {
+    color: #fff;
+    font-size: 25px;
+    position: absolute;
+    top:50%;
+    right: 10px;
+    transform: translateY(-50%);
+    z-index: 101;
+}
+.sideBar {
+    width: 200px;
+    background-color: #ffffff80;
+    transform: translateX(200px);
+    transition: all 1s ease;
+    position: absolute;
+    right: 0;
+    height: 100vh;
+    z-index: 100;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.sideBar li {
+    padding: 10px 0;
+    text-align: center;
+}
+.sideBar li:hover {
+    background-color: #a6c1ee;
+}
+.sideBarBtn:hover + .sideBar {
+    transform: translateX(0);
+}
+.sideBar:hover {
+    transform: translateX(0);
 }
 .hide{
     display: none;

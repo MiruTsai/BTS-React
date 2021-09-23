@@ -67,7 +67,6 @@ const Index = (props) => {
         } else {
             props.history.push('/LoginPage')
         }
-
     }
     return (
         <div className='indexContainer container'>
