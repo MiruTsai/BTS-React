@@ -18,7 +18,7 @@ const Description = (props) => {
             </div>
             <div className='info'>
                 <p>親愛的，<br />在您貢獻題目前請先閱讀本站須知。</p>
-                <button id='guide' className='addquiz-button' onClick={()=>props.setShowGuide(!showGuide)}>本站須知</button>
+                <button id='guide' className='addquiz-button' onClick={()=>props.setShowGuide(!props.showGuide)}>本站須知</button>
             </div>
         </div>
     )
@@ -54,6 +54,14 @@ const NewQuiz = (props) => {
         })
         return ifDuplicate
     }
+    const detectXSS = (text) => {
+        const xssTag = ['script', 'javascript']
+        let result = xssTag.some(elem => text.includes(elem))
+        if (result) {
+            updateAlertMsg('您上傳的題目含有危險訊息，請重新輸入。')
+            return
+        }        
+    }
     const addPopularity = (quiz, correct) => {
         // 成員英文姓名有可能出現在題目或答案中故都大寫處理好比對
         quiz = quiz.toUpperCase()
@@ -77,7 +85,7 @@ const NewQuiz = (props) => {
         }
     }
     const sendQuiz = () => {        
-        let OPT = [opt1, opt2, opt3, opt4]
+        let options = [opt1, opt2, opt3, opt4]
         if (checkDuplicateQuiz()) {
             updateAlertMsg('題目重複囉！')
             return
@@ -86,24 +94,24 @@ const NewQuiz = (props) => {
             updateAlertMsg('答案重複囉！')
             return
         }
-        let correct = OPT[parseInt(answer) - 1]
+        let correct = options[parseInt(answer) - 1]
         if (answer === '' || quiz === '' || opt1 === '' || opt2 === '' || opt3 === '' || opt4 === '') {
             updateAlertMsg('請填入完整題目訊息')
             return
-        }        
+        }
         if (tag === 'picture2') {
             addQuiz({
                 ANSWER: answer,
                 QUIZ: quiz,
                 QUIZPIC: quizPic,
-                OPTIONS: [opt1, opt2, opt3, opt4],
+                OPTIONS: options,
                 TAG: tag
             })
         } else {
             addQuiz({
                 ANSWER: answer,
                 QUIZ: quiz,
-                OPTIONS: [opt1, opt2, opt3, opt4],
+                OPTIONS: options,
                 TAG: tag
             })
         }

@@ -1,4 +1,4 @@
-import React, { Component, useContext, useEffect, useState } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter, Route, withRouter } from 'react-router-dom'
 import LoginPage from './components/LoginPage'
@@ -11,7 +11,6 @@ import Album from './components/Album'
 import AlertBoard from './components/AlertBoard'
 import Logo from './components/Logo'
 import BackGround from './components/Bg'
-import fire from './Fire'
 import '../css/common.css'
 import '../css/index.css'
 import FireContextProvider from './contexts/FireContext'
@@ -22,7 +21,7 @@ import ConfirmContextProvider from './contexts/ConfirmContext'
 
 const root = document.querySelector('.root')
 
-const App = () => {   
+const App = () => {
     return (        
         <>
             <AlertContextProvider>
@@ -31,7 +30,7 @@ const App = () => {
                         <GroupContextProvider>
                             <AlertBoard />
                             <FireContextProvider>
-                                <BrowserRouter>                                
+                                <BrowserRouter>                       
                                         <Logo />                                    
                                         <BackGround />
                                         <Route exact path='/' render={(props) => <Index {...props} />} />

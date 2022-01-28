@@ -3,31 +3,31 @@ import React from 'react'
 const PreviewQuiz = (props) => {
    
     let preview
-    const { OPTIONS, QUIZ, QUIZPIC, TAG } = props
-    const previewOptions = OPTIONS.map((option, num) => {
+    const { options, quiz, quizPic, tag, setReview } = props
+    const previewOptions = options.map((option, num) => {
         return (
             <div className='option' key={Math.random()}> ( {num + 1} ) <span className='answerValue'> {option} </span></div>
         )
     })
-    const picOption = OPTIONS.map((option, num) => {
+    const picOption = options.map((option, num) => {
         return (
             <div className='picOption' key={Math.random()}> ( {num + 1} )
                 <img className='picSource' src={option} />
             </div>
         )
     })
-    if (TAG === 'text') {
+    if (tag === 'text') {
         preview =
             <>
-                <div className='quiz'>{QUIZ}</div>
+                <div className='quiz'>{quiz}</div>
                 <div className='pre-options'>
                     {previewOptions}
                 </div>
             </>
-    } else if (TAG === 'picture') {
+    } else if (tag === 'picture') {
         preview =
             <>
-                <div className='quiz'>{QUIZ}</div>
+                <div className='quiz'>{quiz}</div>
                 <div className='options'>
                     {picOption}
                 </div>
@@ -35,8 +35,8 @@ const PreviewQuiz = (props) => {
     } else {
         preview =
             <>
-                <div className='pic_quiz_title'>{QUIZ}</div>
-                <img src={QUIZPIC} className='pic_quiz_img hvr-grow' />
+                <div className='pic_quiz_title'>{quiz}</div>
+                <img src={quizPic} className='pic_quiz_img hvr-grow' />
                 <div className='pre-options'>
                     {previewOptions}
                 </div>
@@ -44,7 +44,7 @@ const PreviewQuiz = (props) => {
     }
     return (
         <>
-            <button type='button' className='backQuiz-button' onClick={props.setReview(false)} >返回</button>
+            <button type='button' className='backQuiz-button' onClick={()=>setReview(false)} >返回</button>
             {preview}
         </>
     )

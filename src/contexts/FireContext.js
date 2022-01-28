@@ -25,8 +25,8 @@ const FireContextProvider = (props) => {
 
     const getQuizs = (callBack) => {
         let newquizs = []        
-        fire.firestore().collection(groupName + 'QUIZS').get().then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
+        fire.firestore().collection(groupName + 'QUIZS').get().then((res) => {
+            res.forEach((doc) => {
                 let x = doc.id
                 let y = doc.data()
                 y.id = x

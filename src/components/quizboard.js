@@ -120,7 +120,7 @@ const QuizBoard = (props) => {
             </div>
             <Scalper fake={scalper} />
             <QuizAnime animeClass={loading ? 'anime' : 'hide'} />
-            <SideBar {...props} setRoute={setRoute} />
+            <SideBar {...props} setRoute={setRoute} loading={loading} />
             <ConfirmBoard entrySwitch={entrySwitch} route={route} />
             <div className={loading || scalper || showRes ? 'hide' : 'quizContainer container'}>
                 <div className='top'>
