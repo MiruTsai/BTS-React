@@ -5,11 +5,10 @@
 ![](/dist/img/readme/BTS.PNG)
 
 ## Technologies
-* React
+* React Context Hooks
 * Router
 * Firebase
 * Google Charts
-* KKBOX OPEN API
 * Webpack
 * Babel
 * SVG Animation
@@ -18,7 +17,7 @@
 
 
 ## Features
-* Built Single Page Application by React, React Router
+* Built Single Page Application by React Context Hooks, React Router
 * Implemented member system by Firebase Authentication
 
 * __Developed a template for mock test bank that can be customized for other artists easily__
@@ -32,10 +31,6 @@
 * __Visualized users' result statistics with Google Charts__
 
 ![](/dist/img/readme/profile.PNG)
-
-* __Grabbed artists' album data from KKBOX OPEN API __
-
-![](/dist/img/album.png)
 
 * __Used SVG Animation for page loading to enhance users' experience__
 
